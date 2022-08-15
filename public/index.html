@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/css/output.css" />
+    <title>sending product</title>
+</head>
+<body>
+    <div class="main">
+        <form class="flex flex-col gap-4 p-2">
+            <div class="w-full flex justify-between items-center">
+                <label class="w-1/2">customer Name</label>
+                <input type="text" name="customerName" class="w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" />
+            </div>
+            <div class="w-full flex justify-between items-center">
+                <label class="w-1/2">product Name</label>
+                <input type="text" name="productName" class="w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" />
+            </div>
+            <div class="w-full flex justify-between items-center">
+                <label class="w-1/2">number of sending</label>
+                <input type="number" name="numberOfSending" class="w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" />
+            </div>
+            <div class="w-full flex justify-between items-center">
+                <label class="w-1/2">date of sending</label>
+                <input type="date" name="dateOfSending">
+            </div>
+            <button id="addButton" class="p-2 bg-green-500 rounded-md">Add</button>
+        </form>
+        <div class="flex flex-col gap-4 p-2 border-emerald-400 border-2 rounded-md">
+            <p>customer name :</p>
+            <p>product Name :</p>
+            <p>number of sending :</p>
+        </div>
+    </div>
+
+    <script src="../src/js/index.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+</html>
