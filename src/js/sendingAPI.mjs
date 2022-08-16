@@ -1,26 +1,28 @@
 
   export default class SendingAPI {
+
     static getAllSending() {
      const sendingData=localStorage.getItem("sendingData") ?JSON.parse(localStorage.getItem("sendingData")):[];
      return sendingData;
     }
   
-    static addOrEditSendingData(noteToSave) {
-      // get ALl notes
+    static addOrEditSendingData(sendingItemToSave) {
+      // get ALl sending data
       const sendingData = SendingAPI.getAllSending();
-      //check if the note previously existed or not
-      const existedNote = sendingData.find((n) => n.id == noteToSave.id);
-      //if the note existed
-      if (existedNote) {
-        existedNote.customerName = noteToSave.title;
-        existedNote.productName = noteToSave.body;
-        existedNote.numberOfSending =noteToSave.toISOString();
+      //check if the sending item previously existed or not
+      const existedSendigItem = sendingData.find((n) => n.id == noteToSave.id);
+      //if the sending item existed
+      if (existedSendigItem) {
+        existedSendigItem.customerName = sendingItemToSave.title;
+        existedSendigItem.productName = sendingItemToSave.body;
+        existedSendigItem.numberOfSending =sendingItemToSave.toISOString();
+        existedSendigItem.numberOfSending =sendingItemToSave.toISOString();
       } else {
-        //if the note notexisted
+        //if the sending item not existed
         noteToSave.id = new Date().getTime();
-        sendingData.push(noteToSave);
+        sendingData.push(sendingItemToSave);
       }
-      //put all notes again in DB
+      //put all sending items again in DB
       localStorage.setItem("sendingData", JSON.stringify(sendingData));
     }
   
@@ -34,7 +36,7 @@
     }
   }
   
-  //به طور کلی در کار با دیتابیس این موارد به تریبت تکرار می شود
+  //به طور کلی در کار با دیتابیس این موارد به ترتیب تکرار می شود
   
   //1-گرفتن کل اطلاعات از دیتابیس
   //2-انجام دادن عملیات مورد نظر(حذف -تغییر-اضافه کردن-...)
