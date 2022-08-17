@@ -5,7 +5,7 @@
      const sendingData=localStorage.getItem("sendingData") ?JSON.parse(localStorage.getItem("sendingData")):[];
      return sendingData;
     }
-  
+  //خلاصه متد زیر => کل دیتابیس رو می کشی بیرون بعد تغییرات رو روی دیتا ها انجام می دی سپس مجددا میذاریش تو دیبابیس همه رو
     static addOrEditSendingData(sendingItemToSave) {
       // get ALl sending data
       const sendingData = SendingAPI.getAllSending();
@@ -13,10 +13,10 @@
       const existedSendigItem = sendingData.find((n) => n.id == noteToSave.id);
       //if the sending item existed
       if (existedSendigItem) {
-        existedSendigItem.customerName = sendingItemToSave.title;
-        existedSendigItem.productName = sendingItemToSave.body;
-        existedSendigItem.numberOfSending =sendingItemToSave.toISOString();
-        existedSendigItem.numberOfSending =sendingItemToSave.toISOString();
+        existedSendigItem.customerName = sendingItemToSave.customerName;
+        existedSendigItem.productName = sendingItemToSave.productName;
+        existedSendigItem.numberOfSending =sendingItemToSave.numberOfSending;
+        existedSendigItem.dateOf =sendingItemToSave.dateOfSending.toISOString();
       } else {
         //if the sending item not existed
         noteToSave.id = new Date().getTime();

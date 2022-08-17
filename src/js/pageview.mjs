@@ -1,4 +1,5 @@
 export default class PageView {
+  //به عنوان ورودی به کانستراکتور ی تگ پدر می دی و کلیه رویداد های ابتدایی رو
     constructor(root, handlers) {
       //get the parent of all element in sheet
       this.root = root;
@@ -35,10 +36,11 @@ export default class PageView {
             <div class="flex justify-center items-center gap-2"><p>number of sending :</p><p class="numberOfSending"></p></div>
             <div class="flex justify-center items-center gap-2"><p>date of sending :</p><p class="dateOfSending"></p></div>
         </div>
+        <div id="sendings_data"></div>
     </div>
       `;
       //get the needed elements(element that we want to add events to them)
-      const addOneSendingBtn = this.root.querySelector("#addButton");
+      const addOneSendingItemBtn = this.root.querySelector("#addButton");
       const customerName_input = this.root.querySelector("#customerName_input");
       const productName_input = this.root.querySelector("#productName_input");
       const numberOfSending_input = this.root.querySelector("#numberOfSending_input");
@@ -47,19 +49,20 @@ export default class PageView {
       const productName = this.root.querySelector(".productName");
       const numberOfSending = this.root.querySelector(".numberOfSending");
       const dateOfSending = this.root.querySelector(".dateOfSending");
-      const addButton=this.root.querySelector("#addButton");
   
-      //add events to the chooosed elements
-      addOneSendingBtn.addEventListener("click", () => {
+      //add events to the choosed elements
+      addOneSendingItemBtn.addEventListener("click", () => {
         // run add note method !!
         this.onAddSendingData();
       });
   
       [customerName_input, productName_input,numberOfSending_input,dateOfSending_input].forEach((inputField) => {
-        inputField.addEventListener("change", () => {
-          const newBody = inputBody.value.trim();
-          const newTitle = inputTitle.value.trim();
-          this.onEditSendingData(newTitle, newBody);
+        inputField.addEventListener("change", (e) => {
+          const newCustomerName = e.target.value.trim();
+          const newProductName = e.target.value.trim();
+          const newNumberOfSending = e.target.value.trim();
+          const newDateOfSending = e.target.value.trim();
+          this.onEditSendingData(newCustomerName, newProductName,newNumberOfSending,newDateOfSending);
         });
       });
     }
@@ -71,7 +74,7 @@ export default class PageView {
       const MAX_PRODUCTNAME_LENGTH = 20;
       return `
 
-        <div class="sendingItem flex justify-between items-center shadow shadow-xl bg-blue-400 text-xs p-2 w-full" data-sending-id="${id}>
+        <div class="sendingItem flex justify-between items-center shadow-xl bg-blue-400 text-xs p-2 w-full" data-sending-id="${id}>
             <p> ${customerName.substring(0, MAX_CUSTOMERNAME_LENGTH)}${customerName.length > MAX_CUSTOMERNAME_LENGTH ? "..." : ""}</p>
             <p>${customerName.substring(0, MAX_PRODUCTNAME_LENGTH)}${productName.length > MAX_PRODUCTNAME_LENGTH ? "..." : ""}</p>
             <p>${numberOfSending}</p>
@@ -116,17 +119,17 @@ export default class PageView {
         });
     }
     //for changing  the value of each note item
-    updateActiveNote(selectedSendingItem) {
-      this.root.querySelector("#customerName_input").value = selectedSendingItem.customerName;
-      this.root.querySelector("#productName_input").value = selectedSendingItem.productName;
-      this.root.querySelector("#numberOfSending_input").value = selectedSendingItem.numberOfSending;
+    updateActiveSendingItem(sendingItem) {
+      this.root.querySelector("#customerName_input").value = sendingItem.customerName;
+      this.root.querySelector("#productName_input").value = sendingItem.productName;
+      this.root.querySelector("#numberOfSending_input").value = sendingItem.numberOfSending;
 
       //  remove 'notes__list-item--selected' from all note items
       this.root.querySelectorAll(".sendingItem").forEach((item) => {
         item.classList.remove("bg-blue-700");
       });
       //  add 'notes__list-item--selected' to the selected note item
-      this.root.querySelector(`.notes__list-item[data-note-id="${selectedSendingItem.id}"]`)
+      this.root.querySelector(`.sendingItem[data-sending-id="${selectedSendingItem.id}"]`)
         .classList.add("bg-blue-700");
     }
   }

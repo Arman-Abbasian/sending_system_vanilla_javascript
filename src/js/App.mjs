@@ -6,9 +6,9 @@ export default class App {
     this.sendingData = [];
     this.activeSendingItem = null;
     this.view = new PageView(root, this._handlers());
-    this._refreshNotes();
+    this._refreshSendintItems();
   }
-  _refreshNotes() {
+  _refreshSendintItems() {
     //get all sending data from DB
     const sendingItems =SendingAPI.getAllSending();
     // set Notes :(show notes on DOM)
@@ -21,7 +21,7 @@ export default class App {
 
   _setActiveSendingItem(sendingItem) {
     this.activeSendingItem = sendingItem;
-    this.view.updateActiveNote(sendingItem);
+    this.view.updateActiveSendingItem(sendingItem);
   }
 
   _setSendingData(sendingItems) {
@@ -43,7 +43,7 @@ export default class App {
         SendingAPI.addOrEditSendingData(SendingItem);
         this._refreshNotes();
       },
-      onEditSendingData: (newCustomerName, newProductName) => {
+      onEditSendingData: (newCustomerName, newProductName,newNumberOfSending,newDateOfSending) => {
         SendingAPI.addOrEditSendingData({
           id: this.activeSendingItem.id,
           customerName: newCustomerName,
