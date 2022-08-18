@@ -3,6 +3,7 @@ export default class PageView {
     constructor(root, handlers) {
       //get the parent of all element in sheet
       this.root = root;
+      const sendingData={customerName:"",productName:"",numberOfSending:"",dateOfSending:""}
       //add events in sheet
       const { onAddSendingData, onEditSendingData, onSelectSendingData, onDeleteSendingData } = handlers;
       this.onAddSendingData = onAddSendingData;
@@ -45,31 +46,47 @@ export default class PageView {
       const productName_input = this.root.querySelector("#productName_input");
       const numberOfSending_input = this.root.querySelector("#numberOfSending_input");
       const dateOfSending_input = this.root.querySelector("#dateOfSending_input");
-      const customerName = this.root.querySelector(".customerName");
-      const productName = this.root.querySelector(".productName");
-      const numberOfSending = this.root.querySelector(".numberOfSending");
-      const dateOfSending = this.root.querySelector(".dateOfSending");
+      let customerName = this.root.querySelector(".customerName");
+      let productName = this.root.querySelector(".productName");
+      let numberOfSending = this.root.querySelector(".numberOfSending");
+      let dateOfSending = this.root.querySelector(".dateOfSending");
   
       //add events to the choosed elements
-      addOneSendingItemBtn.addEventListener("click", () => {
+      addOneSendingItemBtn.addEventListener("click", (e) => {
         // run add note method !!
-        this.onAddSendingData();
+        e.preventDefault();
+        this.onAddSendingData(sendingData);
+        sendingData.customerName="";sendingData.productName="";sendingData.numberOfSending="";sendingData.dateOfSending=""
       });
-  
-      [customerName_input, productName_input,numberOfSending_input,dateOfSending_input].forEach((inputField) => {
-        inputField.addEventListener("change", (e) => {
-          const newCustomerName = e.target.value.trim();
-          const newProductName = e.target.value.trim();
-          const newNumberOfSending = e.target.value.trim();
-          const newDateOfSending = e.target.value.trim();
-          this.onEditSendingData(newCustomerName, newProductName,newNumberOfSending,newDateOfSending);
-        });
+      customerName_input.addEventListener("change",(e)=>{
+        sendingData.customerName= e.target.value;
+        customerName.textContent=e.target.value
+        console.log(sendingData)
+      this.onEditSendingData(sendingData.customerName, sendingData.productName,sendingData.numberOfSending,sendingData.dateOfSending);
       });
-    }
+      productName_input.addEventListener("change",(e)=>{
+        sendingData.productName= e.target.value;
+        console.log(sendingData)
+      this.onEditSendingData(sendingData.customerName, sendingData.productName,sendingData.numberOfSending,sendingData.dateOfSending);
+      });
+      numberOfSending_input.addEventListener("change",(e)=>{
+        sendingData.numberOfSending= e.target.value;
+        console.log(sendingData)
+      this.onEditSendingData(sendingData.customerName, sendingData.productName,sendingData.numberOfSending,sendingData.dateOfSending);
+      });
+      dateOfSending_input.addEventListener("change",(e)=>{
+        console.log(new Date (e.target.value).toISOString())
+        sendingData.dateOfSending= new Date (e.target.value).toISOString();
+        console.log(sendingData)
+      this.onEditSendingData(sendingData.customerName, sendingData.productName,sendingData.numberOfSending,sendingData.dateOfSending);
+      });
+
+
+      }
   //تا قبل از این جا به محض ساخته شدن یک نمونه از این کلاس به طور خودکار اجرا می شود(چون داخل کانستراکتور است) 
   
   //method for creating one list item
-    _creatListItemHTML(id, customerName, productName, numberOfSending, dataOfSending) {
+    _creatListItemHTML(id, customerName, productName, numberOfSending, dataOfSending){
       const MAX_CUSTOMERNAME_LENGTH = 20;
       const MAX_PRODUCTNAME_LENGTH = 20;
       return `
@@ -80,7 +97,7 @@ export default class PageView {
             <p>${numberOfSending}</p>
             <p> ${new Date(dataOfSending).toLocaleString(undefined, {dateStyle: "full",timeStyle: "short",})}</p>
         </div>
-      `;
+      `
     }
   
     //
@@ -114,10 +131,10 @@ export default class PageView {
           noteItem.addEventListener("click", (e) => {
             //چون پدرش هم دارای کلیک هست برای جلوگیری از اختلاط رویداد ها از این کد استفاده می کنیم
             e.stopPropagation();
-            this.onNoteDelete(noteItem.dataset.noteId);
+            this.onDeleteSendingData(noteItem.dataset.noteId);
           });
         });
-    }
+    };
     //for changing  the value of each note item
     updateActiveSendingItem(sendingItem) {
       this.root.querySelector("#customerName_input").value = sendingItem.customerName;
@@ -129,8 +146,8 @@ export default class PageView {
         item.classList.remove("bg-blue-700");
       });
       //  add 'notes__list-item--selected' to the selected note item
-      this.root.querySelector(`.sendingItem[data-sending-id="${selectedSendingItem.id}"]`)
-        .classList.add("bg-blue-700");
+      // this.root.querySelector(`.sendingItem[data-sending-id="${selectedSendingItem.id}"]`)
+      //   .classList.add("bg-blue-700");
     }
-  }
+    }
   

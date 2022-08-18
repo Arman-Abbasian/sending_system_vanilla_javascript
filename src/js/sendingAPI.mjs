@@ -10,16 +10,16 @@
       // get ALl sending data
       const sendingData = SendingAPI.getAllSending();
       //check if the sending item previously existed or not
-      const existedSendigItem = sendingData.find((n) => n.id == noteToSave.id);
+      const existedSendigItem = sendingData.find((n) => n.id == sendingItemToSave.id);
       //if the sending item existed
       if (existedSendigItem) {
         existedSendigItem.customerName = sendingItemToSave.customerName;
         existedSendigItem.productName = sendingItemToSave.productName;
         existedSendigItem.numberOfSending =sendingItemToSave.numberOfSending;
-        existedSendigItem.dateOf =sendingItemToSave.dateOfSending.toISOString();
+        existedSendigItem.dateOfSending =sendingItemToSave.dateOfSending;
       } else {
         //if the sending item not existed
-        noteToSave.id = new Date().getTime();
+        sendingItemToSave.id = new Date().getTime();
         sendingData.push(sendingItemToSave);
       }
       //put all sending items again in DB

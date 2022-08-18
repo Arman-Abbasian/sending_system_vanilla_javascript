@@ -33,15 +33,9 @@ export default class App {
 
   _handlers() {
     return {
-        onAddSendingData: () => {
-        const newSendingItem = {
-            customerName:"",
-            productName: "",
-            numberOfSending: null,
-            dataOfSending:""
-        };
-        SendingAPI.addOrEditSendingData(SendingItem);
-        this._refreshNotes();
+        onAddSendingData: (sendingItem) => {
+        SendingAPI.addOrEditSendingData(sendingItem);
+        this._refreshSendintItems();
       },
       onEditSendingData: (newCustomerName, newProductName,newNumberOfSending,newDateOfSending) => {
         SendingAPI.addOrEditSendingData({
@@ -51,15 +45,15 @@ export default class App {
           numberOfSending:newNumberOfSending,
           dataOfSending:newDateOfSending
         });
-        this._refreshNotes();
+        this._refreshSendintItems();
       },
       onSelectSendingData: (sendingItemId) => {
         const selectedNote = this.notes.find((n) => n.id == sendingItemId);
         this._setActiveNote(selectedNote);
       },
-      onNoteDelete: (sendingItemId) => {
+      onDeleteSendingData: (sendingItemId) => {
         NotesAPI.deleteNote(sendingItemId);
-        this._refreshNotes();
+        this._refreshSendintItems();
       },
     };
   }
