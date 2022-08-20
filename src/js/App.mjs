@@ -12,6 +12,7 @@ export default class App {
     //get all sending data from DB
     const sendingItems =SendingAPI.getAllSending();
     // set Notes :(show notes on DOM)
+    //input for this method are all sedingItems
     this._setSendingData(sendingItems);
     //  set Active Note :
     if (sendingItems.length > 0) {
@@ -24,6 +25,7 @@ export default class App {
     this.view.updateActiveSendingItem(sendingItem);
   }
 
+  //input for this method is all sendingItems
   _setSendingData(sendingItems) {
     //fill the empty Array with sendingItems
     this.sendingData = sendingItems;
@@ -35,16 +37,8 @@ export default class App {
     return {
         onAddSendingData: (sendingItem) => {
         SendingAPI.addOrEditSendingData(sendingItem);
-        this._refreshSendintItems();
-      },
-      onEditSendingData: (newCustomerName, newProductName,newNumberOfSending,newDateOfSending) => {
-        SendingAPI.addOrEditSendingData({
-          id: this.activeSendingItem.id,
-          customerName: newCustomerName,
-          productName: newProductName,
-          numberOfSending:newNumberOfSending,
-          dataOfSending:newDateOfSending
-        });
+       const {id, customerName, productName, numberOfSending, dataOfSending}=sendingItem
+        _creatListItemHTML(id, customerName, productName, numberOfSending, dataOfSending)
         this._refreshSendintItems();
       },
       onSelectSendingData: (sendingItemId) => {

@@ -1,3 +1,4 @@
+import PageView from "./pageview.mjs";
 
   export default class SendingAPI {
 
@@ -6,9 +7,12 @@
      return sendingData;
     }
   //خلاصه متد زیر => کل دیتابیس رو می کشی بیرون بعد تغییرات رو روی دیتا ها انجام می دی سپس مجددا میذاریش تو دیبابیس همه رو
-    static addOrEditSendingData(sendingItemToSave) {
+  //این تایغ زمانی اجرا می شه که رو دکمه ی ثبت فرم کلیک می کنی  
+  static addOrEditSendingData(sendingItemToSave) {
+    console.log(sendingItemToSave)
       // get ALl sending data
       const sendingData = SendingAPI.getAllSending();
+      console.log(sendingData)
       //check if the sending item previously existed or not
       const existedSendigItem = sendingData.find((n) => n.id == sendingItemToSave.id);
       //if the sending item existed

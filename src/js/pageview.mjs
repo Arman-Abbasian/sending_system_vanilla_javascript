@@ -5,9 +5,8 @@ export default class PageView {
       this.root = root;
       const sendingData={customerName:"",productName:"",numberOfSending:"",dateOfSending:""}
       //add events in sheet
-      const { onAddSendingData, onEditSendingData, onSelectSendingData, onDeleteSendingData } = handlers;
+      const { onAddSendingData,  onSelectSendingData, onDeleteSendingData } = handlers;
       this.onAddSendingData = onAddSendingData;
-      this.onEditSendingData = onEditSendingData;
       this.onSelectSendingData = onSelectSendingData;
       this.onDeleteSendingData = onDeleteSendingData;
       //make the static appearance of the sheet
@@ -41,11 +40,11 @@ export default class PageView {
     </div>
       `;
       //get the needed elements(element that we want to add events to them)
-      const addOneSendingItemBtn = this.root.querySelector("#addButton");
-      const customerName_input = this.root.querySelector("#customerName_input");
-      const productName_input = this.root.querySelector("#productName_input");
-      const numberOfSending_input = this.root.querySelector("#numberOfSending_input");
-      const dateOfSending_input = this.root.querySelector("#dateOfSending_input");
+      let addOneSendingItemBtn = this.root.querySelector("#addButton");
+      let customerName_input = this.root.querySelector("#customerName_input");
+      let productName_input = this.root.querySelector("#productName_input");
+      let numberOfSending_input = this.root.querySelector("#numberOfSending_input");
+      let dateOfSending_input = this.root.querySelector("#dateOfSending_input");
       let customerName = this.root.querySelector(".customerName");
       let productName = this.root.querySelector(".productName");
       let numberOfSending = this.root.querySelector(".numberOfSending");
@@ -56,33 +55,29 @@ export default class PageView {
         // run add note method !!
         e.preventDefault();
         this.onAddSendingData(sendingData);
-        sendingData.customerName="";sendingData.productName="";sendingData.numberOfSending="";sendingData.dateOfSending=""
+        sendingData.customerName="";sendingData.productName="";sendingData.numberOfSending="";sendingData.dateOfSending="";
+        customerName_input.value=""; productName_input.value=""; numberOfSending_input.value=""; dateOfSending_input.value="";
+        customerName.textContent=""; productName.textContent=""; numberOfSending.textContent=""; dateOfSending.textContent="";
       });
       customerName_input.addEventListener("change",(e)=>{
         sendingData.customerName= e.target.value;
         customerName.textContent=e.target.value
-        console.log(sendingData)
-      this.onEditSendingData(sendingData.customerName, sendingData.productName,sendingData.numberOfSending,sendingData.dateOfSending);
       });
       productName_input.addEventListener("change",(e)=>{
         sendingData.productName= e.target.value;
-        console.log(sendingData)
-      this.onEditSendingData(sendingData.customerName, sendingData.productName,sendingData.numberOfSending,sendingData.dateOfSending);
+        productName.textContent=e.target.value
       });
       numberOfSending_input.addEventListener("change",(e)=>{
         sendingData.numberOfSending= e.target.value;
-        console.log(sendingData)
-      this.onEditSendingData(sendingData.customerName, sendingData.productName,sendingData.numberOfSending,sendingData.dateOfSending);
+        numberOfSending.textContent=e.target.value
       });
       dateOfSending_input.addEventListener("change",(e)=>{
         console.log(new Date (e.target.value).toISOString())
         sendingData.dateOfSending= new Date (e.target.value).toISOString();
-        console.log(sendingData)
-      this.onEditSendingData(sendingData.customerName, sendingData.productName,sendingData.numberOfSending,sendingData.dateOfSending);
+        dateOfSending.textContent=e.target.value
       });
-
-
       }
+
   //تا قبل از این جا به محض ساخته شدن یک نمونه از این کلاس به طور خودکار اجرا می شود(چون داخل کانستراکتور است) 
   
   //method for creating one list item
@@ -116,8 +111,10 @@ export default class PageView {
         //add made item to the noteList variable
         sendingsDataList += html;
       }
+      console.log(sendingsDataList)
       // add notesList variable to the DOM
       sendingsDataContainer.innerHTML = sendingsDataList;
+      console.log(sendingsDataContainer)
       // add click event for select to the notesList(این رو مجبوریم این جا اضافه کنیم چون این جا به دام ما اضافه شده)
       sendingsDataContainer.querySelectorAll(".sendingItem").forEach((sendingData) => {
         sendingData.addEventListener("click", () =>
