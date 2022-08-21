@@ -29,7 +29,6 @@ import PageView from "./pageview.mjs";
       //put all sending items again in DB
       localStorage.setItem("sendingData", JSON.stringify(sendingData));
     }
-  
     static deleteNote(id) {
       //get all notes
       const notes = SendingAPI.getAllSending();

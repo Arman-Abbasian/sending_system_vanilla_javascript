@@ -3,6 +3,7 @@ import SendingAPI from "./sendingAPI.mjs";
 
 export default class App {
   constructor(root) {
+    //here we should put a variable for all data
     this.sendingData = [];
     this.activeSendingItem = null;
     this.view = new PageView(root, this._handlers());
@@ -14,12 +15,8 @@ export default class App {
     // set Notes :(show notes on DOM)
     //input for this method are all sedingItems
     this._setSendingData(sendingItems);
-    //  set Active Note :
-    if (sendingItems.length > 0) {
-      this._setActiveSendingItem(sendingItems[0]);
-    }
   }
-
+//input for this method is selected sendig item
   _setActiveSendingItem(sendingItem) {
     this.activeSendingItem = sendingItem;
     this.view.updateActiveSendingItem(sendingItem);
@@ -36,14 +33,21 @@ export default class App {
   _handlers() {
     return {
         onAddSendingData: (sendingItem) => {
+        const sendingData={customerName:"",productName:"",numberOfSending:"",dateOfSending:""}
         SendingAPI.addOrEditSendingData(sendingItem);
-       const {id, customerName, productName, numberOfSending, dataOfSending}=sendingItem
-        _creatListItemHTML(id, customerName, productName, numberOfSending, dataOfSending)
+       const {id, customerName, productName, numberOfSending, dateOfSending}=sendingItem
+       sendingData.customerName=customerName;
+       sendingData.productName=productName;
+       sendingData.numberOfSending=numberOfSending;
+       sendingData.dateOfSending=dateOfSending;
+        this.view._creatListItemHTML(id, customerName, productName, numberOfSending, dateOfSending)
         this._refreshSendintItems();
       },
+      //input for this method is the id for selected sending item
       onSelectSendingData: (sendingItemId) => {
-        const selectedNote = this.notes.find((n) => n.id == sendingItemId);
-        this._setActiveNote(selectedNote);
+        const selectedSendingItem = this.sendingData.find((n) => n.id == sendingItemId);
+        //input for this method is clicked sending item
+        this._setActiveSendingItem(selectedSendingItem);
       },
       onDeleteSendingData: (sendingItemId) => {
         NotesAPI.deleteNote(sendingItemId);
