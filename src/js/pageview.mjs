@@ -1,14 +1,15 @@
 export default class PageView {
   //به عنوان ورودی به کانستراکتور ی تگ پدر می دی و کلیه رویداد های ابتدایی رو
-    constructor(root, handlers) {
+    constructor(root, handlers,sendingDataa) {
       //get the parent of all element in sheet
       this.root = root;
-      console.log(sendingData)
       //add events in sheet
       const { onAddSendingData,  onSelectSendingData, onDeleteSendingData } = handlers;
       this.onAddSendingData = onAddSendingData;
       this.onSelectSendingData = onSelectSendingData;
       this.onDeleteSendingData = onDeleteSendingData;
+      this.sendingDataa=sendingDataa
+      console.log(sendingDataa)
       //make the static appearance of the sheet
       this.root.innerHTML = `
         <form class="flex flex-col gap-4 p-2">
@@ -54,25 +55,26 @@ export default class PageView {
       addOneSendingItemBtn.addEventListener("click", (e) => {
         // run add note method !!
         e.preventDefault();
-        this.onAddSendingData(sendingData);
+        this.onAddSendingData(sendingDataa);
+        sendingDataa.customerName="";sendingDataa.productName="";sendingDataa.numberOfSending="";sendingDataa.dateOfSending="";
         customerName_input.value=""; productName_input.value=""; numberOfSending_input.value=""; dateOfSending_input.value="";
         customerName.textContent=""; productName.textContent=""; numberOfSending.textContent=""; dateOfSending.textContent="";
       });
       customerName_input.addEventListener("change",(e)=>{
-        sendingData.customerName= e.target.value;
+        sendingDataa.customerName= e.target.value;
         customerName.textContent=e.target.value
       });
       productName_input.addEventListener("change",(e)=>{
-        sendingData.productName= e.target.value;
+        sendingDataa.productName= e.target.value;
         productName.textContent=e.target.value
       });
       numberOfSending_input.addEventListener("change",(e)=>{
-        sendingData.numberOfSending= e.target.value;
+        sendingDataa.numberOfSending= e.target.value;
         numberOfSending.textContent=e.target.value
       });
       dateOfSending_input.addEventListener("change",(e)=>{
         console.log(new Date (e.target.value).toISOString())
-        sendingData.dateOfSending= new Date (e.target.value).toISOString();
+        sendingDataa.dateOfSending= new Date (e.target.value).toISOString();
         dateOfSending.textContent=e.target.value
       });
       }

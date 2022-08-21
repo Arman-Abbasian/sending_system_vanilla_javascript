@@ -6,7 +6,9 @@ export default class App {
     //here we should put a variable for all data
     this.sendingData = [];
     this.activeSendingItem = null;
-    this.view = new PageView(root, this._handlers());
+    const sendingDataa={customerName:"",productName:"",numberOfSending:"",dateOfSending:""}
+    this.view = new PageView(root, this._handlers(),sendingDataa);
+    console.log(sendingDataa)
     this._refreshSendintItems();
   }
   _refreshSendintItems() {
@@ -33,13 +35,12 @@ export default class App {
   _handlers() {
     return {
         onAddSendingData: (sendingItem) => {
-        const sendingData={customerName:"",productName:"",numberOfSending:"",dateOfSending:""}
         SendingAPI.addOrEditSendingData(sendingItem);
        const {id, customerName, productName, numberOfSending, dateOfSending}=sendingItem
-       sendingData.customerName=customerName;
-       sendingData.productName=productName;
-       sendingData.numberOfSending=numberOfSending;
-       sendingData.dateOfSending=dateOfSending;
+       this.view.sendingDataa.customerName=customerName;
+       this.view.sendingDataa.productName=productName;
+       this.view.sendingDataa.numberOfSending=numberOfSending;
+       this.view.sendingDataa.dateOfSending=dateOfSending;
         this.view._creatListItemHTML(id, customerName, productName, numberOfSending, dateOfSending)
         this._refreshSendintItems();
       },
