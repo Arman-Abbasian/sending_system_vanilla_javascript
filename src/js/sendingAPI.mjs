@@ -17,11 +17,13 @@ import PageView from "./pageview.mjs";
       const existedSendigItem = sendingData.find((n) => n.id == sendingItemToSave.id);
       //if the sending item existed
       if (existedSendigItem) {
+        console.log("existed")
         existedSendigItem.customerName = sendingItemToSave.customerName;
         existedSendigItem.productName = sendingItemToSave.productName;
         existedSendigItem.numberOfSending =sendingItemToSave.numberOfSending;
         existedSendigItem.dateOfSending =sendingItemToSave.dateOfSending;
       } else {
+        console.log("new")
         //if the sending item not existed
         sendingItemToSave.id = new Date().getTime();
         sendingData.push(sendingItemToSave);

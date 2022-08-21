@@ -55,26 +55,31 @@ export default class PageView {
       addOneSendingItemBtn.addEventListener("click", (e) => {
         // run add note method !!
         e.preventDefault();
-        this.onAddSendingData(sendingDataa);
-        sendingDataa.customerName="";sendingDataa.productName="";sendingDataa.numberOfSending="";sendingDataa.dateOfSending="";
+        console.log(this.sendingDataa)
+        this.onAddSendingData(this.sendingDataa);
         customerName_input.value=""; productName_input.value=""; numberOfSending_input.value=""; dateOfSending_input.value="";
         customerName.textContent=""; productName.textContent=""; numberOfSending.textContent=""; dateOfSending.textContent="";
+        console.log(this.sendingDataa)
       });
       customerName_input.addEventListener("change",(e)=>{
         sendingDataa.customerName= e.target.value;
+        console.log(this.sendingDataa)
         customerName.textContent=e.target.value
       });
       productName_input.addEventListener("change",(e)=>{
         sendingDataa.productName= e.target.value;
+        console.log(this.sendingDataa)
         productName.textContent=e.target.value
       });
       numberOfSending_input.addEventListener("change",(e)=>{
         sendingDataa.numberOfSending= e.target.value;
+        console.log(this.sendingDataa)
         numberOfSending.textContent=e.target.value
       });
       dateOfSending_input.addEventListener("change",(e)=>{
         console.log(new Date (e.target.value).toISOString())
         sendingDataa.dateOfSending= new Date (e.target.value).toISOString();
+        console.log(this.sendingDataa)
         dateOfSending.textContent=e.target.value
       });
       }
@@ -116,6 +121,7 @@ export default class PageView {
       //add click event for select to the notesList(این رو مجبوریم این جا اضافه کنیم چون این جا به دام ما اضافه شده)
       sendingsDataContainer.querySelectorAll(".sendingItem").forEach((sendingData) => {
         sendingData.addEventListener("click", () =>{
+          //input for this method is id
           this.onSelectSendingData(sendingData.dataset.sendingId)
         }
         );
@@ -134,7 +140,7 @@ export default class PageView {
     //for changing  the value of selected note item
     //the input for the mothod is data of selected item
     updateActiveSendingItem(sendingItem) {
-      //const sendingData={customerName:"",productName:"",numberOfSending:"",dateOfSending:""}
+      console.log(sendingItem)
       this.root.querySelector("#customerName_input").value = sendingItem.customerName;
       this.root.querySelector("#productName_input").value = sendingItem.productName;
       this.root.querySelector("#numberOfSending_input").value = sendingItem.numberOfSending;
@@ -143,6 +149,10 @@ export default class PageView {
       this.root.querySelector(".productName").textContent = sendingItem.productName;
       this.root.querySelector(".numberOfSending").textContent = sendingItem.numberOfSending;
       this.root.querySelector(".dateOfSending").textContent = sendingItem.dateOfSending;
+      this.sendingDataa.customerName=sendingItem.customerName;
+      this.sendingDataa.productName=sendingItem.productName;
+      this.sendingDataa.numberOfSending=sendingItem.numberOfSending;
+      this.sendingDataa.dateOfSending=sendingItem.dateOfSending;
       //  remove 'notes__list-item--selected' from all note items
       this.root.querySelectorAll(".sendingItem").forEach((item) => {
         item.classList.remove("bg-blue-700");
