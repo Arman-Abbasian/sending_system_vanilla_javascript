@@ -6,7 +6,7 @@ export default class App {
     //here we should put a variable for all data
     this.sendingData = [];
     this.activeSendingItem = null;
-    const sendingDataa={id:"",customerName:"",productName:"",numberOfSending:"",dateOfSending:""}
+    const sendingDataa={id:null,customerName:"",productName:"",numberOfSending:"",dateOfSending:""}
     this.view = new PageView(root, this._handlers(),sendingDataa);
     console.log(sendingDataa)
     this._refreshSendintItems();
@@ -41,7 +41,8 @@ export default class App {
        this.view.sendingDataa.productName="";
        this.view.sendingDataa.numberOfSending="";
        this.view.sendingDataa.dateOfSending="";
-       delete this.view.sendingDataa.id
+       this.view.sendingDataa.id=null;
+       console.log(sendingItem)
         this._refreshSendintItems();
       },
       //input for this method is the id for selected sending item
@@ -53,7 +54,7 @@ export default class App {
         this._setActiveSendingItem(selectedSendingItem);
       },
       onDeleteSendingData: (sendingItemId) => {
-        NotesAPI.deleteNote(sendingItemId);
+        SendingAPI.deleteNote(sendingItemId);
         this._refreshSendintItems();
       },
     };

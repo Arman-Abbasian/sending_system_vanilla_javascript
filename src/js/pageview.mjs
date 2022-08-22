@@ -14,24 +14,24 @@ export default class PageView {
       this.root.innerHTML = `
         <form class="flex flex-col gap-4 p-2">
             <div class="w-full flex justify-between items-center">
-                <label class="w-1/2">customer Name</label>
+                <label class="w-1/2 "><span class="p-2 bg-purple-600 text-white rounded-md">customer Name</span></label>
                 <input id="customerName_input" type="text" name="customerName" class="w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" />
             </div>
             <div class="w-full flex justify-between items-center">
-                <label class="w-1/2">product Name</label>
+                <label class="w-1/2"><span class="p-2 bg-purple-600 text-white rounded-md">product Name</span></label>
                 <input id="productName_input" type="text" name="productName" class="w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" />
             </div>
             <div class="w-full flex justify-between items-center">
-                <label class="w-1/2">number of sending</label>
+                <label class="w-1/2"><span class="p-2 bg-purple-600 text-white rounded-md">number of sending</span></label>
                 <input id="numberOfSending_input" type="number" name="numberOfSending" class="w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" />
             </div>
             <div class="w-full flex justify-between items-center">
-                <label class="w-1/2">date of sending</label>
+                <label class="w-1/2"><span class="p-2 bg-purple-600 text-white rounded-md">date of sending</span></label>
                 <input id="dateOfSending_input" type="date" name="dateOfSending">
             </div>
             <button id="addButton" class="p-2 bg-green-500 rounded-md">Add</button>
         </form>
-        <div class="flex flex-col gap-4 p-2 border-emerald-400 border-2 rounded-md">
+        <div class="flex flex-col gap-4 p-2 border-emerald-400 border-2 rounded-md mb-6">
             <div class="flex justify-center items-center gap-2"><p>customer name :</p><p class="customerName"></p></div>
             <div class="flex justify-center items-center gap-2"><p>product Name :</p><p class="productName"></p></div>
             <div class="flex justify-center items-center gap-2"><p>number of sending :</p><p class="numberOfSending"></p></div>
@@ -87,16 +87,19 @@ export default class PageView {
   //تا قبل از این جا به محض ساخته شدن یک نمونه از این کلاس به طور خودکار اجرا می شود(چون داخل کانستراکتور است) 
   
   //method for creating one list item
-    _creatListItemHTML(id, customerName, productName, numberOfSending, dataOfSending){
-      console.log(dataOfSending)
+    _creatListItemHTML(id, customerName, productName, numberOfSending, dateOfSending){
+      console.log(dateOfSending)
       const MAX_CUSTOMERNAME_LENGTH = 20;
       const MAX_PRODUCTNAME_LENGTH = 20;
       return `
       <div class="sendingItem flex justify-between items-center shadow-xl bg-blue-400 text-xs p-2 w-full" data-sending-id="${id}">
-          <p> ${customerName.substring(0, MAX_CUSTOMERNAME_LENGTH)}${customerName.length > MAX_CUSTOMERNAME_LENGTH ? "..." : ""}</p>
+          <p>${customerName.substring(0, MAX_CUSTOMERNAME_LENGTH)}${customerName.length > MAX_CUSTOMERNAME_LENGTH ? "..." : ""}</p>
           <p>${productName.substring(0, MAX_PRODUCTNAME_LENGTH)}${productName.length > MAX_PRODUCTNAME_LENGTH ? "..." : ""}</p>
           <p>${numberOfSending}</p>
-          <p> ${new Date(dataOfSending).toLocaleString(undefined, {dateStyle: "full",timeStyle: "short",})}</p>
+          <p> ${new Date(dateOfSending).toLocaleString(undefined, {dateStyle: "full",timeStyle: "short",})}</p>
+          <svg data-trash="${id}" xmlns="http://www.w3.org/2000/svg" class="notes__list-trash h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
       </div>`
     }
   
@@ -133,7 +136,7 @@ export default class PageView {
           noteItem.addEventListener("click", (e) => {
             //چون پدرش هم دارای کلیک هست برای جلوگیری از اختلاط رویداد ها از این کد استفاده می کنیم
             e.stopPropagation();
-            this.onDeleteSendingData(noteItem.dataset.noteId);
+            this.onDeleteSendingData(noteItem.dataset.trash);
           });
         });
     };
@@ -149,10 +152,12 @@ export default class PageView {
       this.root.querySelector(".productName").textContent = sendingItem.productName;
       this.root.querySelector(".numberOfSending").textContent = sendingItem.numberOfSending;
       this.root.querySelector(".dateOfSending").textContent = sendingItem.dateOfSending;
+      this.sendingDataa.id=sendingItem.id;
       this.sendingDataa.customerName=sendingItem.customerName;
       this.sendingDataa.productName=sendingItem.productName;
       this.sendingDataa.numberOfSending=sendingItem.numberOfSending;
       this.sendingDataa.dateOfSending=sendingItem.dateOfSending;
+      console.log(this.sendingDataa)
       //  remove 'notes__list-item--selected' from all note items
       this.root.querySelectorAll(".sendingItem").forEach((item) => {
         item.classList.remove("bg-blue-700");

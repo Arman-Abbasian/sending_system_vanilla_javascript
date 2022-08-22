@@ -26,6 +26,7 @@ import PageView from "./pageview.mjs";
         console.log("new")
         //if the sending item not existed
         sendingItemToSave.id = new Date().getTime();
+        console.log(sendingItemToSave)
         sendingData.push(sendingItemToSave);
       }
       //put all sending items again in DB
@@ -35,9 +36,9 @@ import PageView from "./pageview.mjs";
       //get all notes
       const notes = SendingAPI.getAllSending();
       //remove the choosed note
-      const filteredNotes = notes.filter((n) => n.id != id); // 1!== 2, 3!==2
+      const filteredSendingItems = notes.filter((n) => n.id != id); // 1!== 2, 3!==2
       //put all notes again in DB
-      localStorage.setItem("sendingData", JSON.stringify(sendingData));
+      localStorage.setItem("sendingData", JSON.stringify(filteredSendingItems));
     }
   }
   
