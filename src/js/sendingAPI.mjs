@@ -1,7 +1,7 @@
 import PageView from "./pageview.mjs";
 
   export default class SendingAPI {
-
+    //get all the data from DB
     static getAllSending() {
      const sendingData=localStorage.getItem("sendingData") ?JSON.parse(localStorage.getItem("sendingData")):[];
      return sendingData;
