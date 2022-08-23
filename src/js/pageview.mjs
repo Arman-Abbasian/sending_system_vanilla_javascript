@@ -14,32 +14,32 @@ export default class PageView {
       console.log(sendingDataa)
       //make the static appearance of the sheet
       this.root.innerHTML = `
-        <form class="flex flex-col gap-4 p-2">
-            <div class="w-full flex justify-between items-center">
-                <label class="w-1/2 "><span class="p-2 bg-purple-600 text-white rounded-md">customer Name</span></label>
-                <input id="customerName_input" type="text" name="customerName" class="input w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" />
+        <form class="flex flex-col gap-4">
+            <div class="w-full gap-8 flex justify-between items-center">
+                <label class="w-1/2 "><p class="flex justify-center items-center p-2 bg-purple-600 text-white rounded-md">customer Name</p></label>
+                <input id="customerName_input" type="text" name="customerName" class="p-2 input w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" />
             </div>
-            <div class="w-full flex justify-between items-center">
-                <label class="w-1/2"><span class="p-2 bg-purple-600 text-white rounded-md">product Name</span></label>
-                <input id="productName_input" type="text" name="productName" class="input w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" />
+            <div class="w-full gap-8 flex justify-between items-center">
+                <label class="w-1/2"><p class="flex justify-center items-center p-2 bg-purple-600 text-white rounded-md">product Name</p></label>
+                <input id="productName_input" type="text" name="productName" class="p-2 input w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" />
             </div>
-            <div class="w-full flex justify-between items-center">
-                <label class="w-1/2"><span class="p-2 bg-purple-600 text-white rounded-md">number of sending</span></label>
-                <input id="numberOfSending_input" type="number" name="numberOfSending" class="input w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" />
+            <div class="w-full gap-8 flex justify-between items-center">
+                <label class="w-1/2"><p class="flex justify-center items-center p-2 bg-purple-600 text-white rounded-md">number of sending</p></label>
+                <input id="numberOfSending_input" type="number" name="numberOfSending" class="p-2 input w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" />
             </div>
-            <div class="w-full flex justify-between items-center">
-                <label class="w-1/2"><span class="p-2 bg-purple-600 text-white rounded-md">date of sending</span></label>
-                <input id="dateOfSending_input" class="input w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" type="date" name="dateOfSending">
+            <div class="w-full gap-8 flex justify-between items-center">
+                <label class="w-1/2"><p class="flex justify-center items-center p-2 bg-purple-600 text-white rounded-md w-full">date of sending</p></label>
+                <input id="dateOfSending_input" class="p-2 input w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" type="date" name="dateOfSending">
             </div>
-            <button id="addButton" class="p-2 bg-green-500 rounded-md">Add</button>
+            <button id="addButton" class="p-2 bg-green-500 rounded-md mb-3 hover:bg-emerald-600 hover:text-white">Add</button>
         </form>
-        <div class="previeww flex flex-col gap-4 p-2 border-emerald-400 border-2 rounded-md mb-6">
-            <div class="flex justify-center items-center gap-2"><p>customer name :</p><p class="preview customerName"></p></div>
-            <div class="flex justify-center items-center gap-2"><p>product Name :</p><p class="preview first-letter:productName"></p></div>
-            <div class="flex justify-center items-center gap-2"><p>number of sending :</p><p class="preview numberOfSending"></p></div>
-            <div class="flex justify-center items-center gap-2"><p>date of sending :</p><p class="preview dateOfSending"></p></div>
+        <div class="previeww flex flex-col gap-4 p-4 border-emerald-400 border-2 rounded-md mb-6">
+            <div class="flex justify-between items-center bg-red-400 p-2 rounded-md"><p>customer name :</p><p class="preview customerName"></p></div>
+            <div class="flex justify-between items-center bg-red-400 p-2 rounded-md"><p>product Name :</p><p class="preview productName"></p></div>
+            <div class="flex justify-between items-center bg-red-400 p-2 rounded-md"><p>number of sending :</p><p class="preview numberOfSending"></p></div>
+            <div class="flex justify-between items-center bg-red-400 p-2 rounded-md"><p>date of sending :</p><p class="preview dateOfSending"></p></div>
         </div>
-        <div id="sendings_data"></div>
+        <div id="sendings_data_container" class="flex flex-col gap-2 p-2"></div>
     </div>
       `;
       //get the needed elements(element that we want to add events to them)
@@ -74,6 +74,7 @@ export default class PageView {
         customerName.textContent=e.target.value
       });
       productName_input.addEventListener("change",(e)=>{
+        console.log(e.target.value)
         this.sendingDataa.productName= e.target.value;
         productName.textContent=e.target.value
       });
@@ -82,9 +83,11 @@ export default class PageView {
         numberOfSending.textContent=e.target.value
       });
       dateOfSending_input.addEventListener("change",(e)=>{
-        console.log(new Date (e.target.value))
+        const datee=e.target.value;
+        console.log(datee)
+        console.log(new Date (datee).getMonth()+1)
         this.sendingDataa.dateOfSending= new Date (e.target.value).toISOString();
-        dateOfSending.textContent=e.target.value
+        dateOfSending.textContent=`${new Date(datee).getFullYear()}/${new Date(datee).getMonth()+1}/${new Date(datee).getDate()}`
       });
       }
 
@@ -93,24 +96,25 @@ export default class PageView {
   //method for creating one list item
     _creatListItemHTML(id, customerName, productName, numberOfSending, dateOfSending){
       console.log(dateOfSending)
-      const MAX_CUSTOMERNAME_LENGTH = 20;
-      const MAX_PRODUCTNAME_LENGTH = 20;
+      const MAX_CUSTOMERNAME_LENGTH = 15;
+      const MAX_PRODUCTNAME_LENGTH = 25;
       return `
-      <div class="sendingItem flex justify-between items-center shadow-xl bg-blue-400 text-xs p-2 w-full" data-sending-id="${id}">
-          <p>${customerName.substring(0, MAX_CUSTOMERNAME_LENGTH)}${customerName.length > MAX_CUSTOMERNAME_LENGTH ? "..." : ""}</p>
-          <p>${productName.substring(0, MAX_PRODUCTNAME_LENGTH)}${productName.length > MAX_PRODUCTNAME_LENGTH ? "..." : ""}</p>
-          <p>${numberOfSending}</p>
-          <p> ${new Date(dateOfSending).getFullYear()}/${new Date(dateOfSending).getMonth()}/${new Date(dateOfSending).getDay()}</p>
-          <svg data-trash="${id}" xmlns="http://www.w3.org/2000/svg" class="notes__list-trash h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <div class="sendingItem grid grid-cols-5 gap-2 shadow-xl shadow-slate-300 bg-blue-400 px-1 py-4  w-full rounded-md cursor-pointer" data-sending-id="${id}">
+          <p class="flex justify-center items-center">${customerName.substring(0, MAX_CUSTOMERNAME_LENGTH)}${customerName.length > MAX_CUSTOMERNAME_LENGTH ? "..." : ""}</p>
+          <p class="flex justify-center items-center">${productName.substring(0, MAX_PRODUCTNAME_LENGTH)}${productName.length > MAX_PRODUCTNAME_LENGTH ? "..." : ""}</p>
+          <p class="flex justify-center items-center">${numberOfSending}</p>
+          <p class="flex justify-center items-center"> ${new Date(dateOfSending).getFullYear()}/${new Date(dateOfSending).getMonth()+1}/${new Date(dateOfSending).getDate()}</p>
+          <p class="flex justify-center items-center"><svg data-trash="${id}" xmlns="http://www.w3.org/2000/svg" class="notes__list-trash flex justify-center items-center h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-          </svg>
+          </svg></p>
       </div>`
     }
   
     //input for this method is all sending data
     updateSendingList(sendingsData) {
+      const sendingsDataContainer = this.root.querySelector("#sendings_data_container");
+      console.log(sendingsDataContainer)
       //get note list items area
-      const sendingsDataContainer = this.root.querySelector("#sendings_data");
       //  empty all the notes in noteList
       sendingsDataContainer.innerHTML = "";
       // put a empty container
@@ -148,15 +152,16 @@ export default class PageView {
     //for changing  the value of selected note item
     //the input for the mothod is data of selected item
     updateActiveSendingItem(sendingItem) {
-      console.log(sendingItem)
+      console.log(sendingItem.dateOfSending)
+      console.log(new Date (sendingItem.dateOfSending).getFullYear()+"/"+new Date (sendingItem.dateOfSending).getDate()+"/"+new Date (sendingItem.dateOfSending).getDay())
       this.root.querySelector("#customerName_input").value = sendingItem.customerName;
       this.root.querySelector("#productName_input").value = sendingItem.productName;
       this.root.querySelector("#numberOfSending_input").value = sendingItem.numberOfSending;
-      this.root.querySelector("#dateOfSending_input").value = sendingItem.dateOfSending;
+      this.root.querySelector("#dateOfSending_input").value = `${new Date (sendingItem.dateOfSending).getFullYear()}-${new Date (sendingItem.dateOfSending).getDate()}-${new Date (sendingItem.dateOfSending).getDay()}`
       this.root.querySelector(".customerName").textContent=sendingItem.customerName;
       this.root.querySelector(".productName").textContent = sendingItem.productName;
       this.root.querySelector(".numberOfSending").textContent = sendingItem.numberOfSending;
-      this.root.querySelector(".dateOfSending").textContent = sendingItem.dateOfSending;
+      this.root.querySelector(".dateOfSending").textContent =`${new Date (sendingItem.dateOfSending).getFullYear()}/${new Date (sendingItem.dateOfSending).getMonth()+1}/${new Date (sendingItem.dateOfSending).getDate()}`;
       this.sendingDataa.id=sendingItem.id;
       this.sendingDataa.customerName=sendingItem.customerName;
       this.sendingDataa.productName=sendingItem.productName;
