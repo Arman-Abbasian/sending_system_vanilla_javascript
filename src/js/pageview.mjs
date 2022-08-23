@@ -6,38 +6,39 @@ export default class PageView {
       //get the parent of all element in sheet
       this.root = root;
       //add events in sheet(all events that hanppen on element but that elements that are made in initail load)
-      const { onAddSendingData,  onSelectSendingData, onDeleteSendingData } = handlers;
+      const { onAddSendingData,  onSelectSendingData, onDeleteSendingData,onSelectSendingDataBox } = handlers;
       this.onAddSendingData = onAddSendingData;
       this.onSelectSendingData = onSelectSendingData;
       this.onDeleteSendingData = onDeleteSendingData;
+      this.onSelectSendingDataBox=onSelectSendingDataBox;
       this.sendingDataa=sendingDataa
       console.log(sendingDataa)
       //make the static appearance of the sheet
       this.root.innerHTML = `
-        <form class="flex flex-col gap-4">
+        <form class="formm flex flex-col gap-4">
             <div class="w-full gap-8 flex justify-between items-center">
-                <label class="w-1/2 "><p class="flex justify-center items-center p-2 bg-purple-600 text-white rounded-md">customer Name</p></label>
-                <input id="customerName_input" type="text" name="customerName" class="p-2 input w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" />
+                <label class="w-1/2 "><p class="flex justify-center items-center p-2 bg-lightGray text-white rounded-md">customer Name</p></label>
+                <input id="customerName_input" type="text" name="customerName" class="p-2 input w-1/2 border-2 border-lightGreen rounded-md focus:outline-none focus:border-darkGreen" />
             </div>
             <div class="w-full gap-8 flex justify-between items-center">
-                <label class="w-1/2"><p class="flex justify-center items-center p-2 bg-purple-600 text-white rounded-md">product Name</p></label>
-                <input id="productName_input" type="text" name="productName" class="p-2 input w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" />
+                <label class="w-1/2"><p class="flex justify-center items-center p-2 bg-lightGray text-white rounded-md">product Name</p></label>
+                <input id="productName_input" type="text" name="productName" class="p-2 input w-1/2 border-2 border-lightGreen rounded-md focus:outline-none focus:border-darkGreen" />
             </div>
             <div class="w-full gap-8 flex justify-between items-center">
-                <label class="w-1/2"><p class="flex justify-center items-center p-2 bg-purple-600 text-white rounded-md">number of sending</p></label>
-                <input id="numberOfSending_input" type="number" name="numberOfSending" class="p-2 input w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" />
+                <label class="w-1/2"><p class="flex justify-center items-center p-2 bg-lightGray text-white rounded-md">number of sending</p></label>
+                <input id="numberOfSending_input" type="number" name="numberOfSending" class="p-2 input w-1/2 border-2 border-lightGreen rounded-md focus:outline-none focus:border-darkGreen" />
             </div>
             <div class="w-full gap-8 flex justify-between items-center">
-                <label class="w-1/2"><p class="flex justify-center items-center p-2 bg-purple-600 text-white rounded-md w-full">date of sending</p></label>
-                <input id="dateOfSending_input" class="p-2 input w-1/2 border-2 border-cyan-500 rounded-md focus:outline-none focus:border-emerald-500" type="date" name="dateOfSending">
+                <label class="w-1/2"><p class="flex justify-center items-center p-2 bg-lightGray text-white rounded-md w-full">date of sending</p></label>
+                <input id="dateOfSending_input" class="p-2 input w-1/2 border-2 border-lightGreen rounded-md focus:outline-none focus:border-darkGreen" type="date" name="dateOfSending">
             </div>
-            <button id="addButton" class="p-2 bg-green-500 rounded-md mb-3 hover:bg-emerald-600 hover:text-white">Add</button>
+            <button id="addButton" class="p-2 bg-lightGreen rounded-md mb-3 hover:bg-darkGreen hover:text-white">Add</button>
         </form>
         <div class="previeww flex flex-col gap-4 p-4 border-emerald-400 border-2 rounded-md mb-6">
-            <div class="flex justify-between items-center bg-red-400 p-2 rounded-md"><p>customer name :</p><p class="preview customerName"></p></div>
-            <div class="flex justify-between items-center bg-red-400 p-2 rounded-md"><p>product Name :</p><p class="preview productName"></p></div>
-            <div class="flex justify-between items-center bg-red-400 p-2 rounded-md"><p>number of sending :</p><p class="preview numberOfSending"></p></div>
-            <div class="flex justify-between items-center bg-red-400 p-2 rounded-md"><p>date of sending :</p><p class="preview dateOfSending"></p></div>
+            <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>customer name :</p><p class="preview customerName"></p></div>
+            <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>product Name :</p><p class="preview productName"></p></div>
+            <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>number of sending :</p><p class="preview numberOfSending"></p></div>
+            <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>date of sending :</p><p class="preview dateOfSending"></p></div>
         </div>
         <div id="sendings_data_container" class="flex flex-col gap-2 p-2"></div>
     </div>
@@ -99,14 +100,24 @@ export default class PageView {
       const MAX_CUSTOMERNAME_LENGTH = 15;
       const MAX_PRODUCTNAME_LENGTH = 25;
       return `
-      <div class="sendingItem grid grid-cols-5 gap-2 shadow-xl shadow-slate-300 bg-blue-400 px-1 py-4  w-full rounded-md cursor-pointer" data-sending-id="${id}">
-          <p class="flex justify-center items-center">${customerName.substring(0, MAX_CUSTOMERNAME_LENGTH)}${customerName.length > MAX_CUSTOMERNAME_LENGTH ? "..." : ""}</p>
-          <p class="flex justify-center items-center">${productName.substring(0, MAX_PRODUCTNAME_LENGTH)}${productName.length > MAX_PRODUCTNAME_LENGTH ? "..." : ""}</p>
-          <p class="flex justify-center items-center">${numberOfSending}</p>
-          <p class="flex justify-center items-center"> ${new Date(dateOfSending).getFullYear()}/${new Date(dateOfSending).getMonth()+1}/${new Date(dateOfSending).getDate()}</p>
-          <p class="flex justify-center items-center"><svg data-trash="${id}" xmlns="http://www.w3.org/2000/svg" class="notes__list-trash flex justify-center items-center h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-          </svg></p>
+      <div class="sendingItemBox grid grid-cols-3 gap-2 shadow-xl bg-gold px-1 py-4  w-full rounded-md cursor-pointer" data-sending-id="${id}">
+          <div class="flex flex-col justify-center items-center gap-3">
+            <p class="flex justify-center items-center">${customerName.substring(0, MAX_CUSTOMERNAME_LENGTH)}${customerName.length > MAX_CUSTOMERNAME_LENGTH ? "..." : ""}</p>
+            <p class="flex justify-center items-center">${productName.substring(0, MAX_PRODUCTNAME_LENGTH)}${productName.length > MAX_PRODUCTNAME_LENGTH ? "..." : ""}</p>
+          </div>
+          <div class="flex flex-col justify-center items-center gap-3">
+            <p class="flex justify-center items-center">${numberOfSending}</p>
+            <p class="flex justify-center items-center"> ${new Date(dateOfSending).getFullYear()}/${new Date(dateOfSending).getMonth()+1}/${new Date(dateOfSending).getDate()}</p>
+          </div>
+
+          <div class="flex flex-col justify-center items-center gap-3">
+              <p class="sendingItem flex justify-center items-center"data-sending-id="${id}"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg></p>
+              <p class="flex justify-center items-center"data-trash="${id}"><svg xmlns="http://www.w3.org/2000/svg" class="notes__list-trash flex justify-center items-center h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg></p>
+          </div>
       </div>`
     }
   
@@ -130,6 +141,15 @@ export default class PageView {
       }
       // add notesList variable to the DOM
       sendingsDataContainer.innerHTML= sendingsDataList;
+
+      sendingsDataContainer.querySelectorAll(".sendingItemBox").forEach((sendingDataBox) => {
+        sendingDataBox.addEventListener("click", () =>{
+          //input for this method is id
+          this.onSelectSendingDataBox(sendingDataBox.dataset.sendingId)
+        }
+        );
+      });
+
       //add click event for select to the notesList(این رو مجبوریم این جا اضافه کنیم چون این جا به دام ما اضافه شده)
       sendingsDataContainer.querySelectorAll(".sendingItem").forEach((sendingData) => {
         sendingData.addEventListener("click", () =>{
@@ -175,6 +195,16 @@ export default class PageView {
        //add 'notes__list-item--selected' to the selected note item
       this.root.querySelector(`.sendingItem[data-sending-id="${sendingItem.id}"]`)
        .classList.add("bg-blue-700");
+    }
+
+    showFixedPart(selectedBoxId){
+        console.log(selectedBoxId);
+        const formTag=this.root.querySelector(".formm");
+        formTag.prepend(
+        `<div class="fixed w-screen h-screen bg-opacity-60 right-0 top-0 p-10 bg-white z-50  justify-center items-center">
+        you sent 1000 numbers of spring seat jolo for faravari va sahkht in date 2022/08/15
+      </div>`
+        )
     }
     }
   

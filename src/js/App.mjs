@@ -54,6 +54,13 @@ export default class App {
         //input for this method is data for clicked sending item
         this._setActiveSendingItem(selectedSendingItem);
       },
+      onSelectSendingDataBox: (sendingItemId) => {
+        console.log(sendingItemId)
+        const selectedSendingItem = this.sendingData.find((n) => n.id == sendingItemId);
+        console.log(selectedSendingItem)
+        this.view.showFixedPart(selectedSendingItem)
+        //input for this method is data for clicked sending item
+      },
       onDeleteSendingData: (sendingItemId) => {
         SendingAPI.deleteNote(sendingItemId);
         this._refreshSendintItems();
