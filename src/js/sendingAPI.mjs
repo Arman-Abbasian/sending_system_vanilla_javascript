@@ -4,6 +4,12 @@ import PageView from "./pageview.mjs";
     //get all the data from DB () (READ)
     static getAllSending() {
      const sendingData=localStorage.getItem("sendingData") ?JSON.parse(localStorage.getItem("sendingData")):[];
+     console.log(sendingData);
+     sendingData.sort(function(a,b){
+      // Turn your strings into dates, and then subtract them
+      // to get a value that is either negative, positive, or zero.
+      return new Date(b.dateOfSending) - new Date(a.dateOfSending);
+    });
      return sendingData;
     }
   //خلاصه متد زیر => کل دیتابیس رو می کشی بیرون بعد تغییرات رو روی دیتا ها انجام می دی سپس مجددا میذاریش تو دیبابیس همه رو

@@ -9,7 +9,6 @@ export default class App {
     const sendingDataa={id:null,customerName:"",productName:"",numberOfSending:"",dateOfSending:""}
     //این جا اونی رو که مقدار داره مقدار می دیم اونی رو که این جا هم به مقدارش دسترسی نداریم رو در ورودی کلاس (اپ) بهش روردی میدیم
     this.view = new PageView(root, this._handlers(),sendingDataa);
-    console.log(sendingDataa)
     this._refreshSendintItems();
   }
   _refreshSendintItems() {

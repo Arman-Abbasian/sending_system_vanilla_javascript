@@ -15,6 +15,7 @@ export default class PageView {
       console.log(sendingDataa)
       //make the static appearance of the sheet
       this.root.innerHTML = `
+      <div id="box"></div>
         <form class="formm flex flex-col gap-4">
             <div class="w-full gap-8 flex justify-between items-center">
                 <label class="w-1/2 "><p class="flex justify-center items-center p-2 bg-lightGray text-white rounded-md">customer Name</p></label>
@@ -177,7 +178,7 @@ export default class PageView {
       this.root.querySelector("#customerName_input").value = sendingItem.customerName;
       this.root.querySelector("#productName_input").value = sendingItem.productName;
       this.root.querySelector("#numberOfSending_input").value = sendingItem.numberOfSending;
-      this.root.querySelector("#dateOfSending_input").value = `${new Date (sendingItem.dateOfSending).getFullYear()}-${new Date (sendingItem.dateOfSending).getDate()}-${new Date (sendingItem.dateOfSending).getDay()}`
+      this.root.querySelector("#dateOfSending_input").value = `${new Date (sendingItem.dateOfSending).getFullYear()}/${new Date (sendingItem.dateOfSending).getMonth()+1}/${new Date (sendingItem.dateOfSending).getDate()}`
       this.root.querySelector(".customerName").textContent=sendingItem.customerName;
       this.root.querySelector(".productName").textContent = sendingItem.productName;
       this.root.querySelector(".numberOfSending").textContent = sendingItem.numberOfSending;
@@ -200,11 +201,14 @@ export default class PageView {
     showFixedPart(selectedBoxId){
         console.log(selectedBoxId);
         const formTag=this.root.querySelector(".formm");
-        formTag.prepend(
-        `<div class="fixed w-screen h-screen bg-opacity-60 right-0 top-0 p-10 bg-white z-50  justify-center items-center">
-        you sent 1000 numbers of spring seat jolo for faravari va sahkht in date 2022/08/15
+        console.log(formTag)
+        const box=`<div class="fixed w-screen h-screen bg-opacity-60 right-0 top-0 bg-white z-50 flex justify-start items-center p-8">
+        <p class="p-10 bg-lightGreen rounded-md text-base">you sent ${selectedBoxId.numberOfSending} numbers of ${selectedBoxId.productName} for ${selectedBoxId.customerName} in date ${new Date (selectedBoxId.dateOfSending).getFullYear()}/${new Date (selectedBoxId.dateOfSending).getMonth()+1}/${new Date (selectedBoxId.dateOfSending).getDate()}</p>
       </div>`
-        )
+      console.log(box)
+      const boxx=this.root.querySelector("#box");
+      boxx.innerHTML=box;
+        
     }
     }
   
