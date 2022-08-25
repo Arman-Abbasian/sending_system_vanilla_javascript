@@ -6,14 +6,24 @@ export default class PageView {
       //get the parent of all element in sheet
       this.root = root;
       //add events in sheet(all events that hanppen on element but that elements that are made in initail load)
-      const { onAddSendingData,  onSelectSendingData, onDeleteSendingData,onSelectSendingDataBox } = handlers;
+      const { onAddSendingData,  onSelectSendingData, onDeleteSendingData,onSelectSendingDataBox,
+        customerFilter,productFilter,yearFilter,monthFilter,dayFilter } = handlers;
       this.onAddSendingData = onAddSendingData;
       this.onSelectSendingData = onSelectSendingData;
       this.onDeleteSendingData = onDeleteSendingData;
       this.onSelectSendingDataBox=onSelectSendingDataBox;
+      this.customerFilter=customerFilter;
+      this.productFilter=productFilter;
+      this.yearFilter=yearFilter;
+      this.monthFilter=monthFilter;
+      this.dayFilter=dayFilter;
       this.sendingDataa=sendingDataa
       console.log(sendingDataa)
       //make the static appearance of the sheet
+
+      const month=[1,2,3,4,5,6,7,8,9,10,11,12];
+      const year=[2020,2021,2022,2023]
+
       this.root.innerHTML = `
       <div id="box"></div>
         <form class="formm flex flex-col gap-4">
@@ -40,6 +50,17 @@ export default class PageView {
             <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>product Name :</p><p class="preview productName"></p></div>
             <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>number of sending :</p><p class="preview numberOfSending"></p></div>
             <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>date of sending :</p><p class="preview dateOfSending"></p></div>
+        <div class="filterCustomerProductSection flex justify-between items-center">
+          <select id="customersSelectedInput"></select> 
+          <select id="ProductSelectedInput"></select>
+        </div>
+        <div class="filterDateSection flex justify-between items-center">
+        <select id="yearSelectedInput"></select>
+        <select id="monthSelectedInput"></select>
+        <select id="daySelectedInput"></select>
+        
+       
+        </div>
         </div>
         <div id="sendings_data_container" class="flex flex-col gap-2 p-2"></div>
     </div>
@@ -91,6 +112,10 @@ export default class PageView {
         this.sendingDataa.dateOfSending= new Date (e.target.value).toISOString();
         dateOfSending.textContent=`${new Date(datee).getFullYear()}/${new Date(datee).getMonth()+1}/${new Date(datee).getDate()}`
       });
+
+
+
+      
       }
 
   //تا قبل از این جا به محض ساخته شدن یک نمونه از این کلاس به طور خودکار اجرا می شود(چون داخل کانستراکتور است) 
@@ -112,10 +137,10 @@ export default class PageView {
           </div>
 
           <div class="flex flex-col justify-center items-center gap-3">
-              <p class="sendingItem flex justify-center items-center"data-sending-id="${id}"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <p class="sendingItem flex justify-center items-center" data-sending-id="${id}"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg></p>
-              <p class="flex justify-center items-center"data-trash="${id}"><svg xmlns="http://www.w3.org/2000/svg" class="notes__list-trash flex justify-center items-center h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <p class="notes__list-trash flex justify-center items-center" data-trash="${id}"><svg xmlns="http://www.w3.org/2000/svg" class="flex justify-center items-center h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg></p>
           </div>
@@ -124,6 +149,7 @@ export default class PageView {
   
     //input for this method is all sending data
     updateSendingList(sendingsData) {
+      console.log(sendingsData)
       const sendingsDataContainer = this.root.querySelector("#sendings_data_container");
       console.log(sendingsDataContainer)
       //get note list items area
@@ -143,6 +169,63 @@ export default class PageView {
       // add notesList variable to the DOM
       sendingsDataContainer.innerHTML= sendingsDataList;
 
+
+      //add option to selectedCustomerInput
+      
+      const customerList=sendingsData.map(item=>{
+        return(item.customerName)
+      });
+      let uniquecustomerList = [];
+      customerList.forEach((element) => {
+    if (!uniquecustomerList.includes(element)) {
+        uniquecustomerList.push(element);
+    }
+      });
+      let customersSelect=`<option value="">All</option>`;
+      uniquecustomerList.forEach(element => {
+        //add option to selectedCustomerInput
+        customersSelect+=
+         `<option value="${element}">${element}</option>`
+      });
+      customersSelectedInput.innerHTML=customersSelect;
+
+       //add option for year filter section
+       const year=[2020,2021,2022,2023];
+       let yearContainer='<option value="">All</option>';
+       year.forEach(item=>{
+         yearContainer+= `<option value=${item}>${item}</option>`
+       })
+
+
+      //add option for month filter section
+      const month=[1,2,3,4,5,6,7,8,9,10,11,12];
+      let monthContainer='<option value="">All</option>';
+      month.forEach(item=>{
+        monthContainer+= `<option value=${item}>${item}</option>`
+      })
+      console.log(monthContainer)
+      console.log(this.root.querySelector("#monthSelectedInput"))
+      this.root.querySelector("#monthSelectedInput").innerHTML=monthContainer
+
+      console.log(yearContainer)
+      console.log(this.root.querySelector("#yearSelectedInput"))
+      this.root.querySelector("#yearSelectedInput").innerHTML=yearContainer
+
+
+      //add option for day filter section
+      const day=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
+      let dayContainer='<option value="">All</option>';
+      day.forEach(item=>{
+        dayContainer+= `<option value=${item}>${item}</option>`
+      })
+      console.log(dayContainer)
+      console.log(this.root.querySelector("#daySelectedInput"))
+      this.root.querySelector("#daySelectedInput").innerHTML=dayContainer
+
+      customersSelectedInput.addEventListener("change",(e)=>this.customerFilter(e.target.value))
+
+
+
       sendingsDataContainer.querySelectorAll(".sendingItemBox").forEach((sendingDataBox) => {
         sendingDataBox.addEventListener("click", () =>{
           //input for this method is id
@@ -153,8 +236,9 @@ export default class PageView {
 
       //add click event for select to the notesList(این رو مجبوریم این جا اضافه کنیم چون این جا به دام ما اضافه شده)
       sendingsDataContainer.querySelectorAll(".sendingItem").forEach((sendingData) => {
-        sendingData.addEventListener("click", () =>{
+        sendingData.addEventListener("click", (e) =>{
           //input for this method is id
+          e.stopPropagation();
           this.onSelectSendingData(sendingData.dataset.sendingId)
         }
         );
@@ -165,11 +249,15 @@ export default class PageView {
         .forEach((noteItem) => {
           noteItem.addEventListener("click", (e) => {
             //چون پدرش هم دارای کلیک هست برای جلوگیری از اختلاط رویداد ها از این کد استفاده می کنیم
+            e.preventDefault();
             e.stopPropagation();
             this.onDeleteSendingData(noteItem.dataset.trash);
           });
         });
+
     };
+
+
     //for changing  the value of selected note item
     //the input for the mothod is data of selected item
     updateActiveSendingItem(sendingItem) {

@@ -64,6 +64,27 @@ export default class App {
         SendingAPI.deleteNote(sendingItemId);
         this._refreshSendintItems();
       },
+      customerFilter:(selectedCustomer)=>{
+        const filteredCustomer=this.sendingData.filter(item=>item.customerName.includes(selectedCustomer));
+        this.view.updateSendingList(filteredCustomer)
+      },
+      productFilter:(selectedProduct)=>{
+        const filteredProduct=this.sendingData.filter(item=>item.productName.includes(selectedCustomer));
+        this.view.updateSendingList(filteredProduct)
+      },
+      yearFilter:(selectedCustomer)=>{
+        console.log(selectedCustomer.getMontth())
+        //const filteredYear=this.sendingData.filter(item=>item.dateOfSending.getMonth().includes(selectedCustomer));
+        //this.view.updateSendingList(filteredYear)
+      },
+      monthFilter:(selectedCustomer)=>{
+        const filteredCustomer=this.sendingData.filter(item=>item.customerName.includes(selectedCustomer));
+        this.view.updateSendingList(filteredCustomer)
+      },
+      dayFilter:(selectedCustomer)=>{
+        const filteredCustomer=this.sendingData.filter(item=>item.customerName.includes(selectedCustomer));
+        this.view.updateSendingList(filteredCustomer)
+      },
     };
   }
 }
