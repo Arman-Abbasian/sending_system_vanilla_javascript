@@ -1,29 +1,25 @@
+import SendingAPI from "./sendingAPI.mjs";
+
 export default class PageView {
   //به عنوان ورودی به کانستراکتور ی تگ پدر می دی 
-    constructor(root, handlers,sendingDataa) {
+    constructor(root, handlers,sendingDataa,filterOptions) {
+    const allSending= this.allSendingItem=SendingAPI.getAllSending(); 
       //این جا به(روت)دسترسی نداریم به همین خاطر به عنوان ورودی پاسش میدیم
       //کلا به هر مقداری (استیتی) که در هر ماژول دسترسی نداریم به عنوان ورودی به اون کلاس پاس می دیم تا در ماژول مربوطه مقدارش رو بهش بدیم
       //get the parent of all element in sheet
       this.root = root;
       //add events in sheet(all events that hanppen on element but that elements that are made in initail load)
       const { onAddSendingData,  onSelectSendingData, onDeleteSendingData,onSelectSendingDataBox,
-        customerFilter,productFilter,yearFilter,monthFilter,dayFilter } = handlers;
+        filterSendingItem} = handlers;
       this.onAddSendingData = onAddSendingData;
       this.onSelectSendingData = onSelectSendingData;
       this.onDeleteSendingData = onDeleteSendingData;
       this.onSelectSendingDataBox=onSelectSendingDataBox;
-      this.customerFilter=customerFilter;
-      this.productFilter=productFilter;
-      this.yearFilter=yearFilter;
-      this.monthFilter=monthFilter;
-      this.dayFilter=dayFilter;
-      this.sendingDataa=sendingDataa
-      console.log(sendingDataa)
+      this.filterSendingItem=filterSendingItem;
+      this.sendingDataa=sendingDataa;
+      this.filterOptions=filterOptions
+      console.log(filterOptions,sendingDataa);
       //make the static appearance of the sheet
-
-      const month=[1,2,3,4,5,6,7,8,9,10,11,12];
-      const year=[2020,2021,2022,2023]
-
       this.root.innerHTML = `
       <div id="box"></div>
         <form class="formm flex flex-col gap-4">
@@ -51,15 +47,13 @@ export default class PageView {
             <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>number of sending :</p><p class="preview numberOfSending"></p></div>
             <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>date of sending :</p><p class="preview dateOfSending"></p></div>
         <div class="filterCustomerProductSection flex justify-between items-center">
-          <select id="customersSelectedInput"></select> 
-          <select id="ProductSelectedInput"></select>
+          <select id="customerSelectedInput"></select> 
+          <input type="text" id="ProductSelectedInput"></input>
         </div>
         <div class="filterDateSection flex justify-between items-center">
         <select id="yearSelectedInput"></select>
         <select id="monthSelectedInput"></select>
         <select id="daySelectedInput"></select>
-        
-       
         </div>
         </div>
         <div id="sendings_data_container" class="flex flex-col gap-2 p-2"></div>
@@ -113,10 +107,12 @@ export default class PageView {
         dateOfSending.textContent=`${new Date(datee).getFullYear()}/${new Date(datee).getMonth()+1}/${new Date(datee).getDate()}`
       });
 
-
-
+      PageView.makeFilters(allSending);
       
       }
+
+
+
 
   //تا قبل از این جا به محض ساخته شدن یک نمونه از این کلاس به طور خودکار اجرا می شود(چون داخل کانستراکتور است) 
   
@@ -149,15 +145,16 @@ export default class PageView {
   
     //input for this method is all sending data
     updateSendingList(sendingsData) {
-      console.log(sendingsData)
       const sendingsDataContainer = this.root.querySelector("#sendings_data_container");
-      console.log(sendingsDataContainer)
       //get note list items area
       //  empty all the notes in noteList
       sendingsDataContainer.innerHTML = "";
       // put a empty container
       let sendingsDataList = "";
       //loop in all notes and add them to noteList variable
+
+
+
       for (const sendingData of sendingsData) {
         const { id, customerName, productName, numberOfSending, dateOfSending } = sendingData;
         console.log(new Date(dateOfSending).toDateString())
@@ -170,59 +167,33 @@ export default class PageView {
       sendingsDataContainer.innerHTML= sendingsDataList;
 
 
-      //add option to selectedCustomerInput
-      
-      const customerList=sendingsData.map(item=>{
-        return(item.customerName)
+console.log(customerSelectedInput);
+//)
+      customerSelectedInput.addEventListener("change",(e)=>{
+        this.filterOptions.customerFilter=e.target.value;
+        console.log(this.filterOptions)
+        this.filterSendingItem(this.filterOptions)
       });
-      let uniquecustomerList = [];
-      customerList.forEach((element) => {
-    if (!uniquecustomerList.includes(element)) {
-        uniquecustomerList.push(element);
-    }
+      productSelectedInput.addEventListener("input",(e)=>{
+        this.filterOptions.productFilter=e.target.value;
+        console.log(this.filterOptions)
+        this.filterSendingItem(this.filterOptions)
       });
-      let customersSelect=`<option value="">All</option>`;
-      uniquecustomerList.forEach(element => {
-        //add option to selectedCustomerInput
-        customersSelect+=
-         `<option value="${element}">${element}</option>`
+      yearSelectedInput.addEventListener("change",(e)=>{
+        this.filterOptions.yearFilter=e.target.value;
+        console.log(this.filterOptions)
+        this.filterSendingItem(this.filterOptions) 
       });
-      customersSelectedInput.innerHTML=customersSelect;
-
-       //add option for year filter section
-       const year=[2020,2021,2022,2023];
-       let yearContainer='<option value="">All</option>';
-       year.forEach(item=>{
-         yearContainer+= `<option value=${item}>${item}</option>`
-       })
-
-
-      //add option for month filter section
-      const month=[1,2,3,4,5,6,7,8,9,10,11,12];
-      let monthContainer='<option value="">All</option>';
-      month.forEach(item=>{
-        monthContainer+= `<option value=${item}>${item}</option>`
-      })
-      console.log(monthContainer)
-      console.log(this.root.querySelector("#monthSelectedInput"))
-      this.root.querySelector("#monthSelectedInput").innerHTML=monthContainer
-
-      console.log(yearContainer)
-      console.log(this.root.querySelector("#yearSelectedInput"))
-      this.root.querySelector("#yearSelectedInput").innerHTML=yearContainer
-
-
-      //add option for day filter section
-      const day=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
-      let dayContainer='<option value="">All</option>';
-      day.forEach(item=>{
-        dayContainer+= `<option value=${item}>${item}</option>`
-      })
-      console.log(dayContainer)
-      console.log(this.root.querySelector("#daySelectedInput"))
-      this.root.querySelector("#daySelectedInput").innerHTML=dayContainer
-
-      customersSelectedInput.addEventListener("change",(e)=>this.customerFilter(e.target.value))
+      monthSelectedInput.addEventListener("change",(e)=>{
+        this.filterOptions.monthFilter=e.target.value;
+        console.log(this.filterOptions)
+        this.filterSendingItem(this.filterOptions)
+      });
+      daySelectedInput.addEventListener("change",(e)=>{
+        this.filterOptions.dayFilter=e.target.value;
+        console.log(this.filterOptions)
+        this.filterSendingItem(this.filterOptions)
+      });
 
 
 
@@ -298,5 +269,95 @@ export default class PageView {
       boxx.innerHTML=box;
         
     }
+
+    makeFilters(allSendingItems){
+      //add option to selectedCustomerInput
+      
+      const customerList=sendingsData.map(item=>{
+        return(item.customerName)
+      });
+      let uniquecustomerList = [];
+      //delete duplicate customer
+      customerList.forEach((element) => {
+    if (!uniquecustomerList.includes(element)) {
+        uniquecustomerList.push(element);
+    }
+      });
+      let customersSelect=`<option value="">All</option>`;
+      uniquecustomerList.forEach(element => {
+        //add option to selectedCustomerInput
+        customersSelect+=
+         `<option value="${element}">${element}</option>`
+      });
+      customerSelectedInput.innerHTML=customersSelect;
+
+
+
+       //add option for year filter section
+       const yearList=sendingsData.map(item=>{
+        return(new Date(item.dateOfSending).getFullYear())
+      });
+      console.log(yearList)
+      let uniqueYearList = [];
+      //delete duplicate year
+      yearList.forEach((element) => {
+    if (!uniqueYearList.includes(element)) {
+        uniqueYearList.push(element);
+    }
+      });
+      console.log(uniqueYearList)
+      //sort month ascending
+      uniqueYearList.sort((a,b)=>b-a)
+       let yearContainer='<option value="">All</option>';
+       uniqueYearList.forEach(item=>{
+         yearContainer+= `<option value=${item}>${item}</option>`
+       })
+       this.root.querySelector("#yearSelectedInput").innerHTML=yearContainer
+
+
+      //add option for month filter section
+      const monthList=sendingsData.map(item=>{
+        return(new Date(item.dateOfSending).getMonth()+1)
+      });
+      console.log(monthList)
+      let uniqueMonthList = [];
+      //delete duplicate month
+      monthList.forEach((element) => {
+    if (!uniqueMonthList.includes(element)) {
+        uniqueMonthList.push(element);
+    }
+      });
+      //sort month ascending
+      uniqueMonthList.sort((a,b)=>a-b)
+      let monthContainer='<option value="">All</option>';
+      uniqueMonthList.forEach(item=>{
+        monthContainer+= `<option value=${item}>${item}</option>`
+      })
+      this.root.querySelector("#monthSelectedInput").innerHTML=monthContainer
+
+      //add option for day filter section
+      const dayList=sendingsData.map(item=>{
+        return(new Date(item.dateOfSending).getDate())
+      });
+      console.log(dayList)
+      let uniqueDayList = [];
+      //delete duplicate day
+      dayList.forEach((element) => {
+    if (!uniqueDayList.includes(element)) {
+        uniqueDayList.push(element);
+    }
+      });
+      console.log(uniqueDayList)
+      //sort day ascending
+      uniqueDayList.sort((a,b)=>a-b)
+      let dayContainer='<option value="">All</option>';
+      uniqueDayList.forEach(item=>{
+        dayContainer+= `<option value=${item}>${item}</option>`
+      })
+      this.root.querySelector("#daySelectedInput").innerHTML=dayContainer
+      this.customerFilter
+    }
+
+    
     }
   
