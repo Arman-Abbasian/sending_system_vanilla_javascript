@@ -49,29 +49,30 @@ export default class PageView {
             <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>date of sending :</p><p class="preview dateOfSending"></p></div>
         </div>
         
-        <div class="filtersSection flex flex-col md:flex-row gap-4 shadow-md shadow-slate-100 bg-lightGreen p-2 rounded-md">
-          <div class="filterCustomerProductSection flex justify-between gap-2 items-center w-full">
+        <div class="filtersSection flex flex-col justify-between md:flex-row gap-4 shadow-md shadow-slate-800 bg-lightGreen p-2 rounded-md">
+        <div class="flex justify-center items-center bg-darkGreen drop-shadow-md rounded-sm p-2 font-bold"><p>Filter section</p></div>
+          <div class="filterCustomerProductSection flex justify-between md:justify-start gap-2 items-center w-full">
             <div class="flex justify-center items-center gap-2">
-              <label class="">customer</label>
-              <select id="customerSelectedInput"></select>
+              <label class="font-bold">customer:</label>
+              <select id="customerSelectedInput" class="bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none"></select>
             </div>
-            <div class="flex justify-center items-center gap-2">
-              <label class="">product</label> 
-              <input type="text" id="productWrittenInput" class="w-full" />
+            <div class="flex justify-center items-center gap-1">
+              <label class="font-bold">product:</label> 
+              <input type="text" id="productWrittenInput" class="w-full px-1 bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none" />
             </div>
           </div>
-          <div class="filterDateSection flex justify-between items-center">
-            <div class="flex justify-center items-center gap-2">
-              <label class="">year</label>
-              <select id="yearSelectedInput"></select>
+          <div class="filterDateSection flex justify-between items-center md:gap-2">
+            <div class="flex justify-center items-center gap-1">
+              <label class="font-bold">year:</label>
+              <select id="yearSelectedInput" class="bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none"></select>
             </div>
-            <div class="flex justify-center items-center gap-2">
-              <label class="">month</label>
-              <select id="monthSelectedInput" class="bg-darkGreen rounded-sm"></select>
+            <div class="flex justify-center items-center gap-1">
+              <label class="font-bold">month:</label>
+              <select id="monthSelectedInput" class="bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none"></select>
             </div>
-            <div class="flex justify-center items-center gap-2">
-              <label class="">day</label>
-              <select id="daySelectedInput"></select>
+            <div class="flex justify-center items-center gap-1">
+              <label class="font-bold">day:</label>
+              <select id="daySelectedInput" class="bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none"></select>
             </div>
           </div>
         </div>
@@ -143,16 +144,16 @@ export default class PageView {
       const MAX_PRODUCTNAME_LENGTH = 25;
       return `
       <div class="sendingItemBox grid grid-cols-3 gap-2 shadow-xl bg-gold px-1 py-4  w-full rounded-md cursor-pointer" data-sending-id="${id}">
-          <div class="flex flex-col justify-center items-center gap-3">
+          <div class="flex flex-col md:flex-row md:justify-evenly justify-center items-center gap-3">
             <p class="flex justify-center items-center">${customerName.substring(0, MAX_CUSTOMERNAME_LENGTH)}${customerName.length > MAX_CUSTOMERNAME_LENGTH ? "..." : ""}</p>
             <p class="flex justify-center items-center">${productName.substring(0, MAX_PRODUCTNAME_LENGTH)}${productName.length > MAX_PRODUCTNAME_LENGTH ? "..." : ""}</p>
           </div>
-          <div class="flex flex-col justify-center items-center gap-3">
+          <div class="flex flex-col md:flex-row md:justify-evenly justify-center items-center gap-3">
             <p class="flex justify-center items-center">${numberOfSending}</p>
             <p class="flex justify-center items-center"> ${new Date(dateOfSending).getFullYear()}/${new Date(dateOfSending).getMonth()+1}/${new Date(dateOfSending).getDate()}</p>
           </div>
 
-          <div class="flex flex-col justify-center items-center gap-3">
+          <div class="flex flex-col md:flex-row md:justify-evenly justify-center items-center gap-3">
               <p class="sendingItem flex justify-center items-center" data-sending-id="${id}"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg></p>
@@ -242,6 +243,7 @@ console.log(customerSelectedInput);
             //چون پدرش هم دارای کلیک هست برای جلوگیری از اختلاط رویداد ها از این کد استفاده می کنیم
             e.preventDefault();
             e.stopPropagation();
+            Swal.fire('Any fool can use a computer')
             this.onDeleteSendingData(noteItem.dataset.trash);
           });
         });

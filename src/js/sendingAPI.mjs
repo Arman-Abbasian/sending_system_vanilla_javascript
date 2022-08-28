@@ -1,6 +1,9 @@
 import PageView from "./pageview.mjs";
 //this class is about CRUD operation on DB
   export default class SendingAPI {
+    constructor(Swal){
+      this.Swal=Swal
+    }
     //get all the data from DB () (READ)
     static getAllSending() {
      const sendingData=localStorage.getItem("sendingData") ?JSON.parse(localStorage.getItem("sendingData")):[];
@@ -46,6 +49,7 @@ import PageView from "./pageview.mjs";
       const filteredSendingItems = notes.filter((n) => n.id != id); // 1!== 2, 3!==2
       //put all notes again in DB
       localStorage.setItem("sendingData", JSON.stringify(filteredSendingItems));
+      Swal.fire('Any fool can use a computer')
     }
   }
   
