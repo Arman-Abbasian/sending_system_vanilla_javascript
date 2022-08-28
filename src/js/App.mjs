@@ -49,14 +49,14 @@ export default class App {
         this._refreshSendingItems();
       },
       //input for this method is the id for selected sending item
-      onSelectSendingData: (sendingItemId) => {
+      onEditSendingData: (sendingItemId) => {
         console.log(sendingItemId)
         const selectedSendingItem = this.allSendingData.find((n) => n.id == sendingItemId);
         console.log(selectedSendingItem)
         //input for this method is data for clicked sending item
         this._setActiveSendingItem(selectedSendingItem);
       },
-      onSelectSendingDataBox: (sendingItemId) => {
+      onSelectData: (sendingItemId) => {
         console.log(sendingItemId)
         const selectedSendingItem = this.allSendingData.find((n) => n.id == sendingItemId);
         console.log(selectedSendingItem)
@@ -67,13 +67,107 @@ export default class App {
         SendingAPI.deleteNote(sendingItemId);
         this._refreshSendingItems();
       },
+
+
+       initailsFiltersOptions:(root,allSendingItems)=>{
+        //add option to selectedCustomerInput
+        
+        const customerList=allSendingItems.map(item=>{
+          return(item.customerName)
+        });
+        let uniquecustomerList = [];
+        //delete duplicate customer
+        customerList.forEach((element) => {
+      if (!uniquecustomerList.includes(element)) {
+          uniquecustomerList.push(element);
+      }
+        });
+        let customersSelect=`<option value="">All</option>`;
+        uniquecustomerList.forEach(element => {
+          //add option to selectedCustomerInput
+          customersSelect+=
+           `<option value="${element}">${element}</option>`
+        });
+        customerSelectedInput.innerHTML=customersSelect;
+  
+  
+  
+         //add option for year filter section
+         const yearList=allSendingItems.map(item=>{
+          return(new Date(item.dateOfSending).getFullYear())
+        });
+        console.log(yearList)
+        let uniqueYearList = [];
+        //delete duplicate year
+        yearList.forEach((element) => {
+      if (!uniqueYearList.includes(element)) {
+          uniqueYearList.push(element);
+      }
+        });
+        console.log(uniqueYearList)
+        //sort month ascending
+        uniqueYearList.sort((a,b)=>b-a)
+         let yearContainer='<option value="">All</option>';
+         uniqueYearList.forEach(item=>{
+           yearContainer+= `<option value=${item}>${item}</option>`
+         })
+         root.querySelector("#yearSelectedInput").innerHTML=yearContainer
+  
+  
+        //add option for month filter section
+        const monthList=allSendingItems.map(item=>{
+          return(new Date(item.dateOfSending).getMonth()+1)
+        });
+        console.log(monthList)
+        let uniqueMonthList = [];
+        //delete duplicate month
+        monthList.forEach((element) => {
+      if (!uniqueMonthList.includes(element)) {
+          uniqueMonthList.push(element);
+      }
+        });
+        //sort month ascending
+        uniqueMonthList.sort((a,b)=>a-b)
+        let monthContainer='<option value="">All</option>';
+        uniqueMonthList.forEach(item=>{
+          monthContainer+= `<option value=${item}>${item}</option>`
+        })
+        root.querySelector("#monthSelectedInput").innerHTML=monthContainer
+  
+        //add option for day filter section
+        const dayList=allSendingItems.map(item=>{
+          return(new Date(item.dateOfSending).getDate())
+        });
+        console.log(dayList)
+        let uniqueDayList = [];
+        //delete duplicate day
+        dayList.forEach((element) => {
+      if (!uniqueDayList.includes(element)) {
+          uniqueDayList.push(element);
+      }
+        });
+        console.log(uniqueDayList)
+        //sort day ascending
+        uniqueDayList.sort((a,b)=>a-b)
+        let dayContainer='<option value="">All</option>';
+        uniqueDayList.forEach(item=>{
+          dayContainer+= `<option value=${item}>${item}</option>`
+        })
+        root.querySelector("#daySelectedInput").innerHTML=dayContainer
+      },
+
       filterSendingItem:(filterOptions)=>{
-        console.log(filterOptions)
+        console.log(this.allSendingData)
         const filteredCustomer=this.allSendingData.filter(item=>item.customerName.includes(filterOptions.customerFilter));
-        const filteredProduct=filteredCustomer.filter(item=>item.productName.includes(filterOptions.productFilter));
+        console.log(filteredCustomer)
+        const filteredProduct=filteredCustomer.filter(item=>(item.productName.toLowerCase()).includes(filterOptions.productFilter.toLowerCase()));
+        console.log(filteredProduct)
         const filteredYear=filteredProduct.filter(item=>(new Date(item.dateOfSending).getFullYear()).toString().includes(filterOptions.yearFilter));
+        console.log(filteredYear)
         const filteredMonth=filteredYear.filter(item=>(new Date(item.dateOfSending).getMonth()+1).toString().includes(filterOptions.monthFilter));
-        const filteredDay=filteredMonth.filter(item=>(new Date(item.dateOfSending).getFullYear()).toString().includes(filterOptions.dayFilter));
+        console.log(filteredMonth)
+        const filteredDay=filteredMonth.filter(item=>(new Date(item.dateOfSending).getDate()).toString().includes(filterOptions.dayFilter));
+        console.log(filteredDay)
         this.view.updateSendingList(filteredDay)
       },
       productFilter:(selectedProduct)=>{
@@ -88,11 +182,9 @@ export default class App {
         this.view.updateSendingList(filteredYear)
       },
       monthFilter:(selectedMonth)=>{
-        
         this.view.updateSendingList(filteredCustomer)
       },
-      dayFilter:(selectedDay)=>{
-        
+      dayFilter:(selectedDay)=>{  
         this.view.updateSendingList(filteredCustomer)
       },
     };

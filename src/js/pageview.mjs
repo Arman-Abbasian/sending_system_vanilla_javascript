@@ -3,22 +3,23 @@ import SendingAPI from "./sendingAPI.mjs";
 export default class PageView {
   //به عنوان ورودی به کانستراکتور ی تگ پدر می دی 
     constructor(root, handlers,sendingDataa,filterOptions) {
-    const allSending= this.allSendingItem=SendingAPI.getAllSending(); 
+    const allSending=SendingAPI.getAllSending(); 
       //این جا به(روت)دسترسی نداریم به همین خاطر به عنوان ورودی پاسش میدیم
       //کلا به هر مقداری (استیتی) که در هر ماژول دسترسی نداریم به عنوان ورودی به اون کلاس پاس می دیم تا در ماژول مربوطه مقدارش رو بهش بدیم
       //get the parent of all element in sheet
       this.root = root;
       //add events in sheet(all events that hanppen on element but that elements that are made in initail load)
-      const { onAddSendingData,  onSelectSendingData, onDeleteSendingData,onSelectSendingDataBox,
-        filterSendingItem} = handlers;
+      const { onAddSendingData,  onEditSendingData, onDeleteSendingData,onSelectData,
+        initailsFiltersOptions, filterSendingItem} = handlers;
       this.onAddSendingData = onAddSendingData;
-      this.onSelectSendingData = onSelectSendingData;
+      this.onEditSendingData = onEditSendingData;
       this.onDeleteSendingData = onDeleteSendingData;
-      this.onSelectSendingDataBox=onSelectSendingDataBox;
+      this.onSelectData=onSelectData;
+      this.initailsFiltersOptions=initailsFiltersOptions;
       this.filterSendingItem=filterSendingItem;
       this.sendingDataa=sendingDataa;
       this.filterOptions=filterOptions
-      console.log(filterOptions,sendingDataa);
+      console.log(filterOptions);
       //make the static appearance of the sheet
       this.root.innerHTML = `
       <div id="box"></div>
@@ -46,16 +47,35 @@ export default class PageView {
             <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>product Name :</p><p class="preview productName"></p></div>
             <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>number of sending :</p><p class="preview numberOfSending"></p></div>
             <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>date of sending :</p><p class="preview dateOfSending"></p></div>
-        <div class="filterCustomerProductSection flex justify-between items-center">
-          <select id="customerSelectedInput"></select> 
-          <input type="text" id="ProductSelectedInput"></input>
         </div>
-        <div class="filterDateSection flex justify-between items-center">
-        <select id="yearSelectedInput"></select>
-        <select id="monthSelectedInput"></select>
-        <select id="daySelectedInput"></select>
+        
+        <div class="filtersSection flex flex-col md:flex-row gap-4 shadow-md shadow-slate-100 bg-lightGreen p-2 rounded-md">
+          <div class="filterCustomerProductSection flex justify-between gap-2 items-center w-full">
+            <div class="flex justify-center items-center gap-2">
+              <label class="">customer</label>
+              <select id="customerSelectedInput"></select>
+            </div>
+            <div class="flex justify-center items-center gap-2">
+              <label class="">product</label> 
+              <input type="text" id="productWrittenInput" class="w-full" />
+            </div>
+          </div>
+          <div class="filterDateSection flex justify-between items-center">
+            <div class="flex justify-center items-center gap-2">
+              <label class="">year</label>
+              <select id="yearSelectedInput"></select>
+            </div>
+            <div class="flex justify-center items-center gap-2">
+              <label class="">month</label>
+              <select id="monthSelectedInput" class="bg-darkGreen rounded-sm"></select>
+            </div>
+            <div class="flex justify-center items-center gap-2">
+              <label class="">day</label>
+              <select id="daySelectedInput"></select>
+            </div>
+          </div>
         </div>
-        </div>
+
         <div id="sendings_data_container" class="flex flex-col gap-2 p-2"></div>
     </div>
       `;
@@ -107,7 +127,7 @@ export default class PageView {
         dateOfSending.textContent=`${new Date(datee).getFullYear()}/${new Date(datee).getMonth()+1}/${new Date(datee).getDate()}`
       });
 
-      PageView.makeFilters(allSending);
+      this.initailsFiltersOptions(this.root,allSending);
       
       }
 
@@ -168,13 +188,13 @@ export default class PageView {
 
 
 console.log(customerSelectedInput);
-//)
       customerSelectedInput.addEventListener("change",(e)=>{
         this.filterOptions.customerFilter=e.target.value;
         console.log(this.filterOptions)
         this.filterSendingItem(this.filterOptions)
       });
-      productSelectedInput.addEventListener("input",(e)=>{
+      console.log(productWrittenInput);
+      productWrittenInput.addEventListener("input",(e)=>{
         this.filterOptions.productFilter=e.target.value;
         console.log(this.filterOptions)
         this.filterSendingItem(this.filterOptions)
@@ -200,7 +220,7 @@ console.log(customerSelectedInput);
       sendingsDataContainer.querySelectorAll(".sendingItemBox").forEach((sendingDataBox) => {
         sendingDataBox.addEventListener("click", () =>{
           //input for this method is id
-          this.onSelectSendingDataBox(sendingDataBox.dataset.sendingId)
+          this.onSelectData(sendingDataBox.dataset.sendingId)
         }
         );
       });
@@ -210,7 +230,7 @@ console.log(customerSelectedInput);
         sendingData.addEventListener("click", (e) =>{
           //input for this method is id
           e.stopPropagation();
-          this.onSelectSendingData(sendingData.dataset.sendingId)
+          this.onEditSendingData(sendingData.dataset.sendingId)
         }
         );
       });
@@ -270,94 +290,5 @@ console.log(customerSelectedInput);
         
     }
 
-    makeFilters(allSendingItems){
-      //add option to selectedCustomerInput
-      
-      const customerList=sendingsData.map(item=>{
-        return(item.customerName)
-      });
-      let uniquecustomerList = [];
-      //delete duplicate customer
-      customerList.forEach((element) => {
-    if (!uniquecustomerList.includes(element)) {
-        uniquecustomerList.push(element);
-    }
-      });
-      let customersSelect=`<option value="">All</option>`;
-      uniquecustomerList.forEach(element => {
-        //add option to selectedCustomerInput
-        customersSelect+=
-         `<option value="${element}">${element}</option>`
-      });
-      customerSelectedInput.innerHTML=customersSelect;
-
-
-
-       //add option for year filter section
-       const yearList=sendingsData.map(item=>{
-        return(new Date(item.dateOfSending).getFullYear())
-      });
-      console.log(yearList)
-      let uniqueYearList = [];
-      //delete duplicate year
-      yearList.forEach((element) => {
-    if (!uniqueYearList.includes(element)) {
-        uniqueYearList.push(element);
-    }
-      });
-      console.log(uniqueYearList)
-      //sort month ascending
-      uniqueYearList.sort((a,b)=>b-a)
-       let yearContainer='<option value="">All</option>';
-       uniqueYearList.forEach(item=>{
-         yearContainer+= `<option value=${item}>${item}</option>`
-       })
-       this.root.querySelector("#yearSelectedInput").innerHTML=yearContainer
-
-
-      //add option for month filter section
-      const monthList=sendingsData.map(item=>{
-        return(new Date(item.dateOfSending).getMonth()+1)
-      });
-      console.log(monthList)
-      let uniqueMonthList = [];
-      //delete duplicate month
-      monthList.forEach((element) => {
-    if (!uniqueMonthList.includes(element)) {
-        uniqueMonthList.push(element);
-    }
-      });
-      //sort month ascending
-      uniqueMonthList.sort((a,b)=>a-b)
-      let monthContainer='<option value="">All</option>';
-      uniqueMonthList.forEach(item=>{
-        monthContainer+= `<option value=${item}>${item}</option>`
-      })
-      this.root.querySelector("#monthSelectedInput").innerHTML=monthContainer
-
-      //add option for day filter section
-      const dayList=sendingsData.map(item=>{
-        return(new Date(item.dateOfSending).getDate())
-      });
-      console.log(dayList)
-      let uniqueDayList = [];
-      //delete duplicate day
-      dayList.forEach((element) => {
-    if (!uniqueDayList.includes(element)) {
-        uniqueDayList.push(element);
-    }
-      });
-      console.log(uniqueDayList)
-      //sort day ascending
-      uniqueDayList.sort((a,b)=>a-b)
-      let dayContainer='<option value="">All</option>';
-      uniqueDayList.forEach(item=>{
-        dayContainer+= `<option value=${item}>${item}</option>`
-      })
-      this.root.querySelector("#daySelectedInput").innerHTML=dayContainer
-      this.customerFilter
-    }
-
     
     }
-  
