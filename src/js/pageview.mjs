@@ -243,7 +243,6 @@ console.log(customerSelectedInput);
             //چون پدرش هم دارای کلیک هست برای جلوگیری از اختلاط رویداد ها از این کد استفاده می کنیم
             e.preventDefault();
             e.stopPropagation();
-            Swal.fire('Any fool can use a computer')
             this.onDeleteSendingData(noteItem.dataset.trash);
           });
         });
@@ -272,11 +271,13 @@ console.log(customerSelectedInput);
       console.log(this.sendingDataa)
       //  remove 'notes__list-item--selected' from all note items
       this.root.querySelectorAll(".sendingItem").forEach((item) => {
-        item.classList.remove("bg-blue-700");
+        console.log(item.parentElement.parentElement)
+        item.parentElement.parentElement.classList.remove("bg-lime-400");
       });
        //add 'notes__list-item--selected' to the selected note item
       this.root.querySelector(`.sendingItem[data-sending-id="${sendingItem.id}"]`)
-       .classList.add("bg-blue-700");
+      .parentElement.parentElement
+       .classList.add("bg-lime-400");
     }
 
     showFixedPart(selectedBoxId){

@@ -2,8 +2,7 @@ import PageView from "./pageview.mjs";
 import SendingAPI from "./sendingAPI.mjs";
 
 export default class App {
-  constructor(root,Swal) {
-    new SendingAPI(Swal)
+  constructor(root) {
     //here we should put a variable for all data
     this.allSendingData = [];
     this.activeSendingItem = null;
