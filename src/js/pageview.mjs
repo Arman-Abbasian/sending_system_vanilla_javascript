@@ -77,7 +77,7 @@ export default class PageView {
           </div>
         </div>
 
-        <div id="sendings_data_container" class="flex flex-col gap-2 p-2"></div>
+        <div id="sendings_data_container" class="flex flex-col gap-2 mt-4"></div>
     </div>
       `;
       //get the needed elements(element that we want to add events to them)
@@ -140,13 +140,11 @@ export default class PageView {
   //method for creating one list item
     _creatListItemHTML(id, customerName, productName, numberOfSending, dateOfSending){
       console.log(dateOfSending)
-      const MAX_CUSTOMERNAME_LENGTH = 15;
-      const MAX_PRODUCTNAME_LENGTH = 25;
       return `
-      <div class="sendingItemBox grid grid-cols-3 gap-2 shadow-xl bg-gold px-1 py-4  w-full rounded-md cursor-pointer" data-sending-id="${id}">
+      <div class="sendingItemBox grid grid-cols-3 gap-2 text-[9px] sm:text-xs md:text-sm shadow-xl bg-gold px-1 py-4  w-full rounded-md cursor-pointer" data-sending-id="${id}">
           <div class="flex flex-col md:flex-row md:justify-evenly justify-center items-center gap-3">
-            <p class="flex justify-center items-center">${customerName.substring(0, MAX_CUSTOMERNAME_LENGTH)}${customerName.length > MAX_CUSTOMERNAME_LENGTH ? "..." : ""}</p>
-            <p class="flex justify-center items-center">${productName.substring(0, MAX_PRODUCTNAME_LENGTH)}${productName.length > MAX_PRODUCTNAME_LENGTH ? "..." : ""}</p>
+            <p class="flex justify-center items-center">${customerName}</p>
+            <p class="flex justify-center items-center">${productName}</p>
           </div>
           <div class="flex flex-col md:flex-row md:justify-evenly justify-center items-center gap-3">
             <p class="flex justify-center items-center">${numberOfSending}</p>
