@@ -44,40 +44,46 @@ export default class PageView {
             </div>
             <button id="addButton" class="p-2 bg-lightGreen rounded-md mb-3 hover:bg-darkGreen hover:text-white">Add</button>
         </form>
-        <div class="previeww flex flex-col gap-4 p-4 border-emerald-400 border-2 rounded-md mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 md:gap-3">
+
+          <div class="previeww flex flex-col gap-4 p-4 bg-lightGreen rounded-md mb-6">
             <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>customer name :</p><p class="preview customerName"></p></div>
             <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>product Name :</p><p class="preview productName"></p></div>
             <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>number of sending :</p><p class="preview numberOfSending"></p></div>
             <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>date of sending :</p><p class="preview dateOfSending"></p></div>
-        </div>
+          </div>
+          
         
-        <div class="showFilterSection flex justify-center items-center bg-darkGreen drop-shadow-md rounded-sm p-2 font-bold"><p>show Filter section</p></div>
-        <div class="filtersSection hidden flex-col justify-between md:flex-row gap-4 shadow-md shadow-slate-800 bg-lightGreen p-2 rounded-md">
-        <div class="hideFilterSection flex justify-center items-center bg-red-600 drop-shadow-md rounded-sm p-2 font-bold"><p>hide Filter section</p></div>
-          <div class="filterCustomerProductSection flex justify-between md:justify-start gap-2 items-center w-full">
-            <div class="flex justify-center items-center gap-2">
-              <label class="font-bold">customer:</label>
-              <select id="customerSelectedInput" class="bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none"></select>
+        <div>
+          <div class="showFilterSection flex justify-center items-center bg-darkGreen drop-shadow-md rounded-sm p-2 font-bold cursor-pointer transition-all duration-1000 hover:bg-lightGreen"><p>show Filter section</p></div>
+          <div class="filtersSection hidden flex-col justify-between gap-4 shadow-md shadow-slate-800 bg-lightGreen p-2 rounded-md">
+          <div class="hideFilterSection flex justify-center items-center bg-red-700 drop-shadow-md rounded-sm p-2 font-bold cursor-pointer transition duration-1000 hover:bg-red-500"><p>hide Filter section</p></div>
+            <div class="filterCustomerProductSection flex justify-between md:justify-start gap-2 items-center w-full">
+              <div class="flex justify-center items-center gap-2">
+                <label class="font-bold">customer:</label>
+                <select id="customerSelectedInput" class="bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none"></select>
+              </div>
+              <div class="flex justify-center items-center gap-1">
+                <label class="font-bold">product:</label> 
+                <input type="text" id="productWrittenInput" class="w-full px-1 bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none" />
+              </div>
             </div>
-            <div class="flex justify-center items-center gap-1">
-              <label class="font-bold">product:</label> 
-              <input type="text" id="productWrittenInput" class="w-full px-1 bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none" />
+            <div class="filterDateSection flex justify-between items-center md:gap-2">
+              <div class="flex justify-center items-center gap-1">
+                <label class="font-bold">year:</label>
+                <select id="yearSelectedInput" class="bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none"></select>
+              </div>
+              <div class="flex justify-center items-center gap-1">
+                <label class="font-bold">month:</label>
+                <select id="monthSelectedInput" class="bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none"></select>
+              </div>
+              <div class="flex justify-center items-center gap-1">
+                <label class="font-bold">day:</label>
+                <select id="daySelectedInput" class="bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none"></select>
+              </div>
             </div>
           </div>
-          <div class="filterDateSection flex justify-between items-center md:gap-2">
-            <div class="flex justify-center items-center gap-1">
-              <label class="font-bold">year:</label>
-              <select id="yearSelectedInput" class="bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none"></select>
-            </div>
-            <div class="flex justify-center items-center gap-1">
-              <label class="font-bold">month:</label>
-              <select id="monthSelectedInput" class="bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none"></select>
-            </div>
-            <div class="flex justify-center items-center gap-1">
-              <label class="font-bold">day:</label>
-              <select id="daySelectedInput" class="bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none"></select>
-            </div>
-          </div>
+        </div>
         </div>
 
         <div id="sendings_data_container" class="flex flex-col gap-2 mt-4"></div>
@@ -97,7 +103,8 @@ export default class PageView {
       let hideFilterSectionn=this.root.querySelector(".hideFilterSection");
 
       //click on show filter button
-      showFilterSectionn.addEventListener("click",(e)=>showFilterSection(e))
+      showFilterSectionn.addEventListener("click",(e)=>showFilterSection(e));
+      hideFilterSectionn.addEventListener("click",(e)=>hideFilterSection(e))
   
       //add events to the choosed elements
       addOneSendingItemBtn.addEventListener("click", (e) => {

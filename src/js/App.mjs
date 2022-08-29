@@ -195,10 +195,10 @@ export default class App {
         console.log(this.view.root.querySelector(".filtersSection"));
       },
       hideFilterSection:(e)=>{
-        (this.view.root.querySelector(".showFilterSection").classList.add("hidden"));
-        console.log(this.view.root.querySelector(".filtersSection"));
-        (this.view.root.querySelector(".filtersSection").classList.remove("hidden"));
-        (this.view.root.querySelector(".filtersSection").classList.add("flex"));
+        (this.view.root.querySelector(".filtersSection").classList.remove("flex"));
+        (this.view.root.querySelector(".filtersSection").classList.add("hidden"));
+        (this.view.root.querySelector(".showFilterSection").classList.add("flex"));
+        (this.view.root.querySelector(".showFilterSection").classList.remove("hidden"));
         console.log(this.view.root.querySelector(".filtersSection"));
       },
     };
