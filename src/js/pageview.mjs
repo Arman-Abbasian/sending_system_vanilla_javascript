@@ -10,7 +10,7 @@ export default class PageView {
       this.root = root;
       //add events in sheet(all events that hanppen on element but that elements that are made in initail load)
       const { onAddSendingData,  onEditSendingData, onDeleteSendingData,onSelectData,
-        initailsFiltersOptions, filterSendingItem, showFilterSection, hideFilterSection} = handlers;
+        initailsFiltersOptions, filterSendingItem, showFilterSection, hideFilterSection, closeBox} = handlers;
       this.onAddSendingData = onAddSendingData;
       this.onEditSendingData = onEditSendingData;
       this.onDeleteSendingData = onDeleteSendingData;
@@ -21,26 +21,27 @@ export default class PageView {
       this.filterOptions=filterOptions;
       this.showFilterSection=showFilterSection;
       this.hideFilterSection=hideFilterSection;
+      this.closeBox=closeBox;
       console.log(filterOptions);
       //make the static appearance of the sheet
       this.root.innerHTML = `
-      <div id="box"></div>
+      <div id="box" class="fixed w-screen h-screen bg-opacity-60 right-0 top-0 bg-white z-50  justify-center items-center p-8 hidden"></div>
         <form class="formm flex flex-col gap-4">
             <div class="w-full gap-8 flex justify-between items-center">
                 <label class="w-1/2 "><p class="flex justify-center items-center p-2 bg-lightGray text-white rounded-md">customer Name</p></label>
-                <input id="customerName_input" type="text" name="customerName" class="p-2 input w-1/2 border-2 border-lightGreen rounded-md focus:outline-none focus:border-darkGreen" />
+                <input id="customerName_input" type="text" name="customerName" required class="p-2 input w-1/2 border-2 border-lightGreen rounded-md focus:outline-none focus:border-darkGreen">
             </div>
             <div class="w-full gap-8 flex justify-between items-center">
                 <label class="w-1/2"><p class="flex justify-center items-center p-2 bg-lightGray text-white rounded-md">product Name</p></label>
-                <input id="productName_input" type="text" name="productName" class="p-2 input w-1/2 border-2 border-lightGreen rounded-md focus:outline-none focus:border-darkGreen" />
+                <input id="productName_input" type="text" name="productName" required class="p-2 input w-1/2 border-2 border-lightGreen rounded-md focus:outline-none focus:border-darkGreen" />
             </div>
             <div class="w-full gap-8 flex justify-between items-center">
                 <label class="w-1/2"><p class="flex justify-center items-center p-2 bg-lightGray text-white rounded-md">number of sending</p></label>
-                <input id="numberOfSending_input" type="number" name="numberOfSending" class="p-2 input w-1/2 border-2 border-lightGreen rounded-md focus:outline-none focus:border-darkGreen" />
+                <input id="numberOfSending_input" type="number" name="numberOfSending" required class="p-2 input w-1/2 border-2 border-lightGreen rounded-md focus:outline-none focus:border-darkGreen" />
             </div>
             <div class="w-full gap-8 flex justify-between items-center">
                 <label class="w-1/2"><p class="flex justify-center items-center p-2 bg-lightGray text-white rounded-md w-full">date of sending</p></label>
-                <input id="dateOfSending_input" class="p-2 input w-1/2 border-2 border-lightGreen rounded-md focus:outline-none focus:border-darkGreen" type="date" name="dateOfSending">
+                <input id="dateOfSending_input" class="p-2 input w-1/2 border-2 required border-lightGreen rounded-md focus:outline-none focus:border-darkGreen" type="date" name="dateOfSending">
             </div>
             <button id="addButton" class="p-2 bg-lightGreen rounded-md mb-3 hover:bg-darkGreen hover:text-white">Add</button>
         </form>
@@ -101,11 +102,16 @@ export default class PageView {
       let dateOfSending = this.root.querySelector(".dateOfSending");
       let showFilterSectionn=this.root.querySelector(".showFilterSection");
       let hideFilterSectionn=this.root.querySelector(".hideFilterSection");
+      
 
       //click on show filter button
       showFilterSectionn.addEventListener("click",(e)=>showFilterSection(e));
-      hideFilterSectionn.addEventListener("click",(e)=>hideFilterSection(e))
+      hideFilterSectionn.addEventListener("click",(e)=>hideFilterSection(e));
+
+      //click on close icon when box is showed
   
+        // closeBoxx.addEventListener("click",(e)=>console.log(e.target.value))
+
       //add events to the choosed elements
       addOneSendingItemBtn.addEventListener("click", (e) => {
         e.preventDefault();
@@ -295,14 +301,20 @@ console.log(customerSelectedInput);
 
     showFixedPart(selectedBoxId){
         console.log(selectedBoxId);
-        const formTag=this.root.querySelector(".formm");
-        console.log(formTag)
-        const box=`<div class="fixed w-screen h-screen bg-opacity-60 right-0 top-0 bg-white z-50 flex justify-start items-center p-8">
-        <p class="p-10 bg-lightGreen rounded-md text-base">you sent ${selectedBoxId.numberOfSending} numbers of ${selectedBoxId.productName} for ${selectedBoxId.customerName} in date ${new Date (selectedBoxId.dateOfSending).getFullYear()}/${new Date (selectedBoxId.dateOfSending).getMonth()+1}/${new Date (selectedBoxId.dateOfSending).getDate()}</p>
+        const box=`<div>
+        <p class="p-10 bg-lightGreen rounded-md text-base relative">you sent <span class="text-blue-800">${selectedBoxId.numberOfSending}</span> numbers of <span class="text-blue-800">${selectedBoxId.productName}</span> for <span class="text-blue-800">${selectedBoxId.customerName}</span> in date <span class="text-blue-800">${new Date (selectedBoxId.dateOfSending).getFullYear()}/${new Date (selectedBoxId.dateOfSending).getMonth()+1}/${new Date (selectedBoxId.dateOfSending).getDate()}<span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="closeBox w-6 h-6 absolute right-0 top-0 text-red-600 cursor-pointer">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </p>
       </div>`
       console.log(box)
       const boxx=this.root.querySelector("#box");
+      boxx.classList.remove("hidden")
+      boxx.classList.add("flex")
       boxx.innerHTML=box;
+      let closeBoxx=this.root.querySelector(".closeBox");
+      closeBoxx.addEventListener("click",()=>this.closeBox())
         
     }
 

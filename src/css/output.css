@@ -600,6 +600,14 @@ video {
   position: fixed;
 }
 
+.absolute {
+  position: absolute;
+}
+
+.relative {
+  position: relative;
+}
+
 .right-0 {
   right: 0px;
 }
@@ -887,6 +895,18 @@ video {
   font-family: 'Yellowtail';
 }
 
+.font-\[\'\'\] {
+  font-family: '';
+}
+
+.font-\[\'play\'\] {
+  font-family: 'play';
+}
+
+.font-\[\'playball\'\] {
+  font-family: 'playball';
+}
+
 .text-\[9px\] {
   font-size: 9px;
 }
@@ -923,6 +943,16 @@ video {
 .text-red-500 {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity));
+}
+
+.text-blue-800 {
+  --tw-text-opacity: 1;
+  color: rgb(30 64 175 / var(--tw-text-opacity));
+}
+
+.text-red-600 {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity));
 }
 
 .shadow-md {

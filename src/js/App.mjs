@@ -155,7 +155,6 @@ export default class App {
         })
         root.querySelector("#daySelectedInput").innerHTML=dayContainer
       },
-
       filterSendingItem:(filterOptions)=>{
         console.log(this.allSendingData)
         const filteredCustomer=this.allSendingData.filter(item=>item.customerName.includes(filterOptions.customerFilter));
@@ -201,6 +200,10 @@ export default class App {
         (this.view.root.querySelector(".showFilterSection").classList.remove("hidden"));
         console.log(this.view.root.querySelector(".filtersSection"));
       },
+      closeBox:()=>{
+        this.view.root.querySelector("#box").classList.add("hidden");
+        this.view.root.querySelector("#box").classList.remove("flex");
+      }
     };
   }
 }
