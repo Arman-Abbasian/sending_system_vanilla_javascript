@@ -187,6 +187,20 @@ export default class App {
       dayFilter:(selectedDay)=>{  
         this.view.updateSendingList(filteredCustomer)
       },
+      showFilterSection:(e)=>{
+        (this.view.root.querySelector(".showFilterSection").classList.add("hidden"));
+        console.log(this.view.root.querySelector(".filtersSection"));
+        (this.view.root.querySelector(".filtersSection").classList.remove("hidden"));
+        (this.view.root.querySelector(".filtersSection").classList.add("flex"));
+        console.log(this.view.root.querySelector(".filtersSection"));
+      },
+      hideFilterSection:(e)=>{
+        (this.view.root.querySelector(".showFilterSection").classList.add("hidden"));
+        console.log(this.view.root.querySelector(".filtersSection"));
+        (this.view.root.querySelector(".filtersSection").classList.remove("hidden"));
+        (this.view.root.querySelector(".filtersSection").classList.add("flex"));
+        console.log(this.view.root.querySelector(".filtersSection"));
+      },
     };
   }
 }

@@ -10,7 +10,7 @@ export default class PageView {
       this.root = root;
       //add events in sheet(all events that hanppen on element but that elements that are made in initail load)
       const { onAddSendingData,  onEditSendingData, onDeleteSendingData,onSelectData,
-        initailsFiltersOptions, filterSendingItem} = handlers;
+        initailsFiltersOptions, filterSendingItem, showFilterSection, hideFilterSection} = handlers;
       this.onAddSendingData = onAddSendingData;
       this.onEditSendingData = onEditSendingData;
       this.onDeleteSendingData = onDeleteSendingData;
@@ -18,7 +18,9 @@ export default class PageView {
       this.initailsFiltersOptions=initailsFiltersOptions;
       this.filterSendingItem=filterSendingItem;
       this.sendingDataa=sendingDataa;
-      this.filterOptions=filterOptions
+      this.filterOptions=filterOptions;
+      this.showFilterSection=showFilterSection;
+      this.hideFilterSection=hideFilterSection;
       console.log(filterOptions);
       //make the static appearance of the sheet
       this.root.innerHTML = `
@@ -49,8 +51,9 @@ export default class PageView {
             <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>date of sending :</p><p class="preview dateOfSending"></p></div>
         </div>
         
-        <div class="filtersSection flex flex-col justify-between md:flex-row gap-4 shadow-md shadow-slate-800 bg-lightGreen p-2 rounded-md">
-        <div class="flex justify-center items-center bg-darkGreen drop-shadow-md rounded-sm p-2 font-bold"><p>Filter section</p></div>
+        <div class="showFilterSection flex justify-center items-center bg-darkGreen drop-shadow-md rounded-sm p-2 font-bold"><p>show Filter section</p></div>
+        <div class="filtersSection hidden flex-col justify-between md:flex-row gap-4 shadow-md shadow-slate-800 bg-lightGreen p-2 rounded-md">
+        <div class="hideFilterSection flex justify-center items-center bg-red-600 drop-shadow-md rounded-sm p-2 font-bold"><p>hide Filter section</p></div>
           <div class="filterCustomerProductSection flex justify-between md:justify-start gap-2 items-center w-full">
             <div class="flex justify-center items-center gap-2">
               <label class="font-bold">customer:</label>
@@ -90,6 +93,11 @@ export default class PageView {
       let productName = this.root.querySelector(".productName");
       let numberOfSending = this.root.querySelector(".numberOfSending");
       let dateOfSending = this.root.querySelector(".dateOfSending");
+      let showFilterSectionn=this.root.querySelector(".showFilterSection");
+      let hideFilterSectionn=this.root.querySelector(".hideFilterSection");
+
+      //click on show filter button
+      showFilterSectionn.addEventListener("click",(e)=>showFilterSection(e))
   
       //add events to the choosed elements
       addOneSendingItemBtn.addEventListener("click", (e) => {
