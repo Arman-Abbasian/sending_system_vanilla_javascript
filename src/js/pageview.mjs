@@ -91,7 +91,7 @@ export default class PageView {
         <div id="sendings_data_container" class="flex flex-col gap-2 mt-4"></div>
     </div>
       `;
-      //get the needed elements(element that we want to add events to them)
+      //get the needed elements(element that we want to add events to them and are in initeial load on website)
       let addOneSendingItemBtn = this.root.querySelector("#addButton");
       let customerName_input = this.root.querySelector("#customerName_input");
       let productName_input = this.root.querySelector("#productName_input");
@@ -103,6 +103,8 @@ export default class PageView {
       let dateOfSending = this.root.querySelector(".dateOfSending");
       let showFilterSectionn=this.root.querySelector(".showFilterSection");
       let hideFilterSectionn=this.root.querySelector(".hideFilterSection");
+
+      //in this part we say which function doing when some events is triggered on elements(this section is place for using handlers)
       
 
       //click on show filter button
@@ -115,10 +117,11 @@ export default class PageView {
         console.log(this.sendingDataa)
         //input for this methos is sendig Item data object 
         this.onAddSendingData(this.sendingDataa);
+        //empty all data in form section
         ([...this.root.querySelectorAll(".input")]).forEach(element => {
           element.value="";
        });
-        //delete all data in previeww class section
+        //empty all data in previeww  section
         ([...this.root.querySelectorAll(".preview")]).forEach(element => {
           element.textContent="";
        });
@@ -149,7 +152,6 @@ export default class PageView {
       this.initailsFiltersOptions(this.root,allSending);
       
       }
-
 
 
 
@@ -184,14 +186,11 @@ export default class PageView {
     updateSendingList(sendingsData) {
       const sendingsDataContainer = this.root.querySelector("#sendings_data_container");
       //get note list items area
-      //  empty all the notes in noteList
+      //  empty all the sending container sectio in website
       sendingsDataContainer.innerHTML = "";
       // put a empty container
       let sendingsDataList = "";
-      //loop in all notes and add them to noteList variable
-
-
-
+      //loop in all sending items and add them to noteList variable
       for (const sendingData of sendingsData) {
         const { id, customerName, productName, numberOfSending, dateOfSending } = sendingData;
         console.log(new Date(dateOfSending).toDateString())
@@ -204,7 +203,7 @@ export default class PageView {
       sendingsDataContainer.innerHTML= sendingsDataList;
 
 
-console.log(customerSelectedInput);
+      console.log(customerSelectedInput);
       customerSelectedInput.addEventListener("change",(e)=>{
         this.filterOptions.customerFilter=e.target.value;
         console.log(this.filterOptions)

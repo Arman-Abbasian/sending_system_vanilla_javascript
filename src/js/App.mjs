@@ -71,7 +71,6 @@ export default class App {
 
        initailsFiltersOptions:(root,allSendingItems)=>{
         //add option to selectedCustomerInput
-        
         const customerList=allSendingItems.map(item=>{
           return(item.customerName)
         });
