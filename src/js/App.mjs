@@ -4,6 +4,7 @@ import SendingAPI from "./sendingAPI.mjs";
 export default class App {
   constructor(root) {
     //here we should put a variable for all data
+    this.root=root;
     this.allSendingData = [];
     this.activeSendingItem = null;
     const sendingDataa={id:null,customerName:"",productName:"",numberOfSending:"",dateOfSending:""};
@@ -14,6 +15,7 @@ export default class App {
     this._refreshSendingItems();
     console.log(this.allSendingData)
   }
+
   _refreshSendingItems() {
     //get all sending data from DB
     const sendingItems =SendingAPI.getAllSending();
@@ -154,6 +156,7 @@ export default class App {
         })
         root.querySelector("#daySelectedInput").innerHTML=dayContainer
       },
+      //برای این که با هر فیلتر بقیه فیلتر های قبلی از بین نرن محبوریم با هر تغییر روی هر فیلتر بقیه فیلتر ها رو مجددا چک کنیم
       filterSendingItem:(filterOptions)=>{
         console.log(this.allSendingData)
         const filteredCustomer=this.allSendingData.filter(item=>item.customerName.includes(filterOptions.customerFilter));
@@ -167,23 +170,6 @@ export default class App {
         const filteredDay=filteredMonth.filter(item=>(new Date(item.dateOfSending).getDate()).toString().includes(filterOptions.dayFilter));
         console.log(filteredDay)
         this.view.updateSendingList(filteredDay)
-      },
-      productFilter:(selectedProduct)=>{
-        const filteredProduct=this.allSendingData.filter(item=>item.productName.includes(selectedCustomer));
-        this.view.updateSendingList(filteredProduct)
-      },
-      yearFilter:(selectedYear)=>{
-        console.log(typeof (selectedYear))
-        console.log(new Date(this.allSendingData[0].dateOfSending).getFullYear())
-        const filteredYear=this.allSendingData.filter(item=>(new Date(item.dateOfSending).getFullYear()).toString().includes(selectedYear));
-        console.log(filteredYear)
-        this.view.updateSendingList(filteredYear)
-      },
-      monthFilter:(selectedMonth)=>{
-        this.view.updateSendingList(filteredCustomer)
-      },
-      dayFilter:(selectedDay)=>{  
-        this.view.updateSendingList(filteredCustomer)
       },
       showFilterSection:(e)=>{
         (this.view.root.querySelector(".showFilterSection").classList.add("hidden"));

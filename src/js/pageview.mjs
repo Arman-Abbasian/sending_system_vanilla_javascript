@@ -150,7 +150,34 @@ export default class PageView {
       });
 
       this.initailsFiltersOptions(this.root,allSending);
-      
+
+      customerSelectedInput.addEventListener("change",(e)=>{
+        this.filterOptions.customerFilter=e.target.value;
+        console.log(this.filterOptions)
+        this.filterSendingItem(this.filterOptions)
+      });
+      console.log(productWrittenInput);
+      productWrittenInput.addEventListener("input",(e)=>{
+        this.filterOptions.productFilter=e.target.value;
+        console.log(this.filterOptions)
+        this.filterSendingItem(this.filterOptions)
+      });
+      yearSelectedInput.addEventListener("change",(e)=>{
+        this.filterOptions.yearFilter=e.target.value;
+        console.log(this.filterOptions)
+        this.filterSendingItem(this.filterOptions) 
+      });
+      monthSelectedInput.addEventListener("change",(e)=>{
+        this.filterOptions.monthFilter=e.target.value;
+        console.log(this.filterOptions)
+        this.filterSendingItem(this.filterOptions)
+      });
+      daySelectedInput.addEventListener("change",(e)=>{
+        this.filterOptions.dayFilter=e.target.value;
+        console.log(this.filterOptions)
+        this.filterSendingItem(this.filterOptions)
+      });
+
       }
 
 
@@ -203,40 +230,13 @@ export default class PageView {
       sendingsDataContainer.innerHTML= sendingsDataList;
 
 
-      console.log(customerSelectedInput);
-      customerSelectedInput.addEventListener("change",(e)=>{
-        this.filterOptions.customerFilter=e.target.value;
-        console.log(this.filterOptions)
-        this.filterSendingItem(this.filterOptions)
-      });
-      console.log(productWrittenInput);
-      productWrittenInput.addEventListener("input",(e)=>{
-        this.filterOptions.productFilter=e.target.value;
-        console.log(this.filterOptions)
-        this.filterSendingItem(this.filterOptions)
-      });
-      yearSelectedInput.addEventListener("change",(e)=>{
-        this.filterOptions.yearFilter=e.target.value;
-        console.log(this.filterOptions)
-        this.filterSendingItem(this.filterOptions) 
-      });
-      monthSelectedInput.addEventListener("change",(e)=>{
-        this.filterOptions.monthFilter=e.target.value;
-        console.log(this.filterOptions)
-        this.filterSendingItem(this.filterOptions)
-      });
-      daySelectedInput.addEventListener("change",(e)=>{
-        this.filterOptions.dayFilter=e.target.value;
-        console.log(this.filterOptions)
-        this.filterSendingItem(this.filterOptions)
-      });
-
+      
 
 
       sendingsDataContainer.querySelectorAll(".sendingItemBox").forEach((sendingDataBox) => {
         sendingDataBox.addEventListener("click", () =>{
           //input for this method is id
-          this.onSelectData(sendingDataBox.dataset.sendingId)
+          this.onSelectData(sendingDataBox.dataset.sendingId);
         }
         );
       });
