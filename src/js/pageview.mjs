@@ -8,7 +8,7 @@ export default class PageView {
       //کلا به هر مقداری (استیتی) که در هر ماژول دسترسی نداریم به عنوان ورودی به اون کلاس پاس می دیم تا در ماژول مربوطه مقدارش رو بهش بدیم
       //get the parent of all element in sheet
       this.root = root;
-      //add events in sheet(all events that hanppen on element but that elements that are made in initail load)
+      //add events in sheet(all events that hanppen on element)
       const { onAddSendingData,  onEditSendingData, onDeleteSendingData,onSelectData,
         initailsFiltersOptions, filterSendingItem, showFilterSection, hideFilterSection, closeBox} = handlers;
       this.onAddSendingData = onAddSendingData;
@@ -17,11 +17,12 @@ export default class PageView {
       this.onSelectData=onSelectData;
       this.initailsFiltersOptions=initailsFiltersOptions;
       this.filterSendingItem=filterSendingItem;
-      this.sendingDataa=sendingDataa;
-      this.filterOptions=filterOptions;
       this.showFilterSection=showFilterSection;
       this.hideFilterSection=hideFilterSection;
       this.closeBox=closeBox;
+
+      this.sendingDataa=sendingDataa;
+      this.filterOptions=filterOptions;
       console.log(filterOptions);
       //make the static appearance of the sheet
       this.root.innerHTML = `
@@ -107,10 +108,6 @@ export default class PageView {
       //click on show filter button
       showFilterSectionn.addEventListener("click",(e)=>showFilterSection(e));
       hideFilterSectionn.addEventListener("click",(e)=>hideFilterSection(e));
-
-      //click on close icon when box is showed
-  
-        // closeBoxx.addEventListener("click",(e)=>console.log(e.target.value))
 
       //add events to the choosed elements
       addOneSendingItemBtn.addEventListener("click", (e) => {

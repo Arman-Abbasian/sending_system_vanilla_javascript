@@ -1,17 +1,19 @@
 import PageView from "./pageview.mjs";
 //this class is about CRUD operation on DB
   export default class SendingAPI {
+    
     //get all the data from DB () (READ)
     static getAllSending() {
      const sendingData=localStorage.getItem("sendingData") ?JSON.parse(localStorage.getItem("sendingData")):[];
      console.log(sendingData);
      sendingData.sort(function(a,b){
-      // Turn your strings into dates, and then subtract them
-      // to get a value that is either negative, positive, or zero.
+     //make the data descending based on the date of sending
       return new Date(b.dateOfSending) - new Date(a.dateOfSending);
     });
      return sendingData;
     }
+
+
   //خلاصه متد زیر => کل دیتابیس رو می کشی بیرون بعد تغییرات رو روی دیتا ها انجام می دی سپس مجددا میذاریش تو دیبابیس همه رو
   //این تابع زمانی اجرا می شه که رو دکمه ی ثبت فرم کلیک می کنی (POST or PUT) 
   static addOrEditSendingData(sendingItemToSave) {
@@ -38,6 +40,8 @@ import PageView from "./pageview.mjs";
       //put all sending items again in DB
       localStorage.setItem("sendingData", JSON.stringify(sendingData));
     }
+
+
     //this method is for delete one sending Item (DELETE)
     static deleteNote(id) {
       //get all notes
