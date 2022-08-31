@@ -10,12 +10,13 @@ export default class PageView {
       this.root = root;
       //add events in sheet(all events that hanppen on element)
       const { onAddSendingData,  onEditSendingData, onDeleteSendingData,onSelectData,
-        initailsFiltersOptions, filterSendingItem, showFilterSection, hideFilterSection, closeBox} = handlers;
+        initailsFiltersOptions,afterEventsFiltersOptions, filterSendingItem, showFilterSection, hideFilterSection, closeBox} = handlers;
       this.onAddSendingData = onAddSendingData;
       this.onEditSendingData = onEditSendingData;
       this.onDeleteSendingData = onDeleteSendingData;
       this.onSelectData=onSelectData;
       this.initailsFiltersOptions=initailsFiltersOptions;
+      this.afterEventsFiltersOptions=afterEventsFiltersOptions
       this.filterSendingItem=filterSendingItem;
       this.showFilterSection=showFilterSection;
       this.hideFilterSection=hideFilterSection;
@@ -125,6 +126,8 @@ export default class PageView {
         ([...this.root.querySelectorAll(".preview")]).forEach(element => {
           element.textContent="";
        });
+       this.filterSendingItem(this.filterOptions);
+       this.afterEventsFiltersOptions(this.root)
         console.log(this.sendingDataa)
       });
      //چون این متد تغییراتی رو در ظاهر صفحه هم ایجاد می کنه باید همین جا تعریف بشه و نمی شه در ماژول(اپ) انجام بشه
@@ -237,6 +240,7 @@ export default class PageView {
         sendingDataBox.addEventListener("click", () =>{
           //input for this method is id
           this.onSelectData(sendingDataBox.dataset.sendingId);
+          this.filterSendingItem(this.filterOptions);
         }
         );
       });
@@ -246,7 +250,9 @@ export default class PageView {
         sendingData.addEventListener("click", (e) =>{
           //input for this method is id
           e.stopPropagation();
-          this.onEditSendingData(sendingData.dataset.sendingId)
+          this.onEditSendingData(sendingData.dataset.sendingId);
+          this.filterSendingItem(this.filterOptions);
+          this.initailsFiltersOptions(this.root,allSending)
         }
         );
       });
@@ -259,6 +265,10 @@ export default class PageView {
             e.preventDefault();
             e.stopPropagation();
             this.onDeleteSendingData(noteItem.dataset.trash);
+            this.afterEventsFiltersOptions(this.root);
+            console.log(this.filterOptions)
+            this.filterSendingItem(this.filterOptions);
+            
           });
         });
 
@@ -267,7 +277,7 @@ export default class PageView {
 
     //for changing  the value of selected note item
     //the input for the mothod is data of selected item
-    updateActiveSendingItem(sendingItem) {
+      updateActiveSendingItem(sendingItem) {
       console.log(sendingItem.dateOfSending)
       console.log(new Date (sendingItem.dateOfSending).getFullYear()+"/"+new Date (sendingItem.dateOfSending).getDate()+"/"+new Date (sendingItem.dateOfSending).getDay())
       this.root.querySelector("#customerName_input").value = sendingItem.customerName;
@@ -311,7 +321,7 @@ export default class PageView {
       boxx.innerHTML=box;
       let closeBoxx=this.root.querySelector(".closeBox");
       closeBoxx.addEventListener("click",()=>this.closeBox())
-        
+       
     }
 
     
