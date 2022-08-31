@@ -247,22 +247,32 @@ export default class App {
 
       //برای این که با هر فیلتر بقیه فیلتر های قبلی از بین نرن محبوریم با هر تغییر روی هر فیلتر بقیه فیلتر ها رو مجددا چک کنیم
       filterSendingItem:(filterOptions)=>{
+        console.log(filterOptions)
         let filteredCustomer=null;
-        console.log(filteredCustomer)
-        (filterOptions.customerName==="") ?  filteredCustomer=this.allSendingData:
-         filteredCustomer=this.allSendingData.filter(item=>item.customerName===(filterOptions.customerFilter));
-           console.log(filteredCustomer)
-          
+        filterOptions.customerFilter==="" ?  filteredCustomer=this.allSendingData : filteredCustomer=this.allSendingData.filter(item=>item.customerName===(filterOptions.customerFilter));
+         console.log(filteredCustomer) 
+
         const filteredProduct=filteredCustomer.filter(item=>(item.productName.toLowerCase()).includes(filterOptions.productFilter.toLowerCase()));
-        console.log(filteredProduct)
-        const filteredYear=filteredProduct.filter(item=>(new Date(item.dateOfSending).getFullYear()).toString().includes(filterOptions.yearFilter));
-        console.log(filteredYear)
-        const filteredMonth=filteredYear.filter(item=>(new Date(item.dateOfSending).getMonth()+1).toString().includes(filterOptions.monthFilter));
-        console.log(filteredMonth)
-        const filteredDay=filteredMonth.filter(item=>(new Date(item.dateOfSending).getDate()).toString().includes(filterOptions.dayFilter));
+        console.log(filteredProduct);
+
+        let filteredYear=null;
+        filterOptions.yearFilter==="" ? filteredYear=filteredProduct : filteredYear=filteredProduct.filter(item=>(new Date(item.dateOfSending).getFullYear()).toString()==(filterOptions.yearFilter));
+        console.log(filteredYear);
+
+        let filteredMonth=null;
+        filterOptions.monthFilter==="" ? filteredMonth=filteredYear : filteredMonth=filteredYear.filter(item=>(new Date(item.dateOfSending).getMonth()+1).toString()==(filterOptions.monthFilter));
+        console.log(filteredMonth);
+
+        let filteredDay=null;
+        filterOptions.dayFilter==="" ? filteredDay=filteredMonth : filteredDay=filteredMonth.filter(item=>(new Date(item.dateOfSending).getDate()).toString()==(filterOptions.dayFilter));
         console.log(filteredDay)
+
         this.view.updateSendingList(filteredDay)
       },
+
+      checkWholeItemDeleting(filterOptions){
+       this.allSendingData.customerName=
+    },
       showFilterSection:(e)=>{
         (this.view.root.querySelector(".showFilterSection").classList.add("hidden"));
         console.log(this.view.root.querySelector(".filtersSection"));

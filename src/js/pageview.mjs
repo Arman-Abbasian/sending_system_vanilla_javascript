@@ -10,13 +10,14 @@ export default class PageView {
       this.root = root;
       //add events in sheet(all events that hanppen on element)
       const { onAddSendingData,  onEditSendingData, onDeleteSendingData,onSelectData,
-        initailsFiltersOptions,afterEventsFiltersOptions, filterSendingItem, showFilterSection, hideFilterSection, closeBox} = handlers;
+        initailsFiltersOptions,afterEventsFiltersOptions,checkWholeItemDeleting, filterSendingItem, showFilterSection, hideFilterSection, closeBox} = handlers;
       this.onAddSendingData = onAddSendingData;
       this.onEditSendingData = onEditSendingData;
       this.onDeleteSendingData = onDeleteSendingData;
       this.onSelectData=onSelectData;
       this.initailsFiltersOptions=initailsFiltersOptions;
-      this.afterEventsFiltersOptions=afterEventsFiltersOptions
+      this.afterEventsFiltersOptions=afterEventsFiltersOptions;
+      this.checkWholeItemDeleting=checkWholeItemDeleting;
       this.filterSendingItem=filterSendingItem;
       this.showFilterSection=showFilterSection;
       this.hideFilterSection=hideFilterSection;
@@ -266,12 +267,12 @@ export default class PageView {
             e.stopPropagation();
             this.onDeleteSendingData(noteItem.dataset.trash);
             this.afterEventsFiltersOptions(this.root);
-            console.log(this.filterOptions)
+            console.log(this.filterOptions);
+            this.checkWholeItemDeleting(this.filterOptions)
             this.filterSendingItem(this.filterOptions);
             
           });
         });
-
     };
 
 
