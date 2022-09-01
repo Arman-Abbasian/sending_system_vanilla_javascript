@@ -268,10 +268,10 @@ export default class PageView {
             e.preventDefault();
             e.stopPropagation();
             this.onDeleteSendingData(noteItem.dataset.trash);
-            this.afterEventsFiltersOptions(this.root);
             console.log(this.filterOptions);
             this.checkWholeItemChanging(this.filterOptions)
             this.filterSendingItem(this.filterOptions);
+            this.afterEventsFiltersOptions(this.root);
             
           });
         });
@@ -323,8 +323,7 @@ export default class PageView {
       boxx.classList.add("flex")
       boxx.innerHTML=box;
       let closeBoxx=this.root.querySelector(".closeBox");
-      closeBoxx.addEventListener("click",()=>this.closeBox())
-       
+      closeBoxx.addEventListener("click",()=>this.closeBox())  
     }
 
     

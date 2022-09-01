@@ -13,7 +13,7 @@ export default class App {
     this.view = new PageView(root, this._handlers(),this.sendingDataa,this.filterOptions); 
     //this method get all the sending item from DB and show all in html file
     this._refreshSendingItems();
-    console.log(this.allSendingData)
+    console.log(this.allSendingData);
   }
 
   _refreshSendingItems() {
@@ -38,7 +38,7 @@ export default class App {
     this.view.updateSendingList(sendingItems);
   };
 
-  static udatingFilters(root,parentTag,filterObjectProperty){
+   udatingFilters(root,parentTag,filterObjectProperty){
        const options=root.querySelector(parentTag);
         const ArrayOfOptions = [];    
       for (let i = 0; i < options.options.length; i++) {
@@ -282,20 +282,53 @@ export default class App {
       },
 
       checkWholeItemChanging(filterOptions){
+        //update the sending Items showed when delete customer 
+        const customerptions=this.root.querySelector("#customerSelectedInput");
+        const ArrayOfCustomerOptions = [];    
+        for (let i = 0; i < customerptions.options.length; i++) {
+          ArrayOfCustomerOptions.push( customerptions.options[i].value)
+        };
+      const findedCustomer= ArrayOfCustomerOptions.find(item=>item==filterOptions.customerFilter);
+      console.log(findedCustomer);
+        if (findedCustomer===undefined) {filterOptions.customerFilter=''};
 
-        const options=this.root.querySelector("#customerSelectedInput");
-        const ArrayOfOptions = [];    
-      for (let i = 0; i < options.options.length; i++) {
-        ArrayOfOptions.push( options.options[i].value)
+      //update the sending Items showed when delete day 
+      const yearOptions=this.root.querySelector("#yearSelectedInput");
+        const ArrayOfyearOptions = [];    
+        for (let i = 0; i < yearOptions.options.length; i++) {
+          ArrayOfyearOptions.push( yearOptions.options[i].value)
+        };
+      const findedYear= ArrayOfyearOptions.find(item=>item==filterOptions.yearFilter);
+      console.log(findedYear);
+        if (findedYear===undefined) {filterOptions.yearFilter=''};
+
+        //update the sending Items showed when delete day 
+      const monthOptions=this.root.querySelector("#monthSelectedInput");
+      const ArrayOfmonthOptions = [];    
+      for (let i = 0; i < monthOptions.options.length; i++) {
+        ArrayOfmonthOptions.push( monthOptions.options[i].value)
       };
-     const finde= ArrayOfOptions.find(item=>item==filterOptions.customerFilter);
-     console.log(finde);
-     if (finde===undefined) {filterOptions.customerFilter='';console.log(filterOptions)};
+      console.log(ArrayOfmonthOptions)
+    const findedMonth= ArrayOfmonthOptions.find(item=>item==filterOptions.monthFilter);
+    console.log(findedMonth);
+      if (findedMonth===undefined) {filterOptions.monthFilter=''};
+
+
+      //update the sending Items showed when delete day 
+      const dayOptions=this.root.querySelector("#daySelectedInput");
+        const ArrayOfDayOptions = [];    
+        for (let i = 0; i < dayOptions.options.length; i++) {
+          ArrayOfDayOptions.push( dayOptions.options[i].value)
+        };
+      const findedDay= ArrayOfDayOptions.find(item=>item==filterOptions.dayFilter);
+      console.log(findedDay);
+        if (findedDay===undefined) {filterOptions.dayFilter=''};
 
 
 
-        //console.log(this.filterOptions)
-        // App.udatingFilters(this.root,"#customerSelectedInput",this.filterOptions.customerFilter);
+
+        // console.log(this.filterOptions)
+        //  App.udatingFilters(this.root,"#customerSelectedInput",this.filterOptions.customerFilter);
         // this.filterOptions.customerFilter=filterOptions.customerFilter;
         // console.log(this.filterOptions);
         // App.udatingFilters(this.root,"#yearSelectedInput",filterOptions.yearFilter);
