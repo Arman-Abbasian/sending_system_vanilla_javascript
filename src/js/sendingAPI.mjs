@@ -43,7 +43,7 @@ import PageView from "./pageview.mjs";
 
 
     //this method is for delete one sending Item (DELETE)
-    static deleteNote(id) {
+    static deleteSendingItem(id) {
       //get all notes
       const notes = SendingAPI.getAllSending();
       //remove the choosed note

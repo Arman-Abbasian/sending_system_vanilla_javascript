@@ -7,10 +7,10 @@ export default class App {
     this.root=root;
     this.allSendingData = [];
     this.activeSendingItem = null;
-    const sendingDataa={id:null,customerName:"",productName:"",numberOfSending:"",dateOfSending:""};
-    const filterOptions={customerFilter:"",productFilter:"",yearFilter:"",monthFilter:"",dayFilter:""}
+    this.sendingDataa={id:null,customerName:"",productName:"",numberOfSending:"",dateOfSending:""};
+    this.filterOptions={customerFilter:"",productFilter:"",yearFilter:"",monthFilter:"",dayFilter:""}
     //این جا اونی رو که مقدار داره مقدار می دیم اونی رو که این جا هم به مقدارش دسترسی نداریم رو در ورودی کلاس (اپ) بهش روردی میدیم
-    this.view = new PageView(root, this._handlers(),sendingDataa,filterOptions); 
+    this.view = new PageView(root, this._handlers(),this.sendingDataa,this.filterOptions); 
     //this method get all the sending item from DB and show all in html file
     this._refreshSendingItems();
     console.log(this.allSendingData)
@@ -36,7 +36,18 @@ export default class App {
     this.allSendingData = sendingItems;
     //give the sendingItems as argument to updateNoteList method in PageView class
     this.view.updateSendingList(sendingItems);
-  }
+  };
+
+  static udatingFilters(root,parentTag,filterObjectProperty){
+       const options=root.querySelector(parentTag);
+        const ArrayOfOptions = [];    
+      for (let i = 0; i < options.options.length; i++) {
+        ArrayOfOptions.push( options.options[i].value)
+      };
+     const finde= ArrayOfOptions.find(item=>item==filterObjectProperty);
+     console.log(finde);
+     if (finde===undefined) {filterObjectProperty='5';console.log(filterObjectProperty)};
+    };
 
   _handlers() {
     return {
@@ -66,7 +77,7 @@ export default class App {
         //input for this method is data for clicked sending item
       },
       onDeleteSendingData: (sendingItemId) => {
-        SendingAPI.deleteNote(sendingItemId);
+        SendingAPI.deleteSendingItem(sendingItemId);
         this._refreshSendingItems();
       },
 
@@ -175,8 +186,8 @@ export default class App {
           customersSelect+=
            `<option value="${element}">${element}</option>`
         });
-        customerSelectedInput.innerHTML=customersSelect;
-  
+        root.querySelector("#customerSelectedInput").innerHTML=customersSelect;
+      
   
   
          //add option for year filter section
@@ -249,29 +260,50 @@ export default class App {
       filterSendingItem:(filterOptions)=>{
         console.log(filterOptions)
         let filteredCustomer=null;
-        filterOptions.customerFilter==="" ?  filteredCustomer=this.allSendingData : filteredCustomer=this.allSendingData.filter(item=>item.customerName===(filterOptions.customerFilter));
+        this.filterOptions.customerFilter==="" ?  filteredCustomer=this.allSendingData : filteredCustomer=this.allSendingData.filter(item=>item.customerName===(this.filterOptions.customerFilter));
          console.log(filteredCustomer) 
 
-        const filteredProduct=filteredCustomer.filter(item=>(item.productName.toLowerCase()).includes(filterOptions.productFilter.toLowerCase()));
+        const filteredProduct=filteredCustomer.filter(item=>(item.productName.toLowerCase()).includes(this.filterOptions.productFilter.toLowerCase()));
         console.log(filteredProduct);
 
         let filteredYear=null;
-        filterOptions.yearFilter==="" ? filteredYear=filteredProduct : filteredYear=filteredProduct.filter(item=>(new Date(item.dateOfSending).getFullYear()).toString()==(filterOptions.yearFilter));
+        this.filterOptions.yearFilter==="" ? filteredYear=filteredProduct : filteredYear=filteredProduct.filter(item=>(new Date(item.dateOfSending).getFullYear()).toString()==(this.filterOptions.yearFilter));
         console.log(filteredYear);
 
         let filteredMonth=null;
-        filterOptions.monthFilter==="" ? filteredMonth=filteredYear : filteredMonth=filteredYear.filter(item=>(new Date(item.dateOfSending).getMonth()+1).toString()==(filterOptions.monthFilter));
+        this.filterOptions.monthFilter==="" ? filteredMonth=filteredYear : filteredMonth=filteredYear.filter(item=>(new Date(item.dateOfSending).getMonth()+1).toString()==(this.filterOptions.monthFilter));
         console.log(filteredMonth);
 
         let filteredDay=null;
-        filterOptions.dayFilter==="" ? filteredDay=filteredMonth : filteredDay=filteredMonth.filter(item=>(new Date(item.dateOfSending).getDate()).toString()==(filterOptions.dayFilter));
+        this.filterOptions.dayFilter==="" ? filteredDay=filteredMonth : filteredDay=filteredMonth.filter(item=>(new Date(item.dateOfSending).getDate()).toString()==(this.filterOptions.dayFilter));
         console.log(filteredDay)
 
         this.view.updateSendingList(filteredDay)
       },
 
-      checkWholeItemDeleting(filterOptions){
-       this.allSendingData.customerName=
+      checkWholeItemChanging(filterOptions){
+
+        const options=this.root.querySelector("#customerSelectedInput");
+        const ArrayOfOptions = [];    
+      for (let i = 0; i < options.options.length; i++) {
+        ArrayOfOptions.push( options.options[i].value)
+      };
+     const finde= ArrayOfOptions.find(item=>item==filterOptions.customerFilter);
+     console.log(finde);
+     if (finde===undefined) {filterOptions.customerFilter='';console.log(filterOptions)};
+
+
+
+        //console.log(this.filterOptions)
+        // App.udatingFilters(this.root,"#customerSelectedInput",this.filterOptions.customerFilter);
+        // this.filterOptions.customerFilter=filterOptions.customerFilter;
+        // console.log(this.filterOptions);
+        // App.udatingFilters(this.root,"#yearSelectedInput",filterOptions.yearFilter);
+        // console.log(this.filterOptions);
+        // App.udatingFilters(this.root,"#yearSelectedInput",filterOptions.monthFilter);
+        // console.log(this.filterOptions);
+        // App.udatingFilters(this.root,"#daySelectedInput",filterOptions.dayFilter);
+        // console.log(this.filterOptions);
     },
       showFilterSection:(e)=>{
         (this.view.root.querySelector(".showFilterSection").classList.add("hidden"));

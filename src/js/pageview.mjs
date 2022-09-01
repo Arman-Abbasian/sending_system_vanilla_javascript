@@ -10,14 +10,14 @@ export default class PageView {
       this.root = root;
       //add events in sheet(all events that hanppen on element)
       const { onAddSendingData,  onEditSendingData, onDeleteSendingData,onSelectData,
-        initailsFiltersOptions,afterEventsFiltersOptions,checkWholeItemDeleting, filterSendingItem, showFilterSection, hideFilterSection, closeBox} = handlers;
+        initailsFiltersOptions,afterEventsFiltersOptions,checkWholeItemChanging, filterSendingItem, showFilterSection, hideFilterSection, closeBox} = handlers;
       this.onAddSendingData = onAddSendingData;
       this.onEditSendingData = onEditSendingData;
       this.onDeleteSendingData = onDeleteSendingData;
       this.onSelectData=onSelectData;
       this.initailsFiltersOptions=initailsFiltersOptions;
       this.afterEventsFiltersOptions=afterEventsFiltersOptions;
-      this.checkWholeItemDeleting=checkWholeItemDeleting;
+      this.checkWholeItemChanging=checkWholeItemChanging;
       this.filterSendingItem=filterSendingItem;
       this.showFilterSection=showFilterSection;
       this.hideFilterSection=hideFilterSection;
@@ -128,7 +128,9 @@ export default class PageView {
           element.textContent="";
        });
        this.filterSendingItem(this.filterOptions);
-       this.afterEventsFiltersOptions(this.root)
+       this.checkWholeItemChanging(this.filterOptions)
+       this.afterEventsFiltersOptions(this.root);
+       this.filterSendingItem(this.filterOptions);
         console.log(this.sendingDataa)
       });
      //چون این متد تغییراتی رو در ظاهر صفحه هم ایجاد می کنه باید همین جا تعریف بشه و نمی شه در ماژول(اپ) انجام بشه
@@ -268,7 +270,7 @@ export default class PageView {
             this.onDeleteSendingData(noteItem.dataset.trash);
             this.afterEventsFiltersOptions(this.root);
             console.log(this.filterOptions);
-            this.checkWholeItemDeleting(this.filterOptions)
+            this.checkWholeItemChanging(this.filterOptions)
             this.filterSendingItem(this.filterOptions);
             
           });
