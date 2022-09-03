@@ -187,7 +187,6 @@ export default class PageView {
       }
 
 
-
   //تا قبل از این جا به محض ساخته شدن یک نمونه از این کلاس به طور خودکار اجرا می شود(چون داخل کانستراکتور است) 
   
   //method for creating one list item
@@ -269,9 +268,12 @@ export default class PageView {
             e.stopPropagation();
             this.onDeleteSendingData(noteItem.dataset.trash);
             console.log(this.filterOptions);
-            this.checkWholeItemChanging(this.filterOptions)
+            this.checkWholeItemChanging(this.filterOptions);
+            console.log(this.filterOptions);
             this.filterSendingItem(this.filterOptions);
-            this.afterEventsFiltersOptions(this.root);
+            console.log(this.filterOptions);
+            this.afterEventsFiltersOptions(this.root,this.filterOptions);
+            console.log(this.filterOptions);
             
           });
         });

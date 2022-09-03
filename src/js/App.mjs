@@ -50,6 +50,7 @@ export default class App {
     };
 
   _handlers() {
+    console.log(this.allSendingData)
     return {
         onAddSendingData: (sendingItem) => {
         SendingAPI.addOrEditSendingData(sendingItem);
@@ -81,9 +82,9 @@ export default class App {
         this._refreshSendingItems();
       },
 
-
+      //make the filer option for each filter(customer,year,month,year) in initial loading
        initailsFiltersOptions:(root,allSendingItems)=>{
-        //add option to selectedCustomerInput
+        //add option to selectedCustomerInput at initaial load
         const customerList=allSendingItems.map(item=>{
           return(item.customerName)
         });
@@ -100,7 +101,7 @@ export default class App {
           customersSelect+=
            `<option value="${element}">${element}</option>`
         });
-        customerSelectedInput.innerHTML=customersSelect;
+        root.querySelector("#customerSelectedInput").innerHTML=customersSelect;
   
   
   
@@ -168,8 +169,9 @@ export default class App {
         root.querySelector("#daySelectedInput").innerHTML=dayContainer
       },
 
-      afterEventsFiltersOptions:(root)=>{
+      afterEventsFiltersOptions:(root,filterOptions)=>{
         //add option to selectedCustomerInput
+        console.log(filterOptions)
         const customerList=this.allSendingData.map(item=>{
           return(item.customerName)
         });
@@ -182,9 +184,15 @@ export default class App {
         });
         let customersSelect=`<option value="">All</option>`;
         uniquecustomerList.forEach(element => {
+          console.log(element)
           //add option to selectedCustomerInput
+          if (filterOptions.customerFilter===element) {
+            customersSelect+=
+            `<option selected=${true} value="${element}">${element}</option>`
+          }else{
           customersSelect+=
            `<option value="${element}">${element}</option>`
+          }
         });
         root.querySelector("#customerSelectedInput").innerHTML=customersSelect;
       
@@ -282,12 +290,16 @@ export default class App {
       },
 
       checkWholeItemChanging(filterOptions){
-        //update the sending Items showed when delete customer 
+        this.allSendingData;
+        console.log(this.allSendingData)
+        //update the sending filters for customer when delete customer 
         const customerptions=this.root.querySelector("#customerSelectedInput");
+        console.log(customerptions.options.length)
         const ArrayOfCustomerOptions = [];    
         for (let i = 0; i < customerptions.options.length; i++) {
           ArrayOfCustomerOptions.push( customerptions.options[i].value)
         };
+        console.log(ArrayOfCustomerOptions)
       const findedCustomer= ArrayOfCustomerOptions.find(item=>item==filterOptions.customerFilter);
       console.log(findedCustomer);
         if (findedCustomer===undefined) {filterOptions.customerFilter=''};
@@ -313,7 +325,6 @@ export default class App {
     console.log(findedMonth);
       if (findedMonth===undefined) {filterOptions.monthFilter=''};
 
-
       //update the sending Items showed when delete day 
       const dayOptions=this.root.querySelector("#daySelectedInput");
         const ArrayOfDayOptions = [];    
@@ -323,20 +334,6 @@ export default class App {
       const findedDay= ArrayOfDayOptions.find(item=>item==filterOptions.dayFilter);
       console.log(findedDay);
         if (findedDay===undefined) {filterOptions.dayFilter=''};
-
-
-
-
-        // console.log(this.filterOptions)
-        //  App.udatingFilters(this.root,"#customerSelectedInput",this.filterOptions.customerFilter);
-        // this.filterOptions.customerFilter=filterOptions.customerFilter;
-        // console.log(this.filterOptions);
-        // App.udatingFilters(this.root,"#yearSelectedInput",filterOptions.yearFilter);
-        // console.log(this.filterOptions);
-        // App.udatingFilters(this.root,"#yearSelectedInput",filterOptions.monthFilter);
-        // console.log(this.filterOptions);
-        // App.udatingFilters(this.root,"#daySelectedInput",filterOptions.dayFilter);
-        // console.log(this.filterOptions);
     },
       showFilterSection:(e)=>{
         (this.view.root.querySelector(".showFilterSection").classList.add("hidden"));
