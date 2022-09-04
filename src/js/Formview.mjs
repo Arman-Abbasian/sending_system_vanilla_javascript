@@ -1,4 +1,4 @@
-import SendingAPI from "./sendingAPI.mjs";
+import SendingAPI from "./SendingAPI.mjs";
 
 //get the needed elements(element that we want to add events to them and are in initeial load on website)
 let addOneSendingItemBtn = this.root.querySelector("#addButton");

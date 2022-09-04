@@ -1,4 +1,4 @@
-import PageView from "./pageview.mjs";
+import PageView from "./Formview.mjs";
 //this class is about CRUD operation on DB
   export default class SendingAPI {
     
