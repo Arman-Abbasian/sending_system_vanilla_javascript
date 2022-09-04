@@ -1,6 +1,19 @@
 import SendingAPI from "./sendingAPI.mjs";
 
-export default class PageView {
+//get the needed elements(element that we want to add events to them and are in initeial load on website)
+let addOneSendingItemBtn = this.root.querySelector("#addButton");
+let customerName_input = this.root.querySelector("#customerName_input");
+let productName_input = this.root.querySelector("#productName_input");
+let numberOfSending_input = this.root.querySelector("#numberOfSending_input");
+let dateOfSending_input = this.root.querySelector("#dateOfSending_input");
+let customerName = this.root.querySelector(".customerName");
+let productName = this.root.querySelector(".productName");
+let numberOfSending = this.root.querySelector(".numberOfSending");
+let dateOfSending = this.root.querySelector(".dateOfSending");
+let showFilterSectionn=this.root.querySelector(".showFilterSection");
+let hideFilterSectionn=this.root.querySelector(".hideFilterSection");
+
+ class PageView {
   //به عنوان ورودی به کانستراکتور ی تگ پدر می دی 
     constructor(root, handlers,sendingDataa,filterOptions) {
     const allSending=SendingAPI.getAllSending(); 
@@ -10,7 +23,7 @@ export default class PageView {
       this.root = root;
       //add events in sheet(all events that hanppen on element)
       const { onAddSendingData,  onEditSendingData, onDeleteSendingData,onSelectData,
-        initailsFiltersOptions,afterEventsFiltersOptions,checkWholeItemChanging, filterSendingItem, showFilterSection, hideFilterSection, closeBox} = handlers;
+        initailsFiltersOptions,afterEventsFiltersOptions,checkWholeItemChanging, filterSendingItem, showFilterSection, hideFilterSection, closeBox} =handlers;
       this.onAddSendingData = onAddSendingData;
       this.onEditSendingData = onEditSendingData;
       this.onDeleteSendingData = onDeleteSendingData;
@@ -26,6 +39,7 @@ export default class PageView {
       this.sendingDataa=sendingDataa;
       this.filterOptions=filterOptions;
       console.log(filterOptions);
+      
       //make the static appearance of the sheet
       this.root.innerHTML = `
       <div id="box" class="fixed w-screen h-screen bg-opacity-60 right-0 top-0 bg-white z-50  justify-center items-center p-8 hidden"></div>
@@ -93,18 +107,6 @@ export default class PageView {
         <div id="sendings_data_container" class="flex flex-col gap-2 mt-4"></div>
     </div>
       `;
-      //get the needed elements(element that we want to add events to them and are in initeial load on website)
-      let addOneSendingItemBtn = this.root.querySelector("#addButton");
-      let customerName_input = this.root.querySelector("#customerName_input");
-      let productName_input = this.root.querySelector("#productName_input");
-      let numberOfSending_input = this.root.querySelector("#numberOfSending_input");
-      let dateOfSending_input = this.root.querySelector("#dateOfSending_input");
-      let customerName = this.root.querySelector(".customerName");
-      let productName = this.root.querySelector(".productName");
-      let numberOfSending = this.root.querySelector(".numberOfSending");
-      let dateOfSending = this.root.querySelector(".dateOfSending");
-      let showFilterSectionn=this.root.querySelector(".showFilterSection");
-      let hideFilterSectionn=this.root.querySelector(".hideFilterSection");
 
       //in this part we say which function doing when some events is triggered on elements(this section is place for using handlers)
       
@@ -330,3 +332,4 @@ export default class PageView {
 
     
     }
+    export default new PageView();

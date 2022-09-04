@@ -13,7 +13,6 @@ import PageView from "./pageview.mjs";
      return sendingData;
     }
 
-
   //خلاصه متد زیر => کل دیتابیس رو می کشی بیرون بعد تغییرات رو روی دیتا ها انجام می دی سپس مجددا میذاریش تو دیبابیس همه رو
   //این تابع زمانی اجرا می شه که رو دکمه ی ثبت فرم کلیک می کنی (POST or PUT) 
   static addOrEditSendingData(sendingItemToSave) {
@@ -50,7 +49,44 @@ import PageView from "./pageview.mjs";
       const filteredSendingItems = notes.filter((n) => n.id != id); // 1!== 2, 3!==2
       //put all notes again in DB
       localStorage.setItem("sendingData", JSON.stringify(filteredSendingItems));
-    }
+    };
+    //get the name of all customer (unique)
+    static getAllCustomer(){
+      const customersName=localStorage.getItem("customerName") ?JSON.parse(localStorage.getItem("customerName")):[];
+     console.log(customersName);
+     customersName.sort(function(a,b){
+     //make the data descending based on the date of sending
+      return a-b;
+    });
+     return sendingData;
+    };
+    static getAllYear(){
+      const year=localStorage.getItem("year") ?JSON.parse(localStorage.getItem("year")):[];
+     console.log(year);
+     year.sort(function(a,b){
+     //make the data descending based on the date of sending
+      return a-b;
+    });
+     return sendingData;
+    };
+    static getAllMonth(){
+      const month=localStorage.getItem("month") ?JSON.parse(localStorage.getItem("month")):[];
+     console.log(month);
+     month.sort(function(a,b){
+     //make the data descending based on the date of sending
+      return a-b;
+    });
+     return sendingData;
+    };
+    static getAllDay(){
+      const day=localStorage.getItem("day") ?JSON.parse(localStorage.getItem("day")):[];
+     console.log(day);
+     day.sort(function(a,b){
+     //make the data descending based on the date of sending
+      return a-b;
+    });
+     return sendingData;
+    };
   }
   
   //به طور کلی در کار با دیتابیس این موارد به ترتیب تکرار می شود

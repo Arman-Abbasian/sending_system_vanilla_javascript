@@ -1,7 +1,7 @@
 import PageView from "./pageview.mjs";
 import SendingAPI from "./sendingAPI.mjs";
 
-export default class App {
+ class App {
   constructor(root) {
     //here we should put a variable for all data
     this.root=root;
@@ -356,3 +356,4 @@ export default class App {
     };
   }
 }
+export default new App();
