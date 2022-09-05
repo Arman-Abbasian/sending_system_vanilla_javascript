@@ -1,5 +1,23 @@
 import SendingAPI from "./SendingAPI.mjs";
 
+//choose the element that we want to add events to them and exist in initial loads
+
+//customer select
+const customerSelectedInput=document.querySelector("#customerSelectedInput");
+//customer select
+const productInput=document.querySelector("#productWrittenInput");
+//year select
+const yearSelectedInput=document.querySelector("#yearSelectedInput");
+//month select
+const monthSelectedInput=document.querySelector("#monthSelectedInput");
+//day select
+const daySelectedInput=document.querySelector("#daySelectedInput");
+//button that when click on it, filter sectio is showed
+const showFilterSectionButton=document.querySelector("#showFilterSectionButton");
+//section that show the filters option in that
+const hideFilterSection=document.querySelector("#hideFilterSection");
+
+
     class FilterView{
         constructor(root){
         this.root=root;
@@ -7,97 +25,103 @@ import SendingAPI from "./SendingAPI.mjs";
         this.yearOptions=[];
         this.monthOptions=[];
         this.dayOptions=[];
-        this.fillInitalFilterVariables()
-        this.initailsFiltersOptions();
+        this.allFilters={customer:"",product:"",year:"",month:"",day:""};
+        this.fillFilterVariables();
+        //add events to the element that exist in initial load
+        customerSelectedInput.addEventListener("change",()=>console.log("change"));
+        productInput.addEventListener("input",()=>console.log("change"));
+        yearSelectedInput.addEventListener("change",()=>console.log("change"));
+        monthSelectedInput.addEventListener("change",()=>console.log("change"));
+        daySelectedInput.addEventListener("change",()=>console.log("ch   ange"));
+        showFilterSectionButton.addEventListener("click",()=>console.log("click")); 
+        hideFilterSection.addEventListener("click",()=>console.log("click"));       
         }
 
-        fillInitalFilterVariables(){
-          SendingAPI.getAllSending();
+        fillFilterVariables(){
+          //get updated data
+         const allFiltersData= SendingAPI.getAllSending();
+         console.log(allFiltersData);
 
-        }
 
-      //make the filer option for each filter(customer,year,month,year) in initial loading
-      initailsFiltersOptions(root,allSendingItems){
-        const allSendingsItems=SendingAPI.getAllSending();
-        //delete duplicate customer
-        allSendingsItems.forEach((element) => {
-      if (!this.cutomerOptions.includes(element.customerName)) {
-          this.cutomerOptions.push(element.customerName);
-      }
-        });
-        console.log(this.cutomerOptions)
-        // let customersSelect=`<option value="">All</option>`;
-        // uniquecustomerList.forEach(element => {
-        //   //add option to selectedCustomerInput
-        //   customersSelect+=
-        //    `<option value="${element}">${element}</option>`
-        // });
-        //this.root.querySelector("#customerSelectedInput").innerHTML=customersSelect;
-  
-  
-  
-         //add option for year filter section
-         const yearList=allSendingsItems.map(item=>{
-          return(new Date(item.dateOfSending).getFullYear())
-        });
-        let uniqueYearList = [];
-        //delete duplicate year
-        yearList.forEach((element) => {
-      if (!uniqueYearList.includes(element)) {
-          uniqueYearList.push(element);
-      }
-        });
-        console.log(uniqueYearList)
-        //sort month ascending
-        uniqueYearList.sort((a,b)=>b-a)
-         let yearContainer='<option value="">All</option>';
-         uniqueYearList.forEach(item=>{
-           yearContainer+= `<option value=${item}>${item}</option>`
+         //make an array of unique customer Array
+         //1-delete duplicate customer
+         allFiltersData.forEach((element) => {
+       if (!this.cutomerOptions.includes(element.customerName)) {
+        //2- push the unique data in customer options
+           this.cutomerOptions.push(element.customerName);
+       }
+         });
+         console.log(this.cutomerOptions);
+          //3-make the customers in ascending order
+          this.yearOptions.sort((a,b)=>a-b);
+
+          //4- make the option in customer options section
+          let makecustomerOptions='<option value="">All</option>';
+          this.cutomerOptions.forEach(item=>{
+            makecustomerOptions+= `<option value=${item}>${item}</option>`;
+            customerSelectedInput.innerHTML=makecustomerOptions;
+
+
+
+         //make an array of unique year Array
+         //1-delete duplicate customer
+         allFiltersData.forEach((item) => {
+          if (!this.yearOptions.includes(new Date(item.dateOfSending).getFullYear())) {
+           //2- push the unique data in customer options
+              this.yearOptions.push(new Date(item.dateOfSending).getFullYear());
+          }
+            });
+            console.log(this.yearOptions);
+            //3-make the year in descendng order
+            this.yearOptions.sort((a,b)=>b-a);
+            //4- make the option in year options section
+            let makeYearOptions='<option value="">All</option>';
+          this.yearOptions.forEach(item=>{
+            makeYearOptions+= `<option value=${item}>${item}</option>`;
+            yearSelectedInput.innerHTML=makeYearOptions;
          })
-         this.root.querySelector("#yearSelectedInput").innerHTML=yearContainer
-  
-  
-        //add option for month filter section
-        const monthList=allSendingItems.map(item=>{
-          return(new Date(item.dateOfSending).getMonth()+1)
-        });
-        console.log(monthList)
-        let uniqueMonthList = [];
-        //delete duplicate month
-        monthList.forEach((element) => {
-      if (!uniqueMonthList.includes(element)) {
-          uniqueMonthList.push(element);
-      }
-        });
-        //sort month ascending
-        uniqueMonthList.sort((a,b)=>a-b)
-        let monthContainer='<option value="">All</option>';
-        uniqueMonthList.forEach(item=>{
-          monthContainer+= `<option value=${item}>${item}</option>`
-        })
-        root.querySelector("#monthSelectedInput").innerHTML=monthContainer
-  
-        //add option for day filter section
-        const dayList=allSendingItems.map(item=>{
-          return(new Date(item.dateOfSending).getDate())
-        });
-        console.log(dayList)
-        let uniqueDayList = [];
-        //delete duplicate day
-        dayList.forEach((element) => {
-      if (!uniqueDayList.includes(element)) {
-          uniqueDayList.push(element);
-      }
-        });
-        console.log(uniqueDayList)
-        //sort day ascending
-        uniqueDayList.sort((a,b)=>a-b)
-        let dayContainer='<option value="">All</option>';
-        uniqueDayList.forEach(item=>{
-          dayContainer+= `<option value=${item}>${item}</option>`
-        })
-        root.querySelector("#daySelectedInput").innerHTML=dayContainer
-      };
+
+
+
+          //make an array of unique year Array
+         //1-delete duplicate customer
+         allFiltersData.forEach((item) => {
+          if (!this.monthOptions.includes(new Date(item.dateOfSending).getMonth()+1)) {
+           //2- push the unique data in customer options
+              this.monthOptions.push(new Date(item.dateOfSending).getMonth()+1);
+          }
+            });
+            //3-make the month in ascending order
+            this.monthOptions.sort((a,b)=>a-b)
+            console.log(this.monthOptions);
+            //4- make the option in month options section
+            let makeMonthOptions='<option value="">All</option>';
+            this.monthOptions.forEach(item=>{
+              makeMonthOptions+= `<option value=${item}>${item}</option>`;
+              monthSelectedInput.innerHTML=makeMonthOptions;
+           })
+            
+
+
+          //make an array of unique day Array
+         //1-delete duplicate customer
+         allFiltersData.forEach((item) => {
+          if (!this.dayOptions.includes(new Date(item.dateOfSending).getDate())) {
+           //2- push the unique data in customer options
+              this.dayOptions.push(new Date(item.dateOfSending).getDate());
+              //3-make the day in ascending order
+              this.dayOptions.sort((a,b)=>a-b)
+          }
+            });
+            console.log(this.dayOptions);
+            let makeDayOptions='<option value="">All</option>';
+            this.dayOptions.forEach(item=>{
+              makeDayOptions+= `<option value=${item}>${item}</option>`;
+              daySelectedInput.innerHTML=makeMonthOptions;
+           })
+
+          }
+      )};
 
 
       afterEventsFiltersOptions(root,filterOptions){

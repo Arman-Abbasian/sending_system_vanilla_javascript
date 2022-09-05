@@ -72,36 +72,7 @@
 //           </div>
           
         
-//         <div>
-//           <div class="showFilterSection flex justify-center items-center bg-darkGreen drop-shadow-md rounded-sm p-2 font-bold cursor-pointer transition-all duration-1000 hover:bg-lightGreen"><p>show Filter section</p></div>
-//           <div class="filtersSection hidden flex-col justify-between gap-4 shadow-md shadow-slate-800 bg-lightGreen p-2 rounded-md">
-//           <div class="hideFilterSection flex justify-center items-center bg-red-700 drop-shadow-md rounded-sm p-2 font-bold cursor-pointer transition duration-1000 hover:bg-red-500"><p>hide Filter section</p></div>
-//             <div class="filterCustomerProductSection flex justify-between md:justify-start gap-2 items-center w-full">
-//               <div class="flex justify-center items-center gap-2">
-//                 <label class="font-bold">customer:</label>
-//                 <select id="customerSelectedInput" class="bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none"></select>
-//               </div>
-//               <div class="flex justify-center items-center gap-1">
-//                 <label class="font-bold">product:</label> 
-//                 <input type="text" id="productWrittenInput" class="w-full px-1 bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none" />
-//               </div>
-//             </div>
-//             <div class="filterDateSection flex justify-between items-center md:gap-2">
-//               <div class="flex justify-center items-center gap-1">
-//                 <label class="font-bold">year:</label>
-//                 <select id="yearSelectedInput" class="bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none"></select>
-//               </div>
-//               <div class="flex justify-center items-center gap-1">
-//                 <label class="font-bold">month:</label>
-//                 <select id="monthSelectedInput" class="bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none"></select>
-//               </div>
-//               <div class="flex justify-center items-center gap-1">
-//                 <label class="font-bold">day:</label>
-//                 <select id="daySelectedInput" class="bg-darkGreen rounded-sm drop-shadow-md  focus:outline-none"></select>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
+
 //         </div>
 
 //         <div id="sendings_data_container" class="flex flex-col gap-2 mt-4"></div>
