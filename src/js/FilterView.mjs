@@ -1,40 +1,45 @@
-class FilterView{
-constructor(){
-this.cutomerFilter=[];
-this.yearFilter=[];
-this.monthFilter=[];
-this.dayFilter=[];
+import SendingAPI from "./SendingAPI.mjs";
 
-}
+    class FilterView{
+        constructor(root){
+        this.root=root;
+        this.cutomerOptions=[];
+        this.yearOptions=[];
+        this.monthOptions=[];
+        this.dayOptions=[];
+        this.fillInitalFilterVariables()
+        this.initailsFiltersOptions();
+        }
+
+        fillInitalFilterVariables(){
+          SendingAPI.getAllSending();
+
+        }
 
       //make the filer option for each filter(customer,year,month,year) in initial loading
       initailsFiltersOptions(root,allSendingItems){
-        //add option to selectedCustomerInput at initaial load
-        const customerList=allSendingItems.map(item=>{
-          return(item.customerName)
-        });
-        let uniquecustomerList = [];
+        const allSendingsItems=SendingAPI.getAllSending();
         //delete duplicate customer
-        customerList.forEach((element) => {
-      if (!uniquecustomerList.includes(element)) {
-          uniquecustomerList.push(element);
+        allSendingsItems.forEach((element) => {
+      if (!this.cutomerOptions.includes(element.customerName)) {
+          this.cutomerOptions.push(element.customerName);
       }
         });
-        let customersSelect=`<option value="">All</option>`;
-        uniquecustomerList.forEach(element => {
-          //add option to selectedCustomerInput
-          customersSelect+=
-           `<option value="${element}">${element}</option>`
-        });
-        root.querySelector("#customerSelectedInput").innerHTML=customersSelect;
+        console.log(this.cutomerOptions)
+        // let customersSelect=`<option value="">All</option>`;
+        // uniquecustomerList.forEach(element => {
+        //   //add option to selectedCustomerInput
+        //   customersSelect+=
+        //    `<option value="${element}">${element}</option>`
+        // });
+        //this.root.querySelector("#customerSelectedInput").innerHTML=customersSelect;
   
   
   
          //add option for year filter section
-         const yearList=allSendingItems.map(item=>{
+         const yearList=allSendingsItems.map(item=>{
           return(new Date(item.dateOfSending).getFullYear())
         });
-        console.log(yearList)
         let uniqueYearList = [];
         //delete duplicate year
         yearList.forEach((element) => {
@@ -49,7 +54,7 @@ this.dayFilter=[];
          uniqueYearList.forEach(item=>{
            yearContainer+= `<option value=${item}>${item}</option>`
          })
-         root.querySelector("#yearSelectedInput").innerHTML=yearContainer
+         this.root.querySelector("#yearSelectedInput").innerHTML=yearContainer
   
   
         //add option for month filter section
@@ -278,4 +283,5 @@ this.dayFilter=[];
         console.log(PageView.root.querySelector(".filtersSection"));
       };
 
-}
+};
+export default new FilterView();

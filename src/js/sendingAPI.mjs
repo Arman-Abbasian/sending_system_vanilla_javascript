@@ -1,4 +1,4 @@
-import PageView from "./Formview.mjs";
+
 //this class is about CRUD operation on DB
   export default class SendingAPI {
     
@@ -50,6 +50,8 @@ import PageView from "./Formview.mjs";
       //put all notes again in DB
       localStorage.setItem("sendingData", JSON.stringify(filteredSendingItems));
     };
+
+
     //get the name of all customer (unique)
     static getAllCustomer(){
       const customersName=localStorage.getItem("customerName") ?JSON.parse(localStorage.getItem("customerName")):[];
@@ -58,7 +60,7 @@ import PageView from "./Formview.mjs";
      //make the data descending based on the date of sending
       return a-b;
     });
-     return sendingData;
+     return customersName;
     };
     static getAllYear(){
       const year=localStorage.getItem("year") ?JSON.parse(localStorage.getItem("year")):[];
