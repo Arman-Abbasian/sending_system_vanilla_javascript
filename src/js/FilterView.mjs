@@ -4,7 +4,7 @@ import SendingAPI from "./SendingAPI.mjs";
 
 //customer select
 const customerSelectedInput=document.querySelector("#customerSelectedInput");
-//customer select
+//product input
 const productInput=document.querySelector("#productWrittenInput");
 //year select
 const yearSelectedInput=document.querySelector("#yearSelectedInput");
@@ -12,10 +12,12 @@ const yearSelectedInput=document.querySelector("#yearSelectedInput");
 const monthSelectedInput=document.querySelector("#monthSelectedInput");
 //day select
 const daySelectedInput=document.querySelector("#daySelectedInput");
-//button that when click on it, filter sectio is showed
+//button that when click on it, filter section is showed
 const showFilterSectionButton=document.querySelector("#showFilterSectionButton");
 //section that show the filters option in that
 const hideFilterSection=document.querySelector("#hideFilterSection");
+//filter section
+const filtersSection=document.querySelector("#filtersSection");
 
 
     class FilterView{
@@ -25,16 +27,55 @@ const hideFilterSection=document.querySelector("#hideFilterSection");
         this.yearOptions=[];
         this.monthOptions=[];
         this.dayOptions=[];
-        this.allFilters={customer:"",product:"",year:"",month:"",day:""};
+        this.allFilters={customer:"paya",product:"",year:"",month:"7",day:""};
         this.fillFilterVariables();
         //add events to the element that exist in initial load
-        customerSelectedInput.addEventListener("change",()=>console.log("change"));
-        productInput.addEventListener("input",()=>console.log("change"));
-        yearSelectedInput.addEventListener("change",()=>console.log("change"));
-        monthSelectedInput.addEventListener("change",()=>console.log("change"));
-        daySelectedInput.addEventListener("change",()=>console.log("ch   ange"));
-        showFilterSectionButton.addEventListener("click",()=>console.log("click")); 
-        hideFilterSection.addEventListener("click",()=>console.log("click"));       
+
+        //1-event for hiding and showing filter section
+        showFilterSectionButton.addEventListener("click",()=>this.showFilterSection());
+        hideFilterSection.addEventListener("click",()=>this.hideFilterSection());
+
+        //2-event for filtering (events in this section : 1-change 2-input)
+        customerSelectedInput.addEventListener("change",(e)=>this.customerFilterHandler(e.target.value));
+        productInput.addEventListener("input",(e)=>this.productFilterHandler(e.target.value));
+        yearSelectedInput.addEventListener("change",(e)=>this.yearFilterHandler(e.target.value));
+        monthSelectedInput.addEventListener("change",(e)=>this.monthFilterHandler(e.target.value));
+        daySelectedInput.addEventListener("change",(e)=>this.dayFilterHandler(e.target.value));      
+        };
+        //show filter section
+        showFilterSection(){
+          filtersSection.classList.remove("hidden");
+          filtersSection.classList.add("flex");
+          showFilterSectionButton.classList.add("hidden");
+          showFilterSectionButton.classList.remove("flex");
+        };
+        //hide filter section
+        hideFilterSection(){
+          filtersSection.classList.add("hidden");
+          filtersSection.classList.remove("flex");
+          showFilterSectionButton.classList.remove("hidden");
+          showFilterSectionButton.classList.add("flex");
+        };
+
+        customerFilterHandler(value){
+          this.allFilters.customer=value;
+          console.log(this.allFilters)
+        }
+        productFilterHandler(value){
+          this.allFilters.product=value;
+          console.log(this.allFilters)
+        }
+        yearFilterHandler(value){
+          this.allFilters.year=value;
+          console.log(this.allFilters)
+        }
+        monthFilterHandler(value){
+          this.allFilters.month=value;
+          console.log(this.allFilters)
+        }
+        dayFilterHandler(value){
+          this.allFilters.day=value;
+          console.log(this.allFilters)
         }
 
         fillFilterVariables(){
@@ -47,21 +88,26 @@ const hideFilterSection=document.querySelector("#hideFilterSection");
          //1-delete duplicate customer
          allFiltersData.forEach((element) => {
        if (!this.cutomerOptions.includes(element.customerName)) {
-        //2- push the unique data in customer options
+        //2- push the unique data in this.customerOptions
            this.cutomerOptions.push(element.customerName);
        }
          });
          console.log(this.cutomerOptions);
-          //3-make the customers in ascending order
-          this.yearOptions.sort((a,b)=>a-b);
-
-          //4- make the option in customer options section
-          let makecustomerOptions='<option value="">All</option>';
+          //3-make the customers options variable in ascending order
+          this.cutomerOptions.sort((a,b)=>a-b);
+         //-4-check if selected customer in customer selection input exist in (this.allFilters);(update the this.allFIlterOprions variable)
+         const findChoosedCustomerOption= this.cutomerOptions.find(item=>item===this.allFilters.customer);
+         if (!findChoosedCustomerOption) {
+            this.allFilters.customer=''
+         }  
+          //5- make the option in customer options section
+        
+          let makecustomerOptions=`<option value=''>All</option>`
           this.cutomerOptions.forEach(item=>{
-            makecustomerOptions+= `<option value=${item}>${item}</option>`;
+            makecustomerOptions+= `<option  value=${item}>${item}</option>`;
             customerSelectedInput.innerHTML=makecustomerOptions;
-
-
+          });
+         
 
          //make an array of unique year Array
          //1-delete duplicate customer
@@ -74,13 +120,17 @@ const hideFilterSection=document.querySelector("#hideFilterSection");
             console.log(this.yearOptions);
             //3-make the year in descendng order
             this.yearOptions.sort((a,b)=>b-a);
-            //4- make the option in year options section
+            //4- check if selected year in year selection input exist in (this.allFilters);(update the this.allFIlterOprions variable)
+         const findChoosedYearOption= this.yearOptions.find(item=>item===this.allFilters.year);
+         if (!findChoosedYearOption) {
+            this.allFilters.year=''
+         } 
+            //5- make the option in year options section
             let makeYearOptions='<option value="">All</option>';
-          this.yearOptions.forEach(item=>{
+            this.yearOptions.forEach(item=>{
             makeYearOptions+= `<option value=${item}>${item}</option>`;
             yearSelectedInput.innerHTML=makeYearOptions;
          })
-
 
 
           //make an array of unique year Array
@@ -94,14 +144,19 @@ const hideFilterSection=document.querySelector("#hideFilterSection");
             //3-make the month in ascending order
             this.monthOptions.sort((a,b)=>a-b)
             console.log(this.monthOptions);
-            //4- make the option in month options section
+
+             //4- check if selected year in year selection input exist in (this.allFilters);(update the this.allFIlterOprions variable)
+            const findChoosedMonthOption= this.monthOptions.find(item=>item===this.allFilters.month);
+         if (!findChoosedMonthOption) {
+            this.allFilters.month=''
+         } 
+            //5- make the option in month options section
             let makeMonthOptions='<option value="">All</option>';
             this.monthOptions.forEach(item=>{
               makeMonthOptions+= `<option value=${item}>${item}</option>`;
               monthSelectedInput.innerHTML=makeMonthOptions;
            })
             
-
 
           //make an array of unique day Array
          //1-delete duplicate customer
@@ -114,14 +169,24 @@ const hideFilterSection=document.querySelector("#hideFilterSection");
           }
             });
             console.log(this.dayOptions);
+             //4- check if selected year in year selection input exist in (this.allFilters);(update the this.allFIlterOprions variable)
+            const findChoosedDayOption= this.dayOptions.find(item=>item===this.allFilters.day);
+         if (!findChoosedDayOption) {
+            this.allFilters.day=''
+         } 
+            //5-make the option in month options section
             let makeDayOptions='<option value="">All</option>';
             this.dayOptions.forEach(item=>{
               makeDayOptions+= `<option value=${item}>${item}</option>`;
               daySelectedInput.innerHTML=makeMonthOptions;
            })
+      
+      };
 
-          }
-      )};
+
+
+
+
 
 
       afterEventsFiltersOptions(root,filterOptions){
@@ -289,23 +354,7 @@ const hideFilterSection=document.querySelector("#hideFilterSection");
       const findedDay= ArrayOfDayOptions.find(item=>item==filterOptions.dayFilter);
       console.log(findedDay);
         if (findedDay===undefined) {filterOptions.dayFilter=''};
-    };
-
-      showFilterSection(e){
-        (PageView.root.querySelector(".showFilterSection").classList.add("hidden"));
-        console.log(PageView.root.querySelector(".filtersSection"));
-        (PageView.root.querySelector(".filtersSection").classList.remove("hidden"));
-        (PageView.root.querySelector(".filtersSection").classList.add("flex"));
-        console.log(PageView.root.querySelector(".filtersSection"));
-      };
-
-      hideFilterSection(e){
-        (PageView.root.querySelector(".filtersSection").classList.remove("flex"));
-        (PageView.root.querySelector(".filtersSection").classList.add("hidden"));
-        (PageView.root.querySelector(".showFilterSection").classList.add("flex"));
-        (PageView.root.querySelector(".showFilterSection").classList.remove("hidden"));
-        console.log(PageView.root.querySelector(".filtersSection"));
-      };
+    };    
 
 };
 export default new FilterView();
