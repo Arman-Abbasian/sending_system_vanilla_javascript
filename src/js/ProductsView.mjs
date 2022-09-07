@@ -1,20 +1,19 @@
+const sendingsDataContainer=document.querySelector("#sendings_data_container");
 // import SendingAPI from "./SendingAPI.mjs";
+const productsContainer=document.querySelector(".main")
 
-//  class ProductsView {
-//   //به عنوان ورودی به کانستراکتور ی تگ پدر می دی 
-//     constructor(root) {
-//     const allSending=SendingAPI.getAllSending(); 
-//       //این جا به(روت)دسترسی نداریم به همین خاطر به عنوان ورودی پاسش میدیم
-//       //کلا به هر مقداری (استیتی) که در هر ماژول دسترسی نداریم به عنوان ورودی به اون کلاس پاس می دیم تا در ماژول مربوطه مقدارش رو بهش بدیم
-//       //get the parent of all element in sheet
-//       this.root = root;
-//       //make the static appearance of the sheet
-//       this.root.innerHTML = `<div id="sendings_data_container" class="flex flex-col gap-2 mt-4"></div>`;
-//       }
+ class ProductsView {
+  //به عنوان ورودی به کانستراکتور ی تگ پدر می دی 
+    constructor() {
+    this.allSendingItems=SendingAPI.getAllSending(); 
+      //این جا به(روت)دسترسی نداریم به همین خاطر به عنوان ورودی پاسش میدیم
+      //کلا به هر مقداری (استیتی) که در هر ماژول دسترسی نداریم به عنوان ورودی به اون کلاس پاس می دیم تا در ماژول مربوطه مقدارش رو بهش بدیم
+      //make the static appearance of the sheet
+      }
 
-//   //تا قبل از این جا به محض ساخته شدن یک نمونه از این کلاس به طور خودکار اجرا می شود(چون داخل کانستراکتور است) 
+   //تا قبل از این جا به محض ساخته شدن یک نمونه از این کلاس به طور خودکار اجرا می شود(چون داخل کانستراکتور است) 
   
-//   //method for creating one list item
+ //method for creating one list item
 //     _creatListItemHTML(id, customerName, productName, numberOfSending, dateOfSending){
 //       console.log(dateOfSending)
 //       return `
@@ -39,35 +38,34 @@
 //       </div>`
 //     }
   
-//     //input for this method is all sending data
-//     updateSendingList(sendingsData) {
-//       const sendingsDataContainer = this.root.querySelector("#sendings_data_container");
-//       //get note list items area
-//       //  empty all the sending container sectio in website
-//       sendingsDataContainer.innerHTML = "";
-//       // put a empty container
-//       let sendingsDataList = "";
-//       //loop in all sending items and add them to noteList variable
-//       for (const sendingData of sendingsData) {
-//         const { id, customerName, productName, numberOfSending, dateOfSending } = sendingData;
-//         console.log(new Date(dateOfSending).toDateString())
-//         //method for creating one note item
-//         const html = this._creatListItemHTML(id, customerName, productName, numberOfSending, dateOfSending);
-//         //add made item to the noteList variable
-//         sendingsDataList += html;
-//       }
-//       // add notesList variable to the DOM
-//       sendingsDataContainer.innerHTML= sendingsDataList;
+    //input for this method is all sending data
+    updateSendingList(sendingsData) {
+      //get note list items area
+      //  empty all the sending container sectio in website
+      sendingsDataContainer.innerHTML = "";
+      // put a empty container
+      let sendingsDataList = "";
+      //loop in all sending items and add them to noteList variable
+      for (const sendingData of sendingsData) {
+        const { id, customerName, productName, numberOfSending, dateOfSending } = sendingData;
+        console.log(new Date(dateOfSending).toDateString())
+        //method for creating one note item
+        const html = this._creatListItemHTML(id, customerName, productName, numberOfSending, dateOfSending);
+        //add made item to the noteList variable
+        sendingsDataList += html;
+      }
+      // add notesList variable to the DOM
+      sendingsDataContainer.innerHTML= sendingsDataList;
 
 
-//       sendingsDataContainer.querySelectorAll(".sendingItemBox").forEach((sendingDataBox) => {
-//         sendingDataBox.addEventListener("click", () =>{
-//           //input for this method is id
-//           this.onSelectData(sendingDataBox.dataset.sendingId);
-//           this.filterSendingItem(this.filterOptions);
-//         }
-//         );
-//       });
+      sendingsDataContainer.querySelectorAll(".sendingItemBox").forEach((sendingDataBox) => {
+        sendingDataBox.addEventListener("click", () =>{
+          //input for this method is id
+          this.onSelectData(sendingDataBox.dataset.sendingId);
+          this.filterSendingItem(this.filterOptions);
+        }
+        );
+      });
 
 //       //add click event for select to the notesList(این رو مجبوریم این جا اضافه کنیم چون این جا به دام ما اضافه شده)
 //       sendingsDataContainer.querySelectorAll(".sendingItem").forEach((sendingData) => {
@@ -163,5 +161,5 @@
 //       };
 
     
-//     }
-//     export default new ProductsView();
+   }
+    export default new ProductsView();

@@ -5,7 +5,6 @@
     //get all the data from DB () (READ)
     static getAllSending() {
      const sendingData=localStorage.getItem("sendingData") ?JSON.parse(localStorage.getItem("sendingData")):[];
-     console.log(sendingData);
      sendingData.sort(function(a,b){
      //make the data descending based on the date of sending
       return new Date(b.dateOfSending) - new Date(a.dateOfSending);
@@ -33,7 +32,6 @@
         console.log("new")
         //if the sending item not existed
         sendingItemToSave.id = new Date().getTime();
-        console.log(sendingItemToSave)
         sendingData.push(sendingItemToSave);
       }
       //put all sending items again in DB

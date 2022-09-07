@@ -10,11 +10,46 @@
     <link href="https://fonts.googleapis.com/css2?family=Playball&family=Yellowtail&display=swap" rel="stylesheet">
     <title>sending product</title>
 </head>
-<body class="text-xs md:text-base p-2 bg-black font-['playball'] ">
+<body class="text-xs md:text-base p-2 bg-black font-['playball']">
     <header class="flex  items-center justify-between mb-10 bg-lightGreen p-2 rounded-md shadow-lg">
         <h1 class="font-['Yellowtail'] text-3xl ">sending data</h1>
         <img src="../public/images/logo.png" class="w-12 h-12 transition duration-[12000ms] ease-in-out hover:rotate-180" />
     </header>
+
+   
+
+      <div id="box" class="fixed w-screen h-screen bg-opacity-60 right-0 top-0 bg-white z-50  justify-center items-center p-8 hidden"></div>
+       <!-- add sending data section -->
+        <form class="formm flex flex-col gap-4">
+            <div class="w-full gap-8 flex justify-between items-center">
+                <label class="w-1/2 "><p class="flex justify-center items-center p-2 bg-lightGray text-white rounded-md">customer Name</p></label>
+                <input id="customerName_input" type="text" name="customerName" required class="p-2 input w-1/2 border-2 border-lightGreen rounded-md focus:outline-none focus:border-darkGreen">
+            </div>
+            <div class="w-full gap-8 flex justify-between items-center">
+                <label class="w-1/2"><p class="flex justify-center items-center p-2 bg-lightGray text-white rounded-md">product Name</p></label>
+                <input id="productName_input" type="text" name="productName" required class="p-2 input w-1/2 border-2 border-lightGreen rounded-md focus:outline-none focus:border-darkGreen" />
+            </div>
+            <div class="w-full gap-8 flex justify-between items-center">
+                <label class="w-1/2"><p class="flex justify-center items-center p-2 bg-lightGray text-white rounded-md">number of sending</p></label>
+                <input id="numberOfSending_input" type="number" name="numberOfSending" required class="p-2 input w-1/2 border-2 border-lightGreen rounded-md focus:outline-none focus:border-darkGreen" />
+            </div>
+            <div class="w-full gap-8 flex justify-between items-center">
+                <label class="w-1/2"><p class="flex justify-center items-center p-2 bg-lightGray text-white rounded-md w-full">date of sending</p></label>
+                <input id="dateOfSending_input" class="p-2 input w-1/2 border-2 required border-lightGreen rounded-md focus:outline-none focus:border-darkGreen" type="date" name="dateOfSending">
+            </div>
+            <button id="addButton" class="p-2 bg-lightGreen rounded-md mb-3 hover:bg-darkGreen hover:text-white">Add</button>
+        </form>
+        <div class="grid grid-cols-1 md:grid-cols-2 md:gap-3">
+
+          <div class="previewSection flex flex-col gap-4 p-4 bg-lightGreen rounded-md mb-6">
+            <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>customer name :</p><p class="preview customerName"></p></div>
+            <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>product Name :</p><p class="preview productName"></p></div>
+            <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>number of sending :</p><p class="preview numberOfSending"></p></div>
+            <div class="flex justify-between items-center bg-darkGray text-white p-2 rounded-md"><p>date of sending :</p><p class="preview dateOfSending"></p></div>
+          </div>
+      </div>
+
+        <div id="sendings_data_container" class="flex flex-col gap-2 mt-4"></div>
 
     <div>
         <div id="showFilterSectionButton" class="flex justify-center items-center bg-darkGreen drop-shadow-md rounded-sm p-2 font-bold cursor-pointer transition-all duration-1000 hover:bg-lightGreen"><p>show Filter section</p></div>
@@ -48,7 +83,7 @@
       </div>
 
        <main class="main"></main>
-    <script src="../src/js/main.mjs" type="module"></script>
+    <script src="../src/js/Main.mjs" type="module"></script>
     
 </body>
 </html>
