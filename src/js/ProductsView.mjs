@@ -18,7 +18,6 @@ const sendingsDataContainer=document.querySelector("#sendings_data_container");
  //! -------------------------------------------- 
  //method for creating one list item
     _creatListItemHTML(id, customerName, productName, numberOfSending, dateOfSending){
-      console.log(dateOfSending)
       return `
       <div class="sendingItemBox grid grid-cols-3 gap-2 text-[9px] sm:text-xs md:text-sm shadow-xl bg-gold px-1 py-4  w-full rounded-md cursor-pointer" data-sending="${id}">
           <div class="flex flex-col md:flex-row md:justify-evenly justify-center items-center gap-3">

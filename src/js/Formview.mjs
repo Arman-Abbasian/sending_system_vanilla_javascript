@@ -32,6 +32,8 @@ let priviewItemsInPreviewSection=document.querySelectorAll(".previewSection .pre
         if(!customerName_input.value || !customerName_input.value || !productName_input.value || !dateOfSending_input.value) alert("please fill all inputs");
         //input for this methos is sendig Item data object 
         this.fillSendigDataObject();
+        SendingAPI.addOrEditSendingData(this.sendingData);
+        ProductsView.updateSendingList();
         //empty all data in form section
         [...formItemsInFormSection].forEach(element => {
           element.value="";
@@ -40,8 +42,6 @@ let priviewItemsInPreviewSection=document.querySelectorAll(".previewSection .pre
         [...priviewItemsInPreviewSection].forEach(element => {
           element.textContent="";
        });
-       SendingAPI.addOrEditSendingData(this.sendingData);
-       ProductsView.updateSendingList();
       //  this.filterSendingItem(this.filterOptions);
       //  this.checkWholeItemChanging(this.filterOptions)
       //  this.afterEventsFiltersOptions(this.root);
