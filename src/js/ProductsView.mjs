@@ -1,13 +1,14 @@
 import SendingAPI from "./SendingAPI.mjs";
 import Formview from "./Formview.mjs";
+import FilterView from "./FilterView.mjs";
 const sendingsDataContainer=document.querySelector("#sendings_data_container");
 
 
  class ProductsView {
   //به عنوان ورودی به کانستراکتور ی تگ پدر می دی 
     constructor() {
-    this.allSendingItems=SendingAPI.getAllSending();
-    this.filteredSendingItems=this.allSendingItems; 
+    this.filteredItems=[];
+    this.filteredSendingItems();
     this.updateSendingList();
       //این جا به(روت)دسترسی نداریم به همین خاطر به عنوان ورودی پاسش میدیم
       //کلا به هر مقداری (استیتی) که در هر ماژول دسترسی نداریم به عنوان ورودی به اون کلاس پاس می دیم تا در ماژول مربوطه مقدارش رو بهش بدیم
@@ -39,19 +40,30 @@ const sendingsDataContainer=document.querySelector("#sendings_data_container");
           </div>
       </div>`
     }
+    //method for filter main productList
+    filteredSendingItems(){
+      
+      const allsendingData=SendingAPI.getAllSending();
+      let filteredBycustomer= FilterView.allFilters.customer===""?allsendingData:allsendingData.filter(item=>item.customerName===FilterView.allFilters.customer);
+      let filteredByYear= FilterView.allFilters.year===""?filteredBycustomer:filteredBycustomer.filter(item=>new Date(item.dateOfSending).getFullYear()=== parseInt(FilterView.allFilters.year));
+      let filteredByMonth= FilterView.allFilters.month===""?filteredByYear:filteredByYear.filter(item=>new Date(item.dateOfSending).getMonth()+1===parseInt(FilterView.allFilters.month));
+      let filteredByDay= FilterView.allFilters.day===""?filteredByMonth:filteredByMonth.filter(item=>new Date(item.dateOfSending).getDate()=== parseInt(FilterView.allFilters.day));
+      let filteredByProduct=filteredByDay.filter(item=>item.productName.toLowerCase().includes(FilterView.allFilters.product.toLowerCase()));
+      this.filteredItems=filteredByProduct;
+      this.updateSendingList();
+      console.log(this.filteredItems)
+    };
   //! --------------------------------------------
     //input for this method is all sending data
     updateSendingList() {
-      this.allSendingItems=SendingAPI.getAllSending();
-      this.filteredSendingItems=this.allSendingItems;
       //get note list items area
       //  empty all the sending container sectio in website
       sendingsDataContainer.innerHTML = "";
       // put a empty container
       let sendingsDataList = "";
+      console.log(this.filteredItems)
       //loop in all sending items and add them to noteList variable
-      console.log(this.filteredSendingItems)
-      for (const sendingItem of this.filteredSendingItems) {
+      for (const sendingItem of this.filteredItems) {
         const { id, customerName, productName, numberOfSending, dateOfSending } = sendingItem;
         //method for creating one note item
         const oneProductRow = this._creatListItemHTML(id, customerName, productName, numberOfSending, dateOfSending);
@@ -65,8 +77,9 @@ const sendingsDataContainer=document.querySelector("#sendings_data_container");
 //! --------------------------------------------
     // this method add evenets to product items 
     addEventToProductItems(){
+      const productsItemOnScreen= ([...document.querySelectorAll(".sendingItemBox")]);
       //1- add click event to <div class='sendingItemBox'...>
-      document.querySelectorAll(".sendingItemBox").forEach((sendingDataBox) => {
+      productsItemOnScreen.forEach((sendingDataBox) => {
         sendingDataBox.addEventListener("click", () =>{
           //input for this method is id
           this.onSelectSendingData(sendingDataBox.dataset.sending);
@@ -107,14 +120,11 @@ const sendingsDataContainer=document.querySelector("#sendings_data_container");
     //for changing  the value of selected note item
     //the input for the mothod is data of selected item
       updateActiveSendingItem(sendingItem) {
-        console.log(sendingItem.id)
-        console.log(document.querySelector(`.sendingItemBox[data-sending="${sendingItem.id}"]`))
       //  remove 'notes__list-item--selected' from all note items
       document.querySelectorAll(".sendingItemBox").forEach((item) => {
         item.classList.remove("bg-lime-400");
       });
        //add 'notes__list-item--selected' to the selected note item
-       console.log(document.querySelector(`.sendingItemBox[data-sending="${sendingItem.id}"]`))
       document.querySelector(`.sendingItemBox[data-sending="${sendingItem.id}"]`).classList.add("bg-lime-400");
     }
 //! --------------------------------------------
@@ -138,7 +148,8 @@ const sendingsDataContainer=document.querySelector("#sendings_data_container");
       //input for this method is the id for selected sending item
       onSelectSendingData(sendingItemId){
         console.log(sendingItemId)
-        const selectedSendingItem = this.allSendingItems.find((n) => n.id == sendingItemId);
+        Formview.id=sendingItemId
+        const selectedSendingItem = this.filteredItems.find((n) => n.id == sendingItemId);
         console.log(selectedSendingItem)
         this.showFixedPart(selectedSendingItem)
         //input for this method is data for clicked sending item
@@ -147,7 +158,7 @@ const sendingsDataContainer=document.querySelector("#sendings_data_container");
 //! --------------------------------------------
 
     onEditSendingData(sendingItemId) {
-        const selectedSendingItem = this.allSendingItems.find((n) => n.id == sendingItemId);
+        const selectedSendingItem = this.filteredItems.find((n) => n.id == sendingItemId);
          Formview.fillInputs(selectedSendingItem)
         //input for this method is data for clicked sending item
         this.updateActiveSendingItem(selectedSendingItem);
@@ -156,7 +167,8 @@ const sendingsDataContainer=document.querySelector("#sendings_data_container");
       //! --------------------------------------------
       onDeleteSendingData(sendingItemId){
         SendingAPI.deleteSendingItem(sendingItemId);
-        this.updateSendingList();
+        this.filteredSendingItems();
+        FilterView.fillFilterVariables();
       };
 
       //! --------------------------------------------

@@ -1,3 +1,4 @@
+import FilterView from "./FilterView.mjs";
 import ProductsView from "./ProductsView.mjs";
 import SendingAPI from "./SendingAPI.mjs";
 
@@ -23,17 +24,18 @@ let priviewItemsInPreviewSection=document.querySelectorAll(".previewSection .pre
       productName_input.addEventListener("change",(e)=>this.productNameHandler(e.target.value));
       numberOfSending_input.addEventListener("change",(e)=>this.numberOfSendingHandler(e.target.value));
       dateOfSending_input.addEventListener("change",(e)=>this.dateOfSendingcustomerNameHandler(e.target.value));
-      this.sendingData={customerName:"",productName:"",numberOfSending:0,dateOfSending:""}
+      this.sendingData={id:null,customerName:"",productName:"",numberOfSending:0,dateOfSending:""};
 
     }
       //add events to the choosed elements
       addOneSendingItemBtn(e){
         e.preventDefault();
         if(!customerName_input.value || !customerName_input.value || !productName_input.value || !dateOfSending_input.value) alert("please fill all inputs");
-        //input for this methos is sendig Item data object 
+        //input for this methos is sending Item data object 
         this.fillSendigDataObject();
         SendingAPI.addOrEditSendingData(this.sendingData);
-        ProductsView.updateSendingList();
+        ProductsView.filteredSendingItems();
+        FilterView.fillFilterVariables();
         //empty all data in form section
         [...formItemsInFormSection].forEach(element => {
           element.value="";
@@ -42,6 +44,7 @@ let priviewItemsInPreviewSection=document.querySelectorAll(".previewSection .pre
         [...priviewItemsInPreviewSection].forEach(element => {
           element.textContent="";
        });
+       this.sendingData={id:null,customerName:"",productName:"",numberOfSending:0,dateOfSending:""};
       //  this.filterSendingItem(this.filterOptions);
       //  this.checkWholeItemChanging(this.filterOptions)
       //  this.afterEventsFiltersOptions(this.root);
@@ -70,10 +73,11 @@ let priviewItemsInPreviewSection=document.querySelectorAll(".previewSection .pre
         this.sendingData.customerName=customerName_input.value;
         this.sendingData.productName=productName_input.value;
         this.sendingData.numberOfSending=numberOfSending_input.value;
-        this.sendingData.dateOfSending=new Date (dateOfSending_input.value).toISOString();
+        this.sendingData.dateOfSending=new Date(dateOfSending_input.value).toISOString();
   };
   fillInputs(selectedSendingItem){
-    console.log(selectedSendingItem);
+    console.log(selectedSendingItem.id);
+    this.sendingData.id=selectedSendingItem.id;
     //fill inputs
     customerName_input.value =selectedSendingItem.customerName;
     productName_input.value=selectedSendingItem.productName;
