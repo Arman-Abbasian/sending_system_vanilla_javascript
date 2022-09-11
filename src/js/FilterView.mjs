@@ -89,7 +89,7 @@ const filtersSection=document.querySelector("#filtersSection");
         }
         //fill input selected tag based on the data in DB
         fillFilterVariables(){
-          //get updated data
+          //get all data from DB 
          const allInitialDataInDB= SendingAPI.getAllSending();
          console.log(allInitialDataInDB);
          //empty the container options to make a new options

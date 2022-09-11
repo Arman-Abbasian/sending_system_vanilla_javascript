@@ -76,13 +76,16 @@ let priviewItemsInPreviewSection=document.querySelectorAll(".previewSection .pre
         this.sendingData.dateOfSending=new Date(dateOfSending_input.value).toISOString();
   };
   fillInputs(selectedSendingItem){
-    console.log(selectedSendingItem.id);
+    console.log(`${new Date(selectedSendingItem.dateOfSending).getFullYear()}/${new Date(selectedSendingItem.dateOfSending).getMonth()+1}/${new Date(selectedSendingItem.dateOfSending).getDate()}`);
     this.sendingData.id=selectedSendingItem.id;
     //fill inputs
     customerName_input.value =selectedSendingItem.customerName;
     productName_input.value=selectedSendingItem.productName;
     numberOfSending_input.value=selectedSendingItem.numberOfSending;
-    dateOfSending_input.value=selectedSendingItem.dateOfSending;
+    const date= this.formateDate(selectedSendingItem.dateOfSending)
+    console.log(date.toString())
+    dateOfSending_input.value=date;
+    console.log(dateOfSending_input.value)
     //fill prieview section
     customerNamePreview.textContent=selectedSendingItem.customerName;
     productNamePreview.textContent=selectedSendingItem.productName;
@@ -90,7 +93,20 @@ let priviewItemsInPreviewSection=document.querySelectorAll(".previewSection .pre
     dateOfSendingPreview.textContent=`${new Date(selectedSendingItem.dateOfSending).getFullYear()}/${new Date(selectedSendingItem.dateOfSending).getMonth()+1}/${new Date(selectedSendingItem.dateOfSending).getDate()}`;
 
 
-  }
+  };
+  formateDate(date){
+    let d = new Date(date);
+        let month = '' + (d.getMonth() + 1).toString();
+       let day = '' + d.getDate().toString();
+       let year = d.getFullYear().toString();
+    console.log(month.length)
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+    return [year, month, day].join('-');
+}
+ 
 
-    }
+  }
     export default new FormView();

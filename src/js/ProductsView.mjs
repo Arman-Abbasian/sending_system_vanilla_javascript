@@ -42,8 +42,9 @@ const sendingsDataContainer=document.querySelector("#sendings_data_container");
     }
     //method for filter main productList
     filteredSendingItems(){
-      
+      //1- get all sending products in DB
       const allsendingData=SendingAPI.getAllSending();
+      //2-filter  all sending data based on filters 
       let filteredBycustomer= FilterView.allFilters.customer===""?allsendingData:allsendingData.filter(item=>item.customerName===FilterView.allFilters.customer);
       let filteredByYear= FilterView.allFilters.year===""?filteredBycustomer:filteredBycustomer.filter(item=>new Date(item.dateOfSending).getFullYear()=== parseInt(FilterView.allFilters.year));
       let filteredByMonth= FilterView.allFilters.month===""?filteredByYear:filteredByYear.filter(item=>new Date(item.dateOfSending).getMonth()+1===parseInt(FilterView.allFilters.month));
@@ -149,7 +150,7 @@ const sendingsDataContainer=document.querySelector("#sendings_data_container");
       onSelectSendingData(sendingItemId){
         console.log(sendingItemId)
         Formview.id=sendingItemId
-        const selectedSendingItem = this.filteredItems.find((n) => n.id == sendingItemId);
+        const selectedSendingItem = this.filteredItems.find((item) => item.id == sendingItemId);
         console.log(selectedSendingItem)
         this.showFixedPart(selectedSendingItem)
         //input for this method is data for clicked sending item
@@ -158,7 +159,7 @@ const sendingsDataContainer=document.querySelector("#sendings_data_container");
 //! --------------------------------------------
 
     onEditSendingData(sendingItemId) {
-        const selectedSendingItem = this.filteredItems.find((n) => n.id == sendingItemId);
+        const selectedSendingItem = this.filteredItems.find((item) => item.id == sendingItemId);
          Formview.fillInputs(selectedSendingItem)
         //input for this method is data for clicked sending item
         this.updateActiveSendingItem(selectedSendingItem);
@@ -167,8 +168,8 @@ const sendingsDataContainer=document.querySelector("#sendings_data_container");
       //! --------------------------------------------
       onDeleteSendingData(sendingItemId){
         SendingAPI.deleteSendingItem(sendingItemId);
-        this.filteredSendingItems();
         FilterView.fillFilterVariables();
+        this.filteredSendingItems();   
       };
 
       //! --------------------------------------------
