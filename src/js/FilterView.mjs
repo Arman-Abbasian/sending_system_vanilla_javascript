@@ -30,6 +30,7 @@ const filtersSection=document.querySelector("#filtersSection");
         this.dayOptions=[];
         this.allFilters={customer:"",product:"",year:"",month:"",day:""};
         this.fillFilterVariables();
+        this.allProducts=SendingAPI.getAllSending();
         //add events to the element that exist in initial load
 
         //1-event for hiding and showing filter section
@@ -116,12 +117,16 @@ const filtersSection=document.querySelector("#filtersSection");
          }  
           //5- make the option in customer options section
         
-          let makecustomerOptions=`<option value=''>All</option>`
+          let makecustomerOptions=`<option class="customerOptions" value=''>All</option>`
           this.cutomerOptions.forEach(item=>{
-            makecustomerOptions+= `<option  value="${item}">${item}</option>`;
+            makecustomerOptions+= `<option class="customerOptions"  value="${item}">${item}</option>`;
             customerSelectedInput.innerHTML=makecustomerOptions;
           });
-         
+          //6- update the selected option in customer options section
+          const customerOptions=document.querySelectorAll(`.customerOptions`);
+          const findedCustomerOption= [...customerOptions].find(item=>item.value===this.allFilters.customer);
+          console.log(findedCustomerOption);
+          findedCustomerOption.setAttribute("selected",'')
 
          //make an array of unique year Array
          //1-delete duplicate year
@@ -144,7 +149,18 @@ const filtersSection=document.querySelector("#filtersSection");
             this.yearOptions.forEach(item=>{
             makeYearOptions+= `<option value=${item}>${item}</option>`;
             yearSelectedInput.innerHTML=makeYearOptions;
-         })
+         });
+         //6- update the selected option in year options section
+         const yearOptions=document.querySelectorAll(`.customerOptions`);
+         const findedYearOption= [...yearOptions].find(item=>item.value===this.allFilters.year);
+         console.log(findedYearOption);
+         findedYearOption.setAttribute("selected",'')
+
+
+
+         //6- update the product input in year product input section
+         
+         productInput.value=this.allFilters.product;
 
 
           //make an array of unique year Array
@@ -169,7 +185,11 @@ const filtersSection=document.querySelector("#filtersSection");
             this.monthOptions.forEach(item=>{
               makeMonthOptions+= `<option value=${item}>${item}</option>`;
               monthSelectedInput.innerHTML=makeMonthOptions;
-           })
+           });
+           const monthOptions=document.querySelectorAll(`.customerOptions`);
+           const findedMonthOption= [...monthOptions].find(item=>item.value===this.allFilters.year);
+           console.log(findedMonthOption);
+           findedMonthOption.setAttribute("selected",'') 
             
 
           //make an array of unique day Array
@@ -193,10 +213,13 @@ const filtersSection=document.querySelector("#filtersSection");
             this.dayOptions.forEach(item=>{
               makeDayOptions+= `<option value=${item}>${item}</option>`;
               daySelectedInput.innerHTML=makeDayOptions;
-           })
-      
+           });
+           //6- update the selected option in month options section
+         const dayOptions=document.querySelectorAll(`.customerOptions`);
+         const findedDayOption= [...dayOptions].find(item=>item.value===this.allFilters.year);
+         console.log(findedDayOption);
+         findedDayOption.setAttribute("selected",'') 
       };
-
 
       afterEventsFiltersOptions(root,filterOptions){
         //add option to selectedCustomerInput
