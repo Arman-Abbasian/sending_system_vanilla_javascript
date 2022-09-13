@@ -114,19 +114,23 @@ const filtersSection=document.querySelector("#filtersSection");
          const findChoosedCustomerOption= this.cutomerOptions.find(item=>item===this.allFilters.customer);
          if (!findChoosedCustomerOption) {
             this.allFilters.customer=''
-         }  
+         } 
+         customerSelectedInput.innerHTML="";
           //5- make the option in customer options section
-        
-          let makecustomerOptions=`<option class="customerOptions" value=''>All</option>`
+          let makecustomerOptions='<option class="customerOptions" value="">All</option>';
           this.cutomerOptions.forEach(item=>{
-            makecustomerOptions+= `<option class="customerOptions"  value="${item}">${item}</option>`;
-            customerSelectedInput.innerHTML=makecustomerOptions;
+            makecustomerOptions+= `<option class="customerOptions" value="${item}">${item}</option>`;
           });
+          customerSelectedInput.innerHTML=makecustomerOptions;
           //6- update the selected option in customer options section
           const customerOptions=document.querySelectorAll(`.customerOptions`);
+          [...customerOptions].forEach(item=>item.removeAttribute("selected"));
+          console.log(this.allFilters.customer)
           const findedCustomerOption= [...customerOptions].find(item=>item.value===this.allFilters.customer);
-          console.log(findedCustomerOption);
           findedCustomerOption.setAttribute("selected",'')
+
+          //6- update the product input in year product input section
+          productInput.value=this.allFilters.product;
 
          //make an array of unique year Array
          //1-delete duplicate year
@@ -140,31 +144,29 @@ const filtersSection=document.querySelector("#filtersSection");
             //3-make the year in descendng order
             this.yearOptions.sort((a,b)=>b-a);
             //4- check if selected year in year selection input exist in (this.allFilters);(update the this.allFIlterOprions variable)
-         const findChoosedYearOption= this.yearOptions.find(item=>item===this.allFilters.year);
+         const findChoosedYearOption= this.yearOptions.find(item=>item.toString()===this.allFilters.year);
          if (!findChoosedYearOption) {
             this.allFilters.year=''
-         } 
+         }
+         yearSelectedInput.innerHTML="";
             //5- make the option in year options section
-            let makeYearOptions='<option value="">All</option>';
+            let makeYearOptions='<option class=".yearOption" value="">All</option>';
             this.yearOptions.forEach(item=>{
-            makeYearOptions+= `<option value=${item}>${item}</option>`;
-            yearSelectedInput.innerHTML=makeYearOptions;
+            makeYearOptions+= `<option class=".yearOption" value=${item}>${item}</option>`;
          });
+         yearSelectedInput.innerHTML=makeYearOptions;
          //6- update the selected option in year options section
-         const yearOptions=document.querySelectorAll(`.customerOptions`);
-         const findedYearOption= [...yearOptions].find(item=>item.value===this.allFilters.year);
-         console.log(findedYearOption);
+         const yearOptions=document.querySelectorAll(`.yearOption`);
+         console.log([...yearOptions]);
+         [...yearOptions].forEach(item=>item.removeAttribute("selected"));
+         console.log(this.allFilters)
+         const findedYearOption= [...yearSelectedInput].find(item=>item.value===this.allFilters.year);
          findedYearOption.setAttribute("selected",'')
 
 
 
-         //6- update the product input in year product input section
-         
-         productInput.value=this.allFilters.product;
-
-
-          //make an array of unique year Array
-         //1-delete duplicate day
+          //make an array of unique month Array
+         //1-delete duplicate month
          allInitialDataInDB.forEach((item) => {
           if (!this.monthOptions.includes(new Date(item.dateOfSending).getMonth()+1)) {
            //2- push the unique data in customer options
@@ -175,19 +177,22 @@ const filtersSection=document.querySelector("#filtersSection");
             this.monthOptions.sort((a,b)=>a-b)
             console.log(this.monthOptions);
 
-             //4- check if selected year in year selection input exist in (this.allFilters);(update the this.allFIlterOprions variable)
-            const findChoosedMonthOption= this.monthOptions.find(item=>item===this.allFilters.month);
+             //4- check if selected month in month selection input exist in (this.allFilters);(update the this.allFIlterOprions variable)
+            const findChoosedMonthOption= this.monthOptions.find(item=>item.toString()===this.allFilters.month);
          if (!findChoosedMonthOption) {
             this.allFilters.month=''
          } 
+         monthSelectedInput.innerHTML="";
             //5- make the option in month options section
-            let makeMonthOptions='<option value="">All</option>';
+            let makeMonthOptions='<option class="monthOption" value="">All</option>';
             this.monthOptions.forEach(item=>{
-              makeMonthOptions+= `<option value=${item}>${item}</option>`;
-              monthSelectedInput.innerHTML=makeMonthOptions;
+              makeMonthOptions+= `<option class="monthOption" value=${item}>${item}</option>`;
            });
-           const monthOptions=document.querySelectorAll(`.customerOptions`);
-           const findedMonthOption= [...monthOptions].find(item=>item.value===this.allFilters.year);
+           monthSelectedInput.innerHTML=makeMonthOptions;
+           //6- update the selected option in year options section
+           const monthOptions=document.querySelectorAll(`.monthOption`);
+           const findedMonthOption= [...monthOptions].find(item=>item.value===this.allFilters.month);
+           [...monthOptions].forEach(item=>item.removeAttribute("selected"));
            console.log(findedMonthOption);
            findedMonthOption.setAttribute("selected",'') 
             
@@ -203,21 +208,22 @@ const filtersSection=document.querySelector("#filtersSection");
           }
             });
             console.log(this.dayOptions);
-             //4- check if selected year in year selection input exist in (this.allFilters);(update the this.allFIlterOprions variable)
-            const findChoosedDayOption= this.dayOptions.find(item=>item===this.allFilters.day);
+             //4- check if selected day in day selection input exist in (this.allFilters);(update the this.allFIlterOprions variable)
+            const findChoosedDayOption= this.dayOptions.find(item=>item.toString()===this.allFilters.day);
          if (!findChoosedDayOption) {
             this.allFilters.day=''
          } 
-            //5-make the option in month options section
-            let makeDayOptions='<option value="">All</option>';
+         daySelectedInput.innerHTML="";
+            //5-make the option in day options section
+            let makeDayOptions='<option class="dayOption" value="">All</option>';
             this.dayOptions.forEach(item=>{
-              makeDayOptions+= `<option value=${item}>${item}</option>`;
-              daySelectedInput.innerHTML=makeDayOptions;
+              makeDayOptions+= `<option class="dayOption" value=${item}>${item}</option>`;
            });
-           //6- update the selected option in month options section
-         const dayOptions=document.querySelectorAll(`.customerOptions`);
-         const findedDayOption= [...dayOptions].find(item=>item.value===this.allFilters.year);
-         console.log(findedDayOption);
+           daySelectedInput.innerHTML=makeDayOptions;
+           //6- update the selected option in day options section
+         const dayOptions=document.querySelectorAll(`.dayOption`);
+         [...dayOptions].forEach(item=>item.removeAttribute("selected"));
+         const findedDayOption= [...dayOptions].find(item=>item.value===this.allFilters.day); 
          findedDayOption.setAttribute("selected",'') 
       };
 
